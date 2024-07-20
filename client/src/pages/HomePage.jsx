@@ -1,5 +1,13 @@
+import Activities from '../ui/Homepage/Activities';
+import Projects from '../ui/Homepage/Projects';
+
 function HomePage() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <div className="overflow-x: auto; overflow-y: unset;">
+      <Activities />
+      <Projects />
+    </div>
+  );
 }
 
 export default HomePage;

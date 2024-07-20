@@ -27,7 +27,7 @@ function HeaderAll() {
 
   return (
     <div id="headerAll">
-      <ul className="ml-18 hidden h-[45px] list-none items-center dark:text-white md:flex">
+      <ul className="ml-18 hidden h-[45px] list-none items-center tracking-wider dark:text-white md:flex">
         {location === 'home'
           ? routes.map((route) => (
               <li key={route.title} className="mx-8">
@@ -37,7 +37,7 @@ function HeaderAll() {
                   smooth={true}
                   offset={-75}
                   duration={500}
-                  className="cursor-pointer"
+                  className="cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
                 >
                   {route.title}
                 </ScrollLink>

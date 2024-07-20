@@ -10,6 +10,8 @@ import HomePage from './pages/HomePage';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import MainHeader from './ui/Header/MainHeader';
+import ProtectedRoute from './ui/ProtectedRoute';
+import AppLayout from './ui/AppLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,15 +27,19 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
-          <MainHeader />
           <Routes>
             <Route
-            // element={<ProtectedRoute>{/* <AppLayout /> */}</ProtectedRoute>}
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
             >
+              <Route path="home" element={<HomePage />} />
               <Route path="account" element={<Profile />} />
             </Route>
             <Route index element={<Navigate replace to="home" />} />
-            <Route path="home" element={<HomePage />} />
+
             <Route path="login" element={<Login />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
