@@ -17,23 +17,9 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then(() => console.log("DB connection successful!"));
-
-// const testTour = new Tour({
-//   name: 'The romble Hiker',
-//   rating: 4.9,
-//   price: 497,
-// });
-
-// testTour
-//   .save({ wtimeout: 20000 })
-//   .then((doc) => console.log(doc))
-//   .catch((err) => console.log('ERROR 💥', err));
+  .connect(DB)
+  .then(() => console.log("DB connection successful!"))
+  .catch((err) => console.error("DB connection error:", err));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
