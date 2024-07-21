@@ -1,18 +1,27 @@
 import classNames from 'classnames';
 import { TbExternalLink } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 
-function ActivityCard({ color }) {
+function ActivityCard({ color, elements }) {
+  const navigate = useNavigate();
   return (
     <div className="parent mx-auto">
-      <div className={classNames(`bg-${color}`, 'card')}>
+      <div
+        className={classNames(
+          `dark:bg-custom-gradient-darkgreen bg-custom-gradient-green`,
+          'card',
+        )}
+      >
         <div class="logo">
-          <span class="circle circle1"></span>
-          <span class="circle circle2"></span>
+          {/* <span class="circle circle2"></span> */}
           <span class="circle circle3"></span>
           <span class="circle circle4"></span>
           <span class="circle circle5">
-            <button>
-              <TbExternalLink />
+            <button
+              onClick={() => navigate(`/activities/${elements.id}`)}
+              className="group relative p-2"
+            >
+              <TbExternalLink className="h-6 w-6 transform text-slate-800 transition-transform group-hover:scale-125" />
             </button>
           </span>
         </div>

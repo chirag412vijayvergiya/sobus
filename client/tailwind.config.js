@@ -2,31 +2,16 @@
 //eslint-disable-next-line
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  safelist: [
-    'bg-custom-gradient-green',
-    'bg-custom-gradient-indigo',
-    'bg-custom-gradient-blue',
-    'bg-custom-gradient-red',
-    'bg-custom-gradient-yellow',
-    'bg-custom-gradient-purple',
-  ],
+  safelist: ['bg-custom-gradient-green', 'bg-custom-gradient-darkgreen'],
   // This darkMode: 'class' is going because there is a prefix dark: which is used in darkmode
   darkMode: 'class',
   theme: {
     extend: {
       backgroundImage: {
         'custom-gradient-green':
-          'linear-gradient(115deg, rgb(243, 244, 246) 0%, rgb(204, 255, 204) 100%)',
-        'custom-gradient-indigo':
-          'linear-gradient(115deg, rgb(165 180 252) 0%, rgb(99 102 241) 100%)',
-        'custom-gradient-blue':
-          'linear-gradient(115deg, rgb(96 165 250) 0%, rgb(29 78 216) 100%)',
-        'custom-gradient-red':
-          'linear-gradient(115deg, rgb(252 165 165) 0%, rgb(239 68 68) 100%)',
-        'custom-gradient-yellow':
-          'linear-gradient(115deg, rgb(252 211 77) 0%, rgb(234 179 8) 100%)',
-        'custom-gradient-purple':
-          'linear-gradient(115deg, rgb(192 132 252) 0%, rgb(168 85 247) 100%)',
+          'linear-gradient(75deg, rgb(243, 244, 246) 0%, rgb(204, 255, 204) 100%)',
+        'custom-gradient-darkgreen':
+          'linear-gradient(75deg, rgb(7, 243, 7) 0%, rgb(7, 67, 7) 100%)',
       },
       aspectRatio: {
         1: '1',

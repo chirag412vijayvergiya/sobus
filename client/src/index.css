@@ -131,7 +131,7 @@
 }
 
 .bottom .social-buttons-container .social-button:hover {
-  background: black;
+  background: rgb(148, 209, 145);
 }
 
 .bottom .social-buttons-container .social-button:hover .svg {
@@ -163,18 +163,11 @@
   box-shadow: rgba(100, 100, 111, 0.2) -10px 10px 20px 0px;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
-  background: rgb(220, 250, 220);
+  background: rgb(175, 237, 175);
   transition: all 0.5s ease-in-out;
 }
 
-.logo .circle1 {
-  width: 170px;
-  transform: translate3d(0, 0, 20px);
-  top: 8px;
-  right: 8px;
-}
-
-.logo .circle2 {
+/* .logo .circle2 {
   width: 140px;
   transform: translate3d(0, 0, 40px);
   top: 10px;
@@ -182,7 +175,7 @@
   -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
   transition-delay: 0.4s;
-}
+} */
 
 .logo .circle3 {
   width: 110px;
