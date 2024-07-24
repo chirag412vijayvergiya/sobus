@@ -3,19 +3,19 @@ import { FaUser } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import Button from '../../ui/Button';
+import { useSignup } from './useSignup';
 
 function Signupuser() {
   const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
-  // const { signup, isPending } = usePatinetSignup();
-  const isPending = false;
+  const { signup, isPending } = useSignup();
   function onSubmit({ fullName, email, password }) {
-    // signup(
-    //   { fullName, email, password },
-    //   {
-    //     onSettled: () => reset(),
-    //   },
-    // );
+    signup(
+      { fullName, email, password },
+      {
+        onSettled: () => reset(),
+      },
+    );
   }
   return (
     <form

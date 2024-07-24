@@ -3,24 +3,24 @@ import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import Button from '../../ui/Button';
 import SpinnerMini from '../../ui/SpinnerMini';
+import { useLogin } from './useLogin';
 
 function Loginuser() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const { login, isPending } = usePatientLogin();
-  const isPending = false;
+  const { login, isPending } = useLogin();
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
-    // login(
-    //   { email, password },
-    //   {
-    //     onSettled: () => {
-    //       setEmail('');
-    //       setPassword('');
-    //     },
-    //   },
-    // );
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          setEmail('');
+          setPassword('');
+        },
+      },
+    );
   }
   return (
     <form className="flex w-full flex-col gap-y-3" onSubmit={handleSubmit}>
