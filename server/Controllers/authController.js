@@ -21,11 +21,11 @@ const createSendToken = (user, statusCode, req, res) => {
 
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Set secure attribute based on environment
-    sameSite: 'None', // Set sameSite attribute
+    // sameSite: 'None', // Set sameSite attribute
     // domain: 'localhost', // Set domain to localhost
   };
-  console.log(token);
-  console.log(cookiesOptions);
+  // console.log(token);
+  // console.log(cookiesOptions);
   res.cookie('jwt', token, cookiesOptions);
 
   user.password = undefined;
@@ -189,6 +189,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   //1)Get user from collection
   const user = await User.findById(req.user.id).select('+password');
   //2)Check if posted current password is correct

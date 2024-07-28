@@ -17,7 +17,7 @@ export async function signup({ fullName, email, password }) {
   }
 }
 
-export async function patientLogin({ email, password }) {
+export async function Login({ email, password }) {
   try {
     const response = await customFetch.post(
       `/users/login`,

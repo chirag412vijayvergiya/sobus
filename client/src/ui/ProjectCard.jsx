@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 function ProjectCard({ elements }) {
   const navigate = useNavigate();
   return (
-    <div class="card hover:to-gray-750 group relative m-4 mx-auto w-[clamp(260px,80%,300px)] cursor-pointer overflow-hidden rounded-lg border-r-2 border-t-2 border-green-500 bg-gradient-to-tl from-gray-100 to-green-300 text-gray-300 transition-all hover:from-green-400 hover:brightness-90 dark:border-gray-900 dark:from-green-950 dark:hover:from-green-800 dark:hover:to-green-950">
+    <div class="card group relative m-4 mx-auto w-[clamp(260px,80%,300px)] cursor-pointer overflow-hidden rounded-lg border-r-2 border-t-2 border-green-500 bg-gradient-to-tl from-green-200 to-green-300 text-gray-300 transition-all hover:from-green-400 hover:to-green-300 hover:brightness-90 dark:border-gray-900 dark:from-green-950 dark:hover:from-green-800 dark:hover:to-green-950">
       <div class="px-8 py-10">
         <div class="mb-4 h-10 w-10 rounded-full rounded-tl-none bg-orange-500 transition-all group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-red-900">
           <button

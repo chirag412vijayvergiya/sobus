@@ -2,7 +2,6 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { FaUser } from 'react-icons/fa6';
 import Menus from '../Menus';
 import { useNavigate } from 'react-router-dom';
-import { MdSpaceDashboard } from 'react-icons/md';
 
 function UserAvatar({ name, photo }) {
   const navigate = useNavigate();
@@ -39,12 +38,6 @@ function UserAvatar({ name, photo }) {
             onClick={() => handleNavigation('/account')}
           >
             {name}
-          </Menus.Button>
-          <Menus.Button
-            icon={<MdSpaceDashboard />}
-            onClick={() => handleNavigation('/dashboard')}
-          >
-            Dashboard
           </Menus.Button>
         </Menus.List>
       </Menus>

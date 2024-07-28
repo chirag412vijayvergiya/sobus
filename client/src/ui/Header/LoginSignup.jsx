@@ -4,18 +4,19 @@ import HeaderMobile from './HeaderMobile';
 import UserAvatar from './UserAvatar';
 import DefaultSpinner from '../DefaultSpinner';
 import DarkModeToggle from '../DarkModeToggle';
+import { useUser } from '../../components/profile/useUser';
 
 function LoginSignup() {
-  // const { user, isPending } = useUser();
-  const isPending = false;
-  const user = {
-    data: {
-      data: {
-        name: 'John Doe',
-        photo: 'https://i.pravatar.cc/48?u=499476',
-      },
-    },
-  };
+  const { user, isPending } = useUser();
+  // const isPending = false;
+  // const user = {
+  //   data: {
+  //     data: {
+  //       name: 'John Doe',
+  //       photo: 'https://i.pravatar.cc/48?u=499476',
+  //     },
+  //   },
+  // };
   // if (isPending) <DefaultSpinner />;
 
   return (
@@ -25,20 +26,12 @@ function LoginSignup() {
           <DarkModeToggle />
         </li>
         {user ? (
-          <>
-            <li className="mr-2">
-              <UserAvatar
-                name={user.data.data.name}
-                photo={user.data.data.photo}
-              />
-            </li>
-            {/* {user.data.data.role === 'patient' ? (
-              <LogoutPatient />
-            ) : (
-              <LogoutDoctor />
-            )} */}
-            {/* <LogoutPatient /> */}
-          </>
+          <li className="mr-2">
+            <UserAvatar
+              name={user.data.data.name}
+              photo={user.data.data.photo}
+            />
+          </li>
         ) : !isPending ? (
           <li className="mx-2 hidden sm:block">
             <Link to="/login">

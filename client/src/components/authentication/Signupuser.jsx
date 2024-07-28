@@ -4,6 +4,7 @@ import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import Button from '../../ui/Button';
 import { useSignup } from './useSignup';
+import SpinnerMini from '../../ui/SpinnerMini';
 
 function Signupuser() {
   const { register, formState, getValues, handleSubmit, reset } = useForm();
@@ -124,7 +125,11 @@ function Signupuser() {
       </div>
 
       <Button type="third" class="margin-left: 4px" disabled={isPending}>
-        <span className="font-mono tracking-wider">Sign Up</span>
+        {!isPending ? (
+          <span className="font-mono tracking-wider">Sign Up</span>
+        ) : (
+          <SpinnerMini />
+        )}
       </Button>
     </form>
   );
