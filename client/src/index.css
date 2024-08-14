@@ -38,7 +38,7 @@
 }
 
 .content {
-  padding: 100px 60px 0px 30px;
+  padding: 120px 60px 0px 30px;
   transform: translate3d(0, 0, 26px);
 }
 
@@ -46,7 +46,7 @@
   display: block;
   color: rgba(0, 137, 78, 0.7647058824);
   font-size: 15px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .bottom {
@@ -237,16 +237,14 @@
 }
 
 .main {
-  background-color: #f7f7f7;
   padding: 8rem 6rem;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
   position: relative;
 }
-
+/* 
 .user-view {
-  background-color: #fff;
   max-width: 110rem;
   margin: 0 auto;
   min-height: 100vh;
@@ -257,7 +255,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
+} */
+
 .user-view__menu {
   -webkit-box-flex: 19rem;
   -ms-flex: 19rem 0 0px;
@@ -276,26 +275,24 @@
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  padding: 4.5rem 4rem;
 }
 .user-view__form-container {
   max-width: 68rem;
   margin: 0 auto;
-  padding: 0 4rem;
 }
 
 .side-nav {
   list-style: none;
 }
 .side-nav li {
-  margin: 0.7rem 0;
+  margin: 0.1rem 0;
   border-left: 0 solid #fff;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 .side-nav--active,
 .side-nav li:hover {
-  border-left: 4px solid #fff !important;
+  border-left: 2px solid #fff !important;
 }
 .side-nav--active a {
   -webkit-transform: translateX(-3px);
@@ -308,10 +305,6 @@
 
 .ma-bt-lg {
   margin-bottom: 2.5rem !important;
-}
-
-.right {
-  text-align: right !important;
 }
 
 .side-nav a:link,
@@ -337,8 +330,8 @@
   transform: translateX(3px);
 }
 .side-nav svg {
-  height: 1.6rem;
-  width: 1.6rem;
+  height: 1.3rem;
+  width: 1.3rem;
   fill: #f7f7f7;
   margin-right: 1rem;
 }
@@ -360,7 +353,6 @@
   justify-content: center;
 }
 .heading-secondary {
-  font-size: 1.5rem;
   text-transform: uppercase;
   font-weight: 700;
   background-image: -webkit-gradient(
@@ -399,7 +391,7 @@
   border: none;
   width: 100%;
   background-color: #fff;
-  background-color: #f2f2f2;
+  /* background-color: #c3b5b5; */
   border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
   -webkit-transition: all 0.3s;
@@ -538,7 +530,6 @@
 .btn--green {
   background-color: #55c57a;
   color: #fff;
-  margin-left: 14rem;
 }
 .btn--green::after {
   background-color: #55c57a;

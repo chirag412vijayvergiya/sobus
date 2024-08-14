@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useUser } from '../components/profile/useUser';
 import { useUpdateUserData } from '../components/profile/useUpdateUserData';
 import { useUpdateUserPassword } from '../components/profile/useUpdateUserPassword';
+import NavItem from '../components/profile/NavItem';
+import Modal from '../ui/Modal';
+import CreateActivityForm from '../components/activities/CreateActivityForm';
 
 function Profile() {
   const {
@@ -74,44 +77,59 @@ function Profile() {
   //   setAvatar(null);
   // }
 
-  const navItem = (link, text, icon, active) => (
-    <li className={`${active ? 'side-nav--active' : ''} `}>
-      <a href={link}>
-        <svg>
-          <use xlinkHref={`#${icon}`} />
-        </svg>
-        <span className="text-md">{text}</span>
-      </a>
-    </li>
-  );
-
   return (
-    <main className="main">
-      <div className="user-view">
+    <main className="relative flex-1 bg-green-100 p-[8rem_1rem] dark:bg-slate-800 md:p-[8rem_6rem]">
+      <div className="bg-gray-0 mx-auto min-h-screen max-w-[110rem] overflow-hidden rounded-[3px] shadow-[0_2.5rem_8rem_2rem_rgba(0,0,0,0.07)] dark:bg-slate-700 md:flex">
         <nav className="user-view__menu">
           <ul className="side-nav">
-            {navItem('#', 'Settings', 'settings', true)}
+            {/* {navItem('#', 'Settings', 'settings', true)}
             {navItem('/my-tours', 'My bookings', 'briefcase')}
             {navItem('/my-reviews', 'My reviews', 'star')}
             {navItem('#', 'Billing', 'credit-card')}
-            {navItem('/my-favourites', 'My Favourites', 'heart')}
+            {navItem('/my-favourites', 'My Favourites', 'heart')} */}
           </ul>
           {role === 'admin' && (
             <div className="admin-nav">
               <h5 className="admin-nav__heading">Admin</h5>
               <ul className="side-nav">
-                {navItem('#', 'Manage tours', 'map')}
+                {/* {navItem('#', 'Manage tours', 'map')}
                 {navItem('#', 'Manage users', 'users')}
                 {navItem('#', 'Manage reviews', 'star')}
-                {navItem('/all-bookings', 'Manage bookings', 'briefcase')}
+                {navItem('/create-activity', 'Manage bookings', 'briefcase')} */}
+                <Modal>
+                  <Modal.Open opens="BookActivity-form">
+                    <button
+                      // onClick={() => navigate('/book-activity')}
+                      className="ml-[4rem] inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400"
+                    >
+                      Create Activity
+                    </button>
+                  </Modal.Open>
+                  <Modal.Window name="BookActivity-form">
+                    <CreateActivityForm />
+                  </Modal.Window>
+                </Modal>
+                <Modal>
+                  <Modal.Open opens="BookProject-form">
+                    <button
+                      // onClick={() => navigate('/book-activity')}
+                      className="ml-[4rem] mt-[2rem] inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400"
+                    >
+                      Create Project
+                    </button>
+                  </Modal.Open>
+                  <Modal.Window name="BookProject-form">
+                    <CreateActivityForm />
+                  </Modal.Window>
+                </Modal>
               </ul>
             </div>
           )}
         </nav>
-        <div className="user-view__content">
-          <div className="user-view__form-container">
+        <div className="user-view__content p-[2rem_0rem] md:p-[4.5rem_4rem]">
+          <div className="user-view__form-container mx-auto p-[0_1rem] md:p-[0_4rem]">
             <div class="heading-secondary-container">
-              <h2 className="heading-secondary ma-bt-md">
+              <h2 className="heading-secondary ma-bt-md text-sm md:text-lg">
                 Your account settings
               </h2>
             </div>
@@ -158,13 +176,13 @@ function Profile() {
                   name="photo"
                   onChange={handleFileChange}
                 />
-                <label htmlFor="photo" className="font-mono text-lg">
+                <label htmlFor="photo" className="font-mono text-sm md:text-lg">
                   Choose new photo
                 </label>
               </div>
-              <div className="form__group right">
+              <div className="form__group text-center md:text-right">
                 <button
-                  className="btn btn--small btn--green btn--save-data"
+                  className="btn btn--small btn--green btn--save-data mx-auto md:ml-[14rem]"
                   type="submit"
                   disabled={isUpdating}
                 >
@@ -174,7 +192,7 @@ function Profile() {
             </form>
           </div>
           <div className="line">&nbsp;</div>
-          <div className="user-view__form-container">
+          <div className="user-view__form-container mx-auto p-[0_1rem] md:p-[0_4rem]">
             <div class="heading-secondary-container">
               <h2 className="heading-secondary ma-bt-md">Password change</h2>
             </div>
@@ -230,7 +248,7 @@ function Profile() {
                   minLength="8"
                 />
               </div>
-              <div className="form__group right">
+              <div className="form__group text-center md:text-right">
                 <button
                   className="btn btn--small btn--green btn--save-password"
                   type="submit"

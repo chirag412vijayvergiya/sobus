@@ -63,13 +63,13 @@ function Projects() {
               </div>
             ))}
           </div>
-          <Button
+          <button
             type="reset"
             onClick={handleClick}
-            className="mt-4 rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 dark:bg-indigo-400 dark:hover:bg-indigo-300"
+            className="p-small mx-auto flex items-center justify-center rounded-md bg-indigo-800 px-3 py-2 font-mono text-sm font-medium tracking-wider text-grey-50 dark:bg-slate-800 md:px-6"
           >
             {showAll ? 'View Less' : 'View More'}
-          </Button>
+          </button>
           <div className="mt-6 border-b border-grey-200 dark:border-grey-600"></div>
         </div>
       </div>

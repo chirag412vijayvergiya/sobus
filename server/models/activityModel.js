@@ -18,7 +18,7 @@ const activitySchema = new mongoose.Schema(
       type: Date,
       required: [true, 'activity date is required'],
     },
-    activityendDate: {
+    activityEndDate: {
       type: Date,
       required: [true, 'activity date is required'],
       validate: {
@@ -28,6 +28,17 @@ const activitySchema = new mongoose.Schema(
         message:
           'activityend date and time must be greater than activityStart date',
       },
+    },
+    activityTime: {
+      type: String,
+      required: [true, 'activity time is required'],
+    },
+    GoogleFormLink: {
+      type: String,
+      required: [true, 'Google Form Link is required'],
+    },
+    excelLink: {
+      type: String,
     },
   },
   {
@@ -39,5 +50,5 @@ const activitySchema = new mongoose.Schema(
 
 // ******************************************************************************* //
 
-const Activities = mongoose.model('Appointments', activitySchema);
+const Activities = mongoose.model('Activities', activitySchema);
 module.exports = Activities;

@@ -2,6 +2,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const User = require('./../models/userModel');
+const Activity = require('./../models/activityModel');
 
 dotenv.config({ path: '../config.env' });
 
@@ -26,11 +27,15 @@ mongoose
 
 // READ JSON FILE
 const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
+// const activities = JSON.parse(
+//   fs.readFileSync(`${__dirname}/activities.json`, 'utf-8'),
+// );
 
 // IMPORT DATA INTO DB
 const importData = async () => {
   try {
     await User.create(users, { validateBeforeSave: false });
+    // await Activity.create(activities, { validateBeforeSave: false });
     console.log('Data successfully loaded');
     process.exit();
   } catch (err) {
@@ -42,7 +47,8 @@ const importData = async () => {
 // DELETE ALL DATA FROM COLLECTION
 const deleteData = async () => {
   try {
-    await User.deleteMany();
+    // await User.deleteMany();
+    await Activity.deleteMany();
     console.log('Data successfully deleted');
     process.exit();
   } catch (err) {

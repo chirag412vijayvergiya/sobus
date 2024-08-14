@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import ActivityCard from '../ActivityCard';
-import Button from '../Button';
+import { useGetAllActivities } from './useGetAllActivities';
+import SpinnerMini from '../SpinnerMini';
 
 function Activities() {
   const [showAll, setShowAll] = useState(false);
   const containerRef = useRef(null);
   const firstItemRef = useRef(null);
   const [rowHeight, setRowHeight] = useState(0);
+  const { isPending, activities } = useGetAllActivities();
 
   useEffect(() => {
     if (firstItemRef.current) {
@@ -14,18 +16,7 @@ function Activities() {
     }
   }, []);
 
-  const data = [
-    { id: 1, content: 'Content 1' },
-    { id: 2, content: 'Content 2' },
-    { id: 3, content: 'Content 3' },
-    { id: 4, content: 'Content 4' },
-    { id: 5, content: 'Content 5' },
-    { id: 6, content: 'Content 6' },
-    { id: 7, content: 'Content 7' },
-    { id: 8, content: 'Content 8' },
-    { id: 9, content: 'Content 9' },
-    { id: 10, content: 'Content 10' },
-  ];
+  if (isPending) return <SpinnerMini />;
 
   const handleClick = () => {
     setShowAll(!showAll);
@@ -37,7 +28,9 @@ function Activities() {
     }
   };
 
-  const visibleItems = showAll ? data : data.slice(0, 6);
+  const visibleItems = showAll
+    ? activities.data.data
+    : activities.data.data.slice(0, 6);
 
   return (
     <div
@@ -68,13 +61,13 @@ function Activities() {
               />
             ))}
           </div>
-          <Button
+          <button
             type="reset"
             onClick={handleClick}
-            className="mt-4 rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 dark:bg-indigo-400 dark:hover:bg-indigo-300"
+            className="p-small mx-auto flex items-center justify-center rounded-md bg-indigo-800 px-3 py-2 font-mono text-sm font-medium tracking-wider text-grey-50 dark:bg-slate-800 md:px-6"
           >
             {showAll ? 'View Less' : 'View More'}
-          </Button>
+          </button>
           <div className="mt-6 border-b border-grey-200 dark:border-grey-600"></div>
         </div>
       </div>

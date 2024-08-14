@@ -8,7 +8,7 @@ function ActivityCard({ color, elements }) {
     <div className="parent mx-auto">
       <div
         className={classNames(
-          `dark:bg-custom-gradient-darkgreen bg-custom-gradient-green`,
+          `bg-custom-gradient-green dark:bg-custom-gradient-darkgreen`,
           'card',
         )}
       >
@@ -18,7 +18,7 @@ function ActivityCard({ color, elements }) {
           <span class="circle circle4"></span>
           <span class="circle circle5">
             <button
-              onClick={() => navigate(`/activities/${elements.id}`)}
+              onClick={() => navigate(`/activities/${elements._id}`)}
               className="group relative p-2"
             >
               <TbExternalLink className="h-6 w-6 transform text-slate-800 transition-transform group-hover:scale-125" />
@@ -27,11 +27,11 @@ function ActivityCard({ color, elements }) {
         </div>
         <div class="glass"></div>
         <div class="content">
-          <span className="block text-xl font-extrabold text-indigo-400">
-            Event Name
+          <span className="block font-mono text-xl font-extrabold text-indigo-400">
+            {elements.activityName}
           </span>
-          <span class="text">About the event</span>
-          <span class="text">About the event</span>
+          <span class="text font-mono">{elements.activityLocation}</span>
+          <span class="text font-mono">{elements.activityTime}</span>
         </div>
         <div class="bottom">
           <div class="social-buttons-container">
@@ -63,18 +63,6 @@ function ActivityCard({ color, elements }) {
               </svg>
             </button>
           </div>
-          {/* <div class="view-more">
-            <button class="view-more-button">View more</button>
-            <svg
-              class="svg"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </div> */}
         </div>
       </div>
     </div>

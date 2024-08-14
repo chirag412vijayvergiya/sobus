@@ -1,7 +1,7 @@
 function FormRow({ label, error, children }) {
   return (
     <div className="flex-col border-b px-4 py-3 dark:border-slate-600 md:px-0">
-      <div className="items-center gap-[3.5rem] md:grid md:grid-cols-[10rem_1fr_1fr] ">
+      <div className="items-center gap-[3.5rem] md:grid md:grid-cols-[10rem_1fr_1fr]">
         {label && (
           <label
             htmlFor={children.props.id}

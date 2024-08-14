@@ -8,6 +8,8 @@ const xss = require('xss-clean');
 const cors = require('cors');
 const GlobalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./Routes/userRoute');
+const acitivityRouter = require('./Routes/activityRoute');
+const AppError = require('./utils/AppError');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -47,6 +49,7 @@ app.use(mongoSanitize());
 app.use(xss());
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/activity', acitivityRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

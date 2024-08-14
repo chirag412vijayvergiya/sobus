@@ -1,0 +1,47 @@
+[
+  {
+    "_id": "64c9b0d9f1a1a45678ef1234",
+    "activityName": "Yoga Session",
+    "activityDescription": "A relaxing yoga session for all levels.",
+    "activityLocation": "Community Center, Room 5",
+    "activityStartDate": "2024-08-01T09:00:00.000Z",
+    "activityEndDate": "2024-08-01T10:30:00.000Z",
+    "activityTime": "09:00 - 10:30"
+  },
+  {
+    "_id": "64c9b0f0f1a1a45678ef1235",
+    "activityName": "Cooking Workshop",
+    "activityDescription": "Learn to cook delicious meals with our expert chef.",
+    "activityLocation": "Culinary School, Kitchen 3",
+    "activityStartDate": "2024-08-02T14:00:00.000Z",
+    "activityEndDate": "2024-08-02T16:00:00.000Z",
+    "activityTime": "14:00 - 16:00"
+  },
+  {
+    "_id": "64c9b10bf1a1a45678ef1236",
+    "activityName": "Painting Class",
+    "activityDescription": "Explore your creativity with our painting class.",
+    "activityLocation": "Art Studio, Room 2",
+    "activityStartDate": "2024-08-03T11:00:00.000Z",
+    "activityEndDate": "2024-08-03T13:00:00.000Z",
+    "activityTime": "11:00 - 13:00"
+  },
+  {
+    "_id": "64c9b124f1a1a45678ef1237",
+    "activityName": "Coding Bootcamp",
+    "activityDescription": "Learn the basics of web development in a day.",
+    "activityLocation": "Tech Hub, Room 1",
+    "activityStartDate": "2024-08-05T09:00:00.000Z",
+    "activityEndDate": "2024-08-06T17:00:00.000Z",
+    "activityTime": "09:00 - 17:00"
+  },
+  {
+    "_id": "64c9b13ef1a1a45678ef1238",
+    "activityName": "Music Jam Session",
+    "activityDescription": "Join us for a fun jam session with local musicians.",
+    "activityLocation": "Music Hall, Main Stage",
+    "activityStartDate": "2024-08-06T18:00:00.000Z",
+    "activityEndDate": "2024-08-06T20:00:00.000Z",
+    "activityTime": "18:00 - 20:00"
+  }
+]

@@ -9,8 +9,8 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import ProtectedRoute from './ui/ProtectedRoute';
 import AppLayout from './ui/AppLayout';
-import Activity from './components/activities/Activity';
-import Project from './components/projects/Project';
+import Activity from './pages/Activity';
+import Project from './pages/Project';
 
 const queryClient = new QueryClient({
   defaultOptions: {
