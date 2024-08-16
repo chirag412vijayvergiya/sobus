@@ -26,11 +26,11 @@ export async function getAllActivities() {
 
 export async function GetActivity(activityId) {
   try {
-    const response = await customFetch.get('/activity/getActivity', {
-      activityId,
-    });
-    console.log(response.data);
-    return response.data;
+    const response = await customFetch.get(
+      `/activity/getActivity/${activityId}`,
+    );
+    console.log(response.data.data);
+    return response.data.data.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
@@ -45,9 +45,18 @@ export async function saveExcel({ file, columns, data, activityId }) {
 
     const response = await customFetch.post(
       `/activity/save-excel/${activityId}`,
-      {
-        formData,
-      },
+      formData,
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
+
+export async function deleteActivity(activityId) {
+  try {
+    const response = await customFetch.delete(
+      `/activity/delete-activity/${activityId}`,
     );
     return response.data;
   } catch (error) {

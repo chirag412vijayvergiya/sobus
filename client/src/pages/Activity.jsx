@@ -1,20 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as XLSX from 'xlsx';
-import Button from '../ui/Button';
 import { useSaveExcel } from '../components/activities/useSaveExcel';
+import { useGetActivity } from '../components/activities/useGetActivity';
+import { useUser } from '../components/profile/useUser';
+import SpinnerMini from '../ui/SpinnerMini';
+import Button from '../ui/Button';
+import Modal from '../ui/Modal';
+import ConfirmDelete from '../ui/ConfirmDelete';
+import { useDeleteActivity } from '../components/activities/useDeleteActivity';
+import ActivitySection from '../components/activities/ActivitySection';
 
 function Activity() {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [file, setFile] = useState(null);
+  const {
+    user: {
+      data: {
+        data: { role },
+      },
+    },
+  } = useUser();
+  const { isPending, activity } = useGetActivity();
   const { CreateExcel, isBooking } = useSaveExcel();
+  const { isDeleting, deleteActivity } = useDeleteActivity();
 
-  // Use the hook
+  useEffect(() => {
+    if (activity?.excelLink) {
+      fetch(activity.excelLink)
+        .then((response) => response.arrayBuffer())
+        .then((buffer) => {
+          const workbook = XLSX.read(buffer, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+          setColumns(jsonData[0] || []);
+          setData(jsonData.slice(1));
+        })
+        .catch((err) =>
+          console.error('Error loading existing Excel data:', err),
+        );
+    }
+  }, [activity]);
 
-  // Handle file upload and parse Excel
   const handleFileUpload = (event) => {
     const uploadedFile = event.target.files[0];
-    setFile(uploadedFile); // Save the file to state
+    setFile(uploadedFile);
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -30,56 +61,109 @@ function Activity() {
     reader.readAsBinaryString(uploadedFile);
   };
 
-  // Handle input change in the table
   const handleInputChange = (rowIndex, columnIndex, value) => {
     const newData = [...data];
     newData[rowIndex][columnIndex] = value;
     setData(newData);
   };
 
-  // Handle save operation using react-query
   const handleSave = () => {
-    if (!file) {
+    if (!file && !activity?.excelLink) {
       alert('Please upload an Excel file before saving.');
       return;
     }
-
-    CreateExcel({ file, columns, data }); // Call the mutation function
+    CreateExcel({ file, columns, data });
   };
 
+  if (isPending) return <SpinnerMini />;
+
   return (
-    <div className="relative flex-1 bg-green-100 p-[8rem_1rem] dark:bg-slate-800 md:p-[8rem_6rem]">
-      <input type="file" onChange={handleFileUpload} />
+    <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-800 md:p-[8rem_6rem]">
+      <ActivitySection activity={activity} />
       {columns.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              {columns.map((col, index) => (
-                <th key={index}>{col}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, columnIndex) => (
-                  <td key={columnIndex}>
-                    <input
-                      value={cell || ''}
-                      onChange={(e) =>
-                        handleInputChange(rowIndex, columnIndex, e.target.value)
-                      }
-                    />
-                  </td>
+        <div className="overflow-x-auto rounded-lg shadow-md">
+          <table className="w-full table-fixed border-collapse rounded-lg bg-white dark:border-slate-900 dark:bg-slate-800">
+            <thead className="bg-green-500 text-white dark:border-slate-900">
+              <tr className="">
+                {columns.map((col, index) => (
+                  <th
+                    key={index}
+                    className="rounded-tl-lg rounded-tr-lg border p-3 text-center text-sm dark:border-slate-600 md:text-base"
+                  >
+                    {col}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((row, rowIndex) => (
+                <tr
+                  key={rowIndex}
+                  className="odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-slate-800 dark:even:bg-slate-900"
+                >
+                  {row.map((cell, columnIndex) => (
+                    <td
+                      key={columnIndex}
+                      className="border bg-transparent p-3 text-center dark:border-slate-600"
+                    >
+                      <input
+                        disabled
+                        value={cell || ''}
+                        onChange={(e) =>
+                          handleInputChange(
+                            rowIndex,
+                            columnIndex,
+                            e.target.value,
+                          )
+                        }
+                        className="h-full w-full rounded-lg border border-white bg-slate-100 p-2 text-center text-sm text-slate-700 odd:bg-slate-300 even:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-400 dark:border-slate-900 dark:bg-slate-800 dark:text-grey-200 md:text-base"
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
-      <Button type="primary" onClick={handleSave} disabled={isBooking}>
-        {isBooking ? 'Saving...' : 'Save'}
-      </Button>
+      {role === 'admin' && (
+        <div className="mt-4 flex items-center justify-between">
+          {/* Delete Button - Left Side */}
+          <Modal>
+            <Modal.Open opens="delete-Activity">
+              <Button
+                type="danger"
+                // className="rounded bg-red-500 p-2 px-4 text-white shadow-md transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-red-400 active:scale-95"
+              >
+                Delete Activity
+              </Button>
+            </Modal.Open>
+            <Modal.Window name="delete-Activity">
+              <ConfirmDelete
+                resourceName="Activity"
+                disabled={isDeleting}
+                onConfirm={() => deleteActivity(activity._id)}
+              />
+            </Modal.Window>
+          </Modal>
+
+          {/* File Input and Save Button - Right Side */}
+          <div className="flex items-center">
+            <input
+              type="file"
+              onChange={handleFileUpload}
+              className="w-[230px] rounded border bg-green-400 p-[6px] text-grey-900 shadow-md hover:cursor-pointer"
+            />
+            <button
+              onClick={handleSave}
+              disabled={isBooking}
+              className="ml-4 transform rounded bg-green-400 p-[10px] px-4 text-grey-900 shadow-md transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-green-300 active:scale-95"
+            >
+              {isBooking ? 'Saving...' : 'Save'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -54,25 +54,36 @@ const upload = multer({ storage: cloudinaryStorage, fileFilter: multerFilter });
 
 exports.uploadExcel = upload.single('file');
 exports.saveExcel = catchAsync(async (req, res, next) => {
-  console.log(req);
-  if (!req.file) return next(new AppError('Please upload a file', 404));
+  const { id } = req.params; // Extract activityId from the request parameters
+  console.log(id);
+  // console.log(req);
+  // Check if the file is uploaded
+  if (!req.file) {
+    return next(new AppError('Please upload a file', 404));
+  }
 
-  // Save the file path or URL in the excelLink variable
+  // Get the file path or secure URL
   const excelLink = req.file.path || req.file.secure_url; // Depending on the setup
 
-  // Update the Activity document with the new excelLink
+  // Find the activity by the activity ID and update it with the excelLink
   const activity = await Activity.findByIdAndUpdate(
-    req.user.id,
-    { excelLink }, // Add excelLink to the update
+    id, // Use activityId to find the specific Activity document
+    { excelLink }, // Update the document with the file link
     { new: true, runValidators: true },
   );
 
-  if (!activity) return next(new AppError('Activity not found', 404));
+  console.log(activity);
 
+  // If the activity is not found, return an error
+  if (!activity) {
+    return next(new AppError('Activity not found', 404));
+  }
+
+  // Send the updated activity back in the response
   res.status(200).json({
     status: 'success',
     data: {
-      Activity: activity,
+      activity,
     },
   });
 });
@@ -112,3 +123,7 @@ exports.createActivity = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllActivities = factory.getAll(Activity);
+
+exports.getActivity = factory.getOne(Activity);
+
+exports.deleteActivity = factory.deleteOne(Activity);

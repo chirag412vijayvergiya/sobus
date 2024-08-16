@@ -15,6 +15,7 @@
     "@tanstack/react-query-devtools": "^5.51.9",
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "hamburger-react": "^2.5.1",
     "js-cookie": "^3.0.5",
