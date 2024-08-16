@@ -28,9 +28,7 @@ function Activities() {
     }
   };
 
-  const visibleItems = showAll
-    ? activities.data.data
-    : activities.data.data.slice(0, 6);
+  const visibleItems = showAll ? activities : activities.slice(0, 6);
 
   return (
     <div

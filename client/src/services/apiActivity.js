@@ -13,12 +13,32 @@ export async function createActivity({ data }) {
     throw new Error(error.response.data.message);
   }
 }
-
 export async function getAllActivities() {
   try {
     const response = await customFetch.get('/activity/all-activities');
-    console.log(response.data);
-    return response.data;
+    const activities = response.data.data.data;
+
+    // Get current date and time
+    const now = new Date();
+
+    // Sort activities by activityStartDate
+    const sortedActivities = activities.sort((a, b) => {
+      const dateA = new Date(a.activityStartDate);
+      const dateB = new Date(b.activityStartDate);
+
+      // If both events are upcoming or both are past, sort by date
+      if (dateA >= now && dateB >= now) {
+        return dateA - dateB; // Upcoming events sorted by closest start date first
+      } else if (dateA < now && dateB < now) {
+        return dateA - dateB; // Past events sorted by most recent end date first
+      } else {
+        // If one event is upcoming and the other is past, upcoming event comes first
+        return dateA >= now ? -1 : 1;
+      }
+    });
+
+    console.log(sortedActivities);
+    return sortedActivities;
   } catch (error) {
     throw new Error(error.response.data.message);
   }

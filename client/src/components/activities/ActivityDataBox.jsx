@@ -11,11 +11,21 @@ function ActivityDataBox({ activity }) {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      const startTime = new Date(activity.activityStartDate);
-      const endTime = new Date(activity.activityEndDate);
 
-      if (now < startTime) {
-        const timeDiff = startTime - now;
+      // Extracting the date part from activityStartDate and activityEndDate
+      const startDate = activity.activityStartDate.split('T')[0];
+      const endDate = activity.activityEndDate.split('T')[0];
+
+      // Extracting start and end times from activityTime
+      const [startTime, endTime] = activity.activityTime.split(' - ');
+
+      // Creating full Date objects for start and end times
+      // Note: Assuming the time is in the local timezone, so no need for 'Z'
+      const startDateTime = new Date(`${startDate}T${startTime}:00`);
+      const endDateTime = new Date(`${endDate}T${endTime}:00`);
+
+      if (now < startDateTime) {
+        const timeDiff = startDateTime - now;
         const hours = Math.floor(
           (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
@@ -23,7 +33,7 @@ function ActivityDataBox({ activity }) {
         const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
         setStatus('Event starts in');
         setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
-      } else if (now >= startTime && now <= endTime) {
+      } else if (now >= startDateTime && now <= endDateTime) {
         setStatus('Event is live now');
         setTimeRemaining('');
       } else {
@@ -85,12 +95,12 @@ function ActivityDataBox({ activity }) {
           </div>
           <div className="mt-4 flex flex-col items-center gap-1 font-semibold md:mt-5">
             <p
-              className={`font-mono text-lg ${
+              className={`font-mono text-lg transition-transform duration-300 ease-in-out ${
                 status === 'Event starts in'
-                  ? 'text-green-700'
+                  ? 'scale-110 transform animate-pulse text-green-700'
                   : status === 'Event is live now'
-                    ? 'text-orange-700'
-                    : 'text-red-700'
+                    ? 'scale-125 transform animate-pulse text-orange-700'
+                    : 'animate-fade-out scale-90 transform text-red-700'
               }`}
             >
               {status} {timeRemaining && <span>{timeRemaining}</span>}

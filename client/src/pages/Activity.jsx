@@ -82,9 +82,9 @@ function Activity() {
       <ActivitySection activity={activity} />
       {columns.length > 0 && (
         <div className="overflow-x-auto rounded-lg shadow-md">
-          <table className="w-full table-fixed border-collapse rounded-lg bg-white dark:border-slate-900 dark:bg-slate-800">
+          <table className="min-w-full border-collapse rounded-lg bg-white dark:border-slate-900 dark:bg-slate-800">
             <thead className="bg-green-500 text-white dark:border-slate-900">
-              <tr className="">
+              <tr>
                 {columns.map((col, index) => (
                   <th
                     key={index}
@@ -116,7 +116,7 @@ function Activity() {
                             e.target.value,
                           )
                         }
-                        className="h-full w-full rounded-lg border border-white bg-slate-100 p-2 text-center text-sm text-slate-700 odd:bg-slate-300 even:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-400 dark:border-slate-900 dark:bg-slate-800 dark:text-grey-200 md:text-base"
+                        className="rounded-lg border border-white bg-slate-100 p-2 text-center text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400 dark:border-slate-900 dark:bg-slate-800 dark:text-grey-200 md:text-base"
                       />
                     </td>
                   ))}
@@ -127,32 +127,13 @@ function Activity() {
         </div>
       )}
       {role === 'admin' && (
-        <div className="mt-4 flex items-center justify-between">
-          {/* Delete Button - Left Side */}
-          <Modal>
-            <Modal.Open opens="delete-Activity">
-              <Button
-                type="danger"
-                // className="rounded bg-red-500 p-2 px-4 text-white shadow-md transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-red-400 active:scale-95"
-              >
-                Delete Activity
-              </Button>
-            </Modal.Open>
-            <Modal.Window name="delete-Activity">
-              <ConfirmDelete
-                resourceName="Activity"
-                disabled={isDeleting}
-                onConfirm={() => deleteActivity(activity._id)}
-              />
-            </Modal.Window>
-          </Modal>
-
+        <div className="mt-4 flex flex-col items-center justify-between md:flex-row">
           {/* File Input and Save Button - Right Side */}
           <div className="flex items-center">
             <input
               type="file"
               onChange={handleFileUpload}
-              className="w-[230px] rounded border bg-green-400 p-[6px] text-grey-900 shadow-md hover:cursor-pointer"
+              className="w-[180px] rounded border bg-green-400 p-[6px] text-grey-900 shadow-md hover:cursor-pointer md:w-[230px]"
             />
             <button
               onClick={handleSave}
@@ -161,6 +142,25 @@ function Activity() {
             >
               {isBooking ? 'Saving...' : 'Save'}
             </button>
+          </div>
+          <div className="mt-4 md:mt-0">
+            <Modal>
+              <Modal.Open opens="delete-Activity">
+                <Button
+                  type="danger"
+                  // className="rounded bg-red-500 p-2 px-4 text-white shadow-md transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-red-400 active:scale-95"
+                >
+                  Delete Activity
+                </Button>
+              </Modal.Open>
+              <Modal.Window name="delete-Activity">
+                <ConfirmDelete
+                  resourceName="Activity"
+                  disabled={isDeleting}
+                  onConfirm={() => deleteActivity(activity._id)}
+                />
+              </Modal.Window>
+            </Modal>
           </div>
         </div>
       )}

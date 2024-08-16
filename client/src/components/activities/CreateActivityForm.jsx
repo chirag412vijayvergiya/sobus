@@ -51,6 +51,7 @@ function CreateActivityForm({ onCloseModal }) {
   }
 
   const timeSlots = [
+    '00:30 - 01:00',
     '10:00 - 10:30',
     '10:30 - 11:00',
     '11:00 - 11:30',

@@ -7,14 +7,13 @@ function ActivitySection({ activity }) {
     <div className="items-center justify-between overflow-hidden">
       <div className="flex items-center justify-between">
         <h1 className="m-1 text-lg font-semibold">
-          Activity{' '}
-          <span className="pl-3 text-base font-medium text-blue-400">
-            # {activity._id}
+          Activity
+          <span className="pl-3 text-sm font-medium text-blue-400 md:text-base">
+            #{activity._id}
           </span>
         </h1>
-
         <button
-          className="items-center rounded-md border-2 border-l-0 border-r-0 border-t-0 border-b-indigo-500 text-lg font-semibold text-indigo-600 transition-colors hover:text-indigo-700"
+          className="items-center rounded-md border-2 border-l-0 border-r-0 border-t-0 border-b-indigo-500 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700 md:text-lg"
           onClick={moveBack}
         >
           &larr; Back
