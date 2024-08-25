@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const customFetch = axios.create({
   // baseURL: `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/v1`,
-  baseURL: `http://localhost:3000/api/v1`,
+  baseURL: `http://localhost:8000/api/v1`,
   withCredentials: true,
 });
 customFetch.interceptors.response.use(
