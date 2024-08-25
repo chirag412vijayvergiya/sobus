@@ -1,4 +1,5 @@
 import { useMoveBack } from '../../hooks/useMoveBack';
+import Button from '../../ui/Button';
 import ActivityDataBox from './ActivityDataBox';
 function ActivitySection({ activity }) {
   const moveBack = useMoveBack();
@@ -19,12 +20,10 @@ function ActivitySection({ activity }) {
           &larr; Back
         </button>
       </div>
+
       <ActivityDataBox activity={activity} />
       {/* <AppointmentDataBox appointment={appointment} /> */}
-      {/* <div className="mt-5 flex justify-end gap-[1.2rem]">
-        <Button type="reset" onClick={moveBack}>
-          Back
-        </Button> */}
+
       {/* <Button type="update">
         {appointment.review === 'Yes' ? 'Edit Review' : 'Create Review'}
       </Button> */}
@@ -32,7 +31,6 @@ function ActivitySection({ activity }) {
       {/* <AddNewReview doctor={appointment.doctor} /> */}
       {/* </div> */}
     </div>
-    // </div>
   );
 }
 

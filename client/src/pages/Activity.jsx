@@ -9,6 +9,7 @@ import Modal from '../ui/Modal';
 import ConfirmDelete from '../ui/ConfirmDelete';
 import { useDeleteActivity } from '../components/activities/useDeleteActivity';
 import ActivitySection from '../components/activities/ActivitySection';
+import { useNavigate } from 'react-router-dom';
 
 function Activity() {
   const [columns, setColumns] = useState([]);
@@ -21,9 +22,16 @@ function Activity() {
       },
     },
   } = useUser();
+
   const { isPending, activity } = useGetActivity();
   const { CreateExcel, isBooking } = useSaveExcel();
   const { isDeleting, deleteActivity } = useDeleteActivity();
+
+  const navigate = useNavigate();
+
+  const moveTo = () => {
+    navigate(`${activity?.GoogleFormLink}`);
+  };
 
   useEffect(() => {
     if (activity?.excelLink) {
@@ -141,6 +149,14 @@ function Activity() {
               className="ml-4 transform rounded bg-green-400 p-[10px] px-4 text-grey-900 shadow-md transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-green-300 active:scale-95"
             >
               {isBooking ? 'Saving...' : 'Save'}
+            </button>
+
+            <button
+              type="reset"
+              onClick={moveTo}
+              className="ml-4 transform rounded bg-indigo-400 p-[10px] px-4 text-grey-900 shadow-md hover:bg-indigo-800"
+            >
+              RSVP
             </button>
           </div>
           <div className="mt-4 md:mt-0">
