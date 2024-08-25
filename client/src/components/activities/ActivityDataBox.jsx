@@ -26,13 +26,16 @@ function ActivityDataBox({ activity }) {
 
       if (now < startDateTime) {
         const timeDiff = startDateTime - now;
+
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
         const hours = Math.floor(
           (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
         const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
         setStatus('Event starts in');
-        setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
+        setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
       } else if (now >= startDateTime && now <= endDateTime) {
         setStatus('Event is live now');
         setTimeRemaining('');
