@@ -21,7 +21,7 @@ const createSendToken = (user, statusCode, req, res) => {
 
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Set secure attribute based on environment
-    // sameSite: 'None', // Set sameSite attribute
+    sameSite: 'None', // Set sameSite attribute
     // domain: 'localhost', // Set domain to localhost
   };
   // console.log(token);
