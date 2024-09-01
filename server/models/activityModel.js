@@ -29,10 +29,14 @@ const activitySchema = new mongoose.Schema(
           'activityend date and time must be greater than activityStart date',
       },
     },
-    activityTime: {
+    activityItenry: {
       type: String,
-      required: [true, 'activity time is required'],
+      // required: [true, 'activity Itenry is required'],
     },
+    // activityTime: {
+    //   type: String,
+    //   required: [true, 'activity time is required'],
+    // },
     GoogleFormLink: {
       type: String,
       required: [true, 'Google Form Link is required'],

@@ -73,6 +73,28 @@ export async function saveExcel({ file, columns, data, activityId }) {
   }
 }
 
+export async function saveIternaryExcel({
+  IternaryFile,
+  ItineraryColumns,
+  ItineraryData,
+  activityId,
+}) {
+  try {
+    const formData = new FormData();
+    formData.append('file', IternaryFile); // Append the Excel file
+    formData.append('Iternarycolumns', JSON.stringify(ItineraryColumns)); // Append columns as JSON
+    formData.append('Iternarydata', JSON.stringify(ItineraryData)); // Append data as JSON
+
+    const response = await customFetch.post(
+      `/activity/save-excelIternary/${activityId}`,
+      formData,
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
+
 export async function deleteActivity(activityId) {
   try {
     const response = await customFetch.delete(

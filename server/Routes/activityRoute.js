@@ -12,8 +12,16 @@ router.get('/all-activities', activityController.getAllActivities);
 // Save Excel sheet for the activity with the given ID for the admin
 router.post(
   '/save-excel/:id',
+  authController.restrictTo('admin'),
   activityController.uploadExcel,
   activityController.saveExcel,
+);
+
+router.post(
+  '/save-excelIternary/:id',
+  authController.restrictTo('admin'),
+  activityController.uploadExcel,
+  activityController.saveExcelIternary,
 );
 
 // Create activity for admin

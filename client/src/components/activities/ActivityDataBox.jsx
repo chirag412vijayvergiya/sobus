@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from '../../utils/helpers';
 import { format } from 'date-fns';
 import { MdLocationPin } from 'react-icons/md';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function ActivityDataBox({ activity }) {
   const [status, setStatus] = useState('');
@@ -13,16 +14,8 @@ function ActivityDataBox({ activity }) {
       const now = new Date();
 
       // Extracting the date part from activityStartDate and activityEndDate
-      const startDate = activity.activityStartDate.split('T')[0];
-      const endDate = activity.activityEndDate.split('T')[0];
-
-      // Extracting start and end times from activityTime
-      const [startTime, endTime] = activity.activityTime.split(' - ');
-
-      // Creating full Date objects for start and end times
-      // Note: Assuming the time is in the local timezone, so no need for 'Z'
-      const startDateTime = new Date(`${startDate}T${startTime}:00`);
-      const endDateTime = new Date(`${endDate}T${endTime}:00`);
+      const startDateTime = new Date(activity.activityStartDate);
+      const endDateTime = new Date(activity.activityEndDate);
 
       if (now < startDateTime) {
         const timeDiff = startDateTime - now;
@@ -88,13 +81,23 @@ function ActivityDataBox({ activity }) {
           </p>
         </div>
         <div className="mt-5 flex flex-col justify-between md:flex-row">
-          <div className="mt-4 flex flex-col items-center gap-1 md:mt-0">
+          {/* <div className="mt-4 flex flex-col items-center gap-1 md:mt-0">
             <p className="flex items-center text-base font-semibold text-slate-800 dark:text-slate-200">
               Activity Time
             </p>
             <p className="text-sm text-slate-700 dark:text-slate-400">
               {activity.activityTime}
             </p>
+          </div> */}
+          <div className="mt-4 flex flex-col items-center gap-1 md:mt-0">
+            <Link
+              to={activity.GoogleFormLink}
+              target="_blank"
+              rel="noopener noreferrer" // Replace this with the actual route to your form
+              className="ml-4 mt-2 transform rounded-lg bg-indigo-400 p-[10px] px-4 text-grey-900 shadow-md hover:bg-indigo-800"
+            >
+              RSVP
+            </Link>
           </div>
           <div className="mt-4 flex flex-col items-center gap-1 font-semibold md:mt-5">
             <p

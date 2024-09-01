@@ -49,3 +49,17 @@ export async function UpdateUserPassword({
     throw new Error('Failed to update user password');
   }
 }
+
+export async function MakeAdmin({ emailId }) {
+  try {
+    const response = await customFetch.patch(`/users/make-admin`, {
+      emailId,
+    });
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user data: ', error);
+    throw new Error('Failed to update user data');
+  }
+}

@@ -5,7 +5,7 @@ function HomePage() {
   return (
     <div className="overflow-x: auto; overflow-y: unset;">
       <Activities />
-      <Projects />
+      {/* <Projects /> */}
     </div>
   );
 }

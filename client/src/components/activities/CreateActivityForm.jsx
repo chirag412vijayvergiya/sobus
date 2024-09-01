@@ -10,7 +10,8 @@ function CreateActivityForm({ onCloseModal }) {
     activityName: '',
     activityStartDate: '',
     activityEndDate: '',
-    activityTime: '10:00 - 10:30',
+    // activityTime: '10:00 - 10:30',
+    // activityItenry: '',
     activityDescription: '',
     activityLocation: '',
     GoogleFormLink: '',
@@ -49,24 +50,6 @@ function CreateActivityForm({ onCloseModal }) {
   function onError(errors) {
     console.log(errors);
   }
-
-  const timeSlots = [
-    '00:30 - 01:00',
-    '10:00 - 10:30',
-    '10:30 - 11:00',
-    '11:00 - 11:30',
-    '11:30 - 12:00',
-    '12:00 - 12:30',
-    '12:30 - 13:00',
-    '13:00 - 13:30',
-    '13:30 - 14:00',
-    '14:00 - 14:30',
-    '14:30 - 15:00',
-    '15:00 - 15:30',
-    '15:30 - 16:00',
-    '16:00 - 16:30',
-    '16:30 - 17:00',
-  ];
 
   let currentDate = new Date();
   currentDate.setDate(currentDate.getDate() + 1);
@@ -139,7 +122,7 @@ function CreateActivityForm({ onCloseModal }) {
           disabled={isBooking}
         />
       </FormRow>
-      <FormRow label="Activity Time" error={errors?.appointmentTime?.message}>
+      {/* <FormRow label="Activity Time" error={errors?.appointmentTime?.message}>
         <select
           className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-grey-0 p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-grey-400"
           id="activityTime"
@@ -155,7 +138,19 @@ function CreateActivityForm({ onCloseModal }) {
             </option>
           ))}
         </select>
-      </FormRow>
+      </FormRow> */}
+      {/* <FormRow
+        label="Activity Itenary"
+        error={errors?.appointmentTime?.message}
+      >
+        <input
+          className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
+          type="file"
+          id="photo"
+          name="photo"
+          accept=".xls,.xlsx"
+        />
+      </FormRow> */}
       <FormRow
         label="Activity Description"
         error={errors?.activityDescription?.message}

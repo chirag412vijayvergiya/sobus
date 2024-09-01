@@ -5,6 +5,7 @@ import { useUpdateUserPassword } from '../components/profile/useUpdateUserPasswo
 import NavItem from '../components/profile/NavItem';
 import Modal from '../ui/Modal';
 import CreateActivityForm from '../components/activities/CreateActivityForm';
+import MakeAdminForm from '../components/profile/MakeAdminForm';
 
 function Profile() {
   const {
@@ -120,6 +121,19 @@ function Profile() {
                   </Modal.Open>
                   <Modal.Window name="BookProject-form">
                     <CreateActivityForm />
+                  </Modal.Window>
+                </Modal>
+                <Modal>
+                  <Modal.Open opens="Make-admin">
+                    <button
+                      // onClick={() => navigate('/book-activity')}
+                      className="ml-[4rem] mt-[2rem] inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400"
+                    >
+                      Make Admin
+                    </button>
+                  </Modal.Open>
+                  <Modal.Window name="Make-admin">
+                    <MakeAdminForm />
                   </Modal.Window>
                 </Modal>
               </ul>

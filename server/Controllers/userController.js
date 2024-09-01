@@ -97,3 +97,30 @@ exports.createUser = (req, res) => {
     message: 'This route is not defined! Please use /signup instead',
   });
 };
+
+exports.makeAdmin = catchAsync(async (req, res, next) => {
+  const currentUser = req.user; // Assuming req.user contains information about the currently logged-in user
+
+  const { emailId } = req.body;
+
+  // Check if the emailId provided is the same as the currently logged-in user's email
+  if (emailId === currentUser.email) {
+    return next(new AppError('You cannot promote yourself to admin.', 403));
+  }
+
+  // Find and update the user's role to 'admin'
+  const user = await User.findOneAndUpdate(
+    { email: emailId }, // Query to find the user
+    { role: 'admin' }, // Update the role
+    { new: true }, // Option to return the updated document
+  );
+
+  if (!user) {
+    return next(new AppError('User not found!', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { user },
+  });
+});

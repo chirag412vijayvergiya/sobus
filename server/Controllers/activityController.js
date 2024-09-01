@@ -55,7 +55,7 @@ const upload = multer({ storage: cloudinaryStorage, fileFilter: multerFilter });
 exports.uploadExcel = upload.single('file');
 exports.saveExcel = catchAsync(async (req, res, next) => {
   const { id } = req.params; // Extract activityId from the request parameters
-  console.log(id);
+  // console.log(id);
   // console.log(req);
   // Check if the file is uploaded
   if (!req.file) {
@@ -88,15 +88,51 @@ exports.saveExcel = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.saveExcelIternary = catchAsync(async (req, res, next) => {
+  const { id } = req.params; // Extract activityId from the request parameters
+  // console.log(id);
+  // console.log(req);
+  // Check if the file is uploaded
+  if (!req.file) {
+    return next(new AppError('Please upload a file', 404));
+  }
+
+  // Get the file path or secure URL
+  const activityItenry = req.file.path || req.file.secure_url; // Depending on the setup
+
+  // Find the activity by the activity ID and update it with the excelLink
+  const activity = await Activity.findByIdAndUpdate(
+    id, // Use activityId to find the specific Activity document
+    { activityItenry }, // Update the document with the file link
+    { new: true, runValidators: true },
+  );
+
+  console.log('Activity Iternary :- ', activity);
+
+  // If the activity is not found, return an error
+  if (!activity) {
+    return next(new AppError('Activity not found', 404));
+  }
+
+  // Send the updated activity back in the response
+  res.status(200).json({
+    status: 'success',
+    data: {
+      activity,
+    },
+  });
+});
+
 exports.createActivity = catchAsync(async (req, res, next) => {
   //   console.log(req.body);
+  // console.log(req.file);
   const {
     data: {
       activityName,
       activityDescription,
       activityStartDate,
       activityEndDate,
-      activityTime,
+      // activityTime,
       activityLocation,
       GoogleFormLink,
     },
@@ -105,12 +141,19 @@ exports.createActivity = catchAsync(async (req, res, next) => {
   const activityStartDateObj = new Date(activityStartDate);
   const activityEndDateObj = new Date(activityEndDate);
 
+  // Handle the itinerary file if uploaded
+  // let activityItenry;
+  // if (req.file) {
+  //   activityItenry = req.file.path || req.file.secure_url;
+  // }
+
   const doc = await Activity.create({
     activityName,
     activityDescription,
     activityStartDate: activityStartDateObj,
     activityEndDate: activityEndDateObj,
-    activityTime,
+    // activityTime,
+    // activityItenry,
     activityLocation,
     GoogleFormLink,
   });

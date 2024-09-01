@@ -1,9 +1,12 @@
 import { IoIosArrowDown } from 'react-icons/io';
+import { HiArrowRightOnRectangle } from 'react-icons/hi2';
 import { FaUser } from 'react-icons/fa6';
 import Menus from '../Menus';
 import { useNavigate } from 'react-router-dom';
+import { useLogout } from '../../components/authentication/useLogout';
 
 function UserAvatar({ name, photo }) {
+  const { isPending, logout } = useLogout();
   const navigate = useNavigate();
   function handleNavigation(route) {
     console.log(route);
@@ -38,6 +41,18 @@ function UserAvatar({ name, photo }) {
             onClick={() => handleNavigation('/account')}
           >
             {name}
+          </Menus.Button>
+          <Menus.Button
+            icon={
+              <HiArrowRightOnRectangle className="h-[1.7rem] w-[1.7rem] stroke-1 text-red-500" />
+            }
+            onClick={() => {
+              if (isPending) return; // Guard against calling logout if already pending
+              logout();
+            }}
+            disabled={isPending} // Disable the button to prevent user interaction
+          >
+            {isPending ? 'Logging out...' : 'Logout'}
           </Menus.Button>
         </Menus.List>
       </Menus>

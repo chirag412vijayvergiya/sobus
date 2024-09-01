@@ -7,9 +7,9 @@ export const routes = [
     href: 'home',
     Icon: GoProjectSymlink,
   },
-  {
-    title: 'Projects',
-    href: 'projects-section',
-    Icon: LuActivity,
-  },
+  // {
+  //   title: 'Projects',
+  //   href: 'projects-section',
+  //   Icon: LuActivity,
+  // },
 ];
