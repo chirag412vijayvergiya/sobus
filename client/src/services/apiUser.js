@@ -55,7 +55,6 @@ export async function MakeAdmin({ emailId }) {
     const response = await customFetch.patch(`/users/make-admin`, {
       emailId,
     });
-
     console.log(response.data);
     return response.data;
   } catch (error) {

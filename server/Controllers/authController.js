@@ -21,7 +21,7 @@ const createSendToken = (user, statusCode, req, res) => {
 
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Set secure attribute based on environment
-    // sameSite: 'None', // Set sameSite attribute
+    sameSite: 'None', // Set sameSite attribute
     // domain: 'localhost', // Set domain to localhost
   };
   // console.log(token);
@@ -214,7 +214,7 @@ exports.logout = (req, res) => {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Set secure attribute based on environment
-    // sameSite: 'None',
+    sameSite: 'None',
   });
   res.status(200).json({ status: 'success' });
 };

@@ -51,7 +51,6 @@ function MakeAdminForm({ onCloseModal }) {
           className="w-[10rem] rounded-md border-[1px] border-solid border-grey-300 bg-grey-0 p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-grey-400"
           type="text"
           id="emailId"
-          //   disabled={isSending}
           {...register('emailId', { required: 'Email is required' })}
         />
       </FormRow>
