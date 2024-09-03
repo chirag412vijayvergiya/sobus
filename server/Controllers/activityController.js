@@ -1,10 +1,13 @@
 const multer = require('multer');
+const { format } = require('date-fns');
 const Activity = require('../models/activityModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handleFactory');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const User = require('../models/userModel');
+const sendEmail = require('../utils/email');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -157,6 +160,28 @@ exports.createActivity = catchAsync(async (req, res, next) => {
     activityLocation,
     GoogleFormLink,
   });
+  const users = await User.find();
+
+  const formattedStartDate = format(
+    new Date(activityStartDateObj),
+    'EEE, MMM dd yyyy',
+  );
+  const formattedEndDate = format(
+    new Date(activityEndDateObj),
+    'EEE, MMM dd yyyy',
+  );
+
+  // Use map to create an array of promises
+  const emailPromises = users.map((user) =>
+    sendEmail({
+      email: user.email, // Assuming the user model has an email field
+      subject: `New Activity: ${activityName}`,
+      message: `Dear ${user.name},\n\nA new activity has been created:\n\nActivity Name: ${activityName}\nDescription: ${activityDescription}\nStart Date: ${formattedStartDate}\nEnd Date: ${formattedEndDate}\nLocation: ${activityLocation}\n\nYou can join the activity by filling out the form here: ${GoogleFormLink}\n\nThe itinerary for this activity can be viewed on our website: [SOBUS Website](https://sobus.vercel.app)\n\nBest regards,\nSOBUS Team`,
+    }),
+  );
+  // Await the resolution of all email promises
+  await Promise.all(emailPromises);
+
   res.status(201).json({
     status: 'success',
     data: {
