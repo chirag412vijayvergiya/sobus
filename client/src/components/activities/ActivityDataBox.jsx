@@ -1,13 +1,24 @@
 import { IoMdCalendar } from 'react-icons/io';
 import { capitalizeFirstLetter } from '../../utils/helpers';
+import { MdEdit } from 'react-icons/md';
 import { format } from 'date-fns';
 import { MdLocationPin } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from '../../ui/Modal';
+import CreateActivityForm from './CreateActivityForm';
+import { useUser } from '../profile/useUser';
 
 function ActivityDataBox({ activity }) {
   const [status, setStatus] = useState('');
   const [timeRemaining, setTimeRemaining] = useState('');
+  const {
+    user: {
+      data: {
+        data: { role },
+      },
+    },
+  } = useUser();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,6 +56,27 @@ function ActivityDataBox({ activity }) {
     <div className="my-[3vh] overflow-hidden rounded-xl border-[1px] border-solid border-grey-200 bg-grey-100 dark:border-slate-800 dark:bg-slate-900">
       <header className="flex flex-col items-center justify-between bg-indigo-500 p-[0.7rem_0.1rem] text-2xl font-medium text-slate-300 md:flex-row md:p-[1rem_2rem]">
         <div className="flex items-center gap-2 text-xl font-semibold md:gap-6 md:text-2xl">
+          {role === 'admin' && (
+            <Modal>
+              <Modal.Open opens="BookActivity-form">
+                <div className="group relative">
+                  <button
+                    className="rounded-full bg-blue-500 p-2 text-white shadow-lg transition duration-300 hover:bg-blue-600"
+                    onClick={() => console.log('Create Activity')}
+                  >
+                    <MdEdit size={14} />
+                  </button>
+                  <span className="absolute left-1/2 -translate-x-1/4 -translate-y-4 transform rounded-lg rounded-bl-none bg-black px-3 py-1 text-xs font-semibold text-white opacity-0 shadow-lg transition duration-300 group-hover:scale-105 group-hover:opacity-100">
+                    Edit
+                  </span>
+                </div>
+              </Modal.Open>
+              <Modal.Window name="BookActivity-form">
+                <CreateActivityForm />
+              </Modal.Window>
+            </Modal>
+          )}
+
           <IoMdCalendar />
           <p>
             <span className="pr-2 text-base uppercase md:pr-4 md:text-lg">

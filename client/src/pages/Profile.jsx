@@ -110,7 +110,7 @@ function Profile() {
                     <CreateActivityForm />
                   </Modal.Window>
                 </Modal>
-                <Modal>
+                {/* <Modal>
                   <Modal.Open opens="BookProject-form">
                     <button
                       // onClick={() => navigate('/book-activity')}
@@ -122,7 +122,7 @@ function Profile() {
                   <Modal.Window name="BookProject-form">
                     <CreateActivityForm />
                   </Modal.Window>
-                </Modal>
+                </Modal> */}
                 <Modal>
                   <Modal.Open opens="Make-admin">
                     <button
