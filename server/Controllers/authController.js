@@ -4,6 +4,7 @@ const { promisify } = require('util');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const sendEmail = require('../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -45,6 +46,13 @@ exports.signup = catchAsync(async (req, res) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+  });
+
+  // Send welcome email to the user
+  await sendEmail({
+    email: newUser.email,
+    subject: 'Welcome to SOBUS!',
+    message: `Dear ${newUser.name},\n\nWelcome to SOBUS! We're excited to have you on board. If you have any questions, feel free to reach out to us.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
   });
 
   createSendToken(newUser, 201, req, res);
@@ -129,17 +137,17 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 
   //2) Generate the random token
-  // const resetToken = user.createPasswordResetToken();
+  const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
   //3)Send it back to user's email
 
-  //const message = `Forgot your password? Submit a patch request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+  const message = `Forgot your password? Use the following Reset Token to reset your password: ${resetToken}\nIf you didn't request a password reset, please ignore this email!`;
   try {
-    // await sendEmail({
-    //   email: user.email,
-    //   subject: 'Your password reset token (valid for 10 min)',
-    //   message,
-    // });
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset token (valid for 10 min)',
+      message,
+    });
 
     res.status(200).json({
       status: 'success',

@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    default: 'default.jpg',
+    default:
+      'https://res.cloudinary.com/dp9qfnorl/image/upload/v1725437211/users/user-66d8121d649b70724a10998d-1725437210037.jpg',
   },
   role: {
     type: String,

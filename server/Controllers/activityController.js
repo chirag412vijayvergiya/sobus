@@ -1,11 +1,12 @@
 const multer = require('multer');
 const { format } = require('date-fns');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
 const Activity = require('../models/activityModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handleFactory');
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const User = require('../models/userModel');
 const sendEmail = require('../utils/email');
 
@@ -75,7 +76,7 @@ exports.saveExcel = catchAsync(async (req, res, next) => {
     { new: true, runValidators: true },
   );
 
-  console.log(activity);
+  // console.log(activity);
 
   // If the activity is not found, return an error
   if (!activity) {
@@ -110,7 +111,7 @@ exports.saveExcelIternary = catchAsync(async (req, res, next) => {
     { new: true, runValidators: true },
   );
 
-  console.log('Activity Iternary :- ', activity);
+  // console.log('Activity Iternary :- ', activity);
 
   // If the activity is not found, return an error
   if (!activity) {
