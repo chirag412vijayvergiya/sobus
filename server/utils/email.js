@@ -11,6 +11,7 @@ const sendEmail = async (options) => {
   });
 
   // 2) Define the email options
+
   const mailOptions = {
     from: `${process.env.SOBUS_EMAIL_ADDRESS}`,
     to: options.email,
@@ -18,6 +19,8 @@ const sendEmail = async (options) => {
     text: options.message,
     // html:
   };
+
+  console.log(mailOptions);
 
   // 3) Actually send the email
   await transporter.sendMail(mailOptions);
