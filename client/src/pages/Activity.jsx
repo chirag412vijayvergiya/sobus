@@ -11,6 +11,7 @@ import { useDeleteActivity } from '../components/activities/useDeleteActivity';
 import ActivitySection from '../components/activities/ActivitySection';
 import { Link } from 'react-router-dom';
 import { useSaveIternaryExcel } from '../components/activities/useSaveIternaryExcel';
+import SpeakerSection from '../components/activities/SpeakerSection';
 
 function Activity() {
   const [columns, setColumns] = useState([]);
@@ -133,9 +134,13 @@ function Activity() {
   return (
     <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-800 md:p-[8rem_6rem]">
       <ActivitySection activity={activity} />
-      <h2 className="mt-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">
-        Activity Itinerary
-      </h2>
+      {/* <SpeakerSection /> */}
+      {(role === 'admin' || ItineraryColumns.length > 0) && (
+        <h2 className="mt-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">
+          Activity Itinerary
+        </h2>
+      )}
+
       {ItineraryColumns.length > 0 && (
         <div className="overflow-x-auto rounded-lg shadow-md">
           <table className="min-w-full border-collapse rounded-lg bg-white dark:border-slate-900 dark:bg-slate-800">
@@ -202,9 +207,12 @@ function Activity() {
         </div>
       )}
 
-      <h2 className="mt-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">
-        Activity Data
-      </h2>
+      {(role === 'admin' || columns.length > 0) && (
+        <h2 className="mt-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">
+          Activity Data
+        </h2>
+      )}
+
       {columns.length > 0 && (
         <div className="overflow-x-auto rounded-lg shadow-md">
           <table className="min-w-full border-collapse rounded-lg bg-white dark:border-slate-900 dark:bg-slate-800">
