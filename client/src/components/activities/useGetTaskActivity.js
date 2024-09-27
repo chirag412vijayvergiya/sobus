@@ -6,14 +6,13 @@ export function useGetTaskActivity() {
   const { activityId } = useParams();
   const {
     data: tasks,
-    isLoading,
+    isPending: isLoading,
     isError,
-    error,
   } = useQuery({
     queryKey: ['tasks', activityId],
     queryFn: () => GetTasksApi(activityId),
     retry: false,
   });
 
-  return { tasks, isLoading, isError, error };
+  return { tasks, isLoading, isError };
 }
