@@ -12,6 +12,8 @@ import ActivitySection from '../components/activities/ActivitySection';
 import { Link } from 'react-router-dom';
 import { useSaveIternaryExcel } from '../components/activities/useSaveIternaryExcel';
 import SpeakerSection from '../components/activities/SpeakerSection';
+import CreateActivityForm from '../components/activities/CreateActivityForm';
+import CreateTaskForm from '../components/activities/CreateTaskForm';
 
 function Activity() {
   const [columns, setColumns] = useState([]);
@@ -134,6 +136,20 @@ function Activity() {
   return (
     <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-800 md:p-[8rem_6rem]">
       <ActivitySection activity={activity} />
+      {
+        <Modal>
+          <Modal.Open opens="BookActivity-form">
+            <div className="flex items-center justify-center">
+              <button className="inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400">
+                Assign Task
+              </button>
+            </div>
+          </Modal.Open>
+          <Modal.Window name="BookActivity-form">
+            <CreateTaskForm />
+          </Modal.Window>
+        </Modal>
+      }
       {/* <SpeakerSection /> */}
       {(role === 'admin' || ItineraryColumns.length > 0) && (
         <h2 className="mt-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">

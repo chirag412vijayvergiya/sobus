@@ -82,3 +82,29 @@ exports.updateTask = catchAsync(async (req, res, next) => {
     data: task,
   });
 });
+
+exports.deleteTask = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const task = await Task.findByIdAndDelete(id);
+
+  if (!task) {
+    return next(new Error('Task with this ID does not exist'));
+  }
+
+  res.status(204).json({
+    success: true,
+    data: null,
+  });
+});
+
+exports.getMyTasks = catchAsync(async (req, res, next) => {
+  const tasks = await Task.find({ assignee: req.user.id });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tasks,
+    },
+  });
+});
