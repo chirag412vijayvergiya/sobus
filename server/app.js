@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const cors = require('cors');
 const GlobalErrorHandler = require('./Controllers/errorController');
 const userRouter = require('./Routes/userRoute');
+const taskRouter = require('./Routes/taskRoute');
 const acitivityRouter = require('./Routes/activityRoute');
 const AppError = require('./utils/AppError');
 
@@ -50,6 +51,7 @@ app.use(xss());
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/activity', acitivityRouter);
+app.use('/api/v1/tasks', taskRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
