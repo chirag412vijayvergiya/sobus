@@ -30,6 +30,15 @@ function Activity() {
     },
   } = useUser();
 
+  // const defaultTaskValues = {
+  //   email: 'chirag4vv@gmail.com',
+  //   task: 'Complete documentation',
+  //   status: 'pending',
+  //   deadline: new Date('2024-11-03T10:30:00.000+00:00')
+  //     .toISOString()
+  //     .split('T')[0],
+  // };
+
   const { isPending, activity } = useGetActivity();
   const { CreateExcel, isBooking } = useSaveExcel();
   const { isCreating, CreateIternaryExcel } = useSaveIternaryExcel();
@@ -146,7 +155,10 @@ function Activity() {
             </div>
           </Modal.Open>
           <Modal.Window name="BookActivity-form">
-            <CreateTaskForm />
+            <CreateTaskForm
+            // TaskId="66f64c147cae860fff259bf5"
+            // defaultTaskValues={defaultTaskValues}
+            />
           </Modal.Window>
         </Modal>
       }

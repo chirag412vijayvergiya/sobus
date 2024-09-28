@@ -40,6 +40,8 @@ export default {
         },
       },
       colors: {
+        lightBackground: 'rgba(254, 255, 254, 0.98)', // Custom light background
+        darkBackground: 'rgba(15, 23, 42, 0.88)', // Custom dark background
         // Grey
         'grey-0': '#fff',
         'grey-50': '#f9fafb',

@@ -75,7 +75,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req.headers);
+  // console.log(req.headers);
   let token;
   if (
     req.headers.authorization &&
@@ -179,7 +179,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
   });
-  console.log(user);
+  // console.log(user);
   //2)If token has not expired, and there is user, set the new passowrd
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
@@ -198,7 +198,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   //1)Get user from collection
   const user = await User.findById(req.user.id).select('+password');
   //2)Check if posted current password is correct
@@ -217,7 +217,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 });
 
 exports.logout = (req, res) => {
-  console.log('Logging out...');
+  // console.log('Logging out...');
   res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,

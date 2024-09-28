@@ -8,7 +8,7 @@ function FormRow({ label, error, children, icon }) {
             {/* <AiOutlineCalendar className="mr-2 text-2xl text-green-500" /> */}
             <label
               htmlFor={children.props.id}
-              className="font-sans text-sm font-medium tracking-widest text-stone-900 dark:text-grey-100 md:text-base"
+              className="font-sans text-sm font-semibold tracking-widest text-stone-900 dark:text-grey-100 md:text-base"
             >
               {label}
             </label>

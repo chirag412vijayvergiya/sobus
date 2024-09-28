@@ -32,12 +32,12 @@ function CreateActivityForm({ onCloseModal }) {
         },
         {
           onSuccess: () => {
-            console.log('Activity created successfully.');
+            console.log('Task created successfully.');
             reset();
             onCloseModal?.();
           },
           onError: (err) => {
-            console.error('Error creating activity:', err);
+            console.error('Error creating Task:', err);
             onCloseModal?.();
           },
         },

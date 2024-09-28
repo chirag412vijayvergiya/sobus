@@ -6,12 +6,18 @@ import { FaTasks } from 'react-icons/fa';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { MdEmail } from 'react-icons/md';
 import { useCreateTask } from './useCreateTask';
+import { useUpdateTask } from './useUpdateTask';
 
-function CreateTaskForm({ onCloseModal }) {
+function CreateTaskForm({ onCloseModal, TaskId, defaultTaskValues }) {
   const { createTask, isAssigning } = useCreateTask();
+  const { updateTask, isUpdating } = useUpdateTask();
+
+  const isWorking = isAssigning || isUpdating;
+  const isEditSession = Boolean(TaskId);
+
   const { register, handleSubmit, reset, formState, watch } = useForm({
     mode: 'onChange',
-    defaultValues: {
+    defaultValues: defaultTaskValues || {
       email: '',
       task: '',
       status: 'Not Started',
@@ -21,22 +27,55 @@ function CreateTaskForm({ onCloseModal }) {
   const { errors } = formState;
 
   async function onSubmit(data) {
-    console.log(data);
-    // Handle task assignment here (e.g., send data to API)
-    reset();
-    onCloseModal?.();
+    const { task, deadline, status } = data;
+    if (isEditSession) {
+      console.log('TaskId:', TaskId);
+      updateTask(
+        { status, deadline, task, taskId: TaskId },
+        {
+          onSuccess: () => {
+            console.log('Task updated successfully.');
+            reset();
+            onCloseModal?.();
+          },
+          onError: (err) => {
+            console.error('Error updating task:', err);
+            onCloseModal?.();
+          },
+        },
+      );
+    } else {
+      // Create Task
+      createTask(
+        { data },
+        {
+          onSuccess: () => {
+            console.log('Task created successfully.');
+            reset();
+            onCloseModal?.();
+          },
+          onError: (err) => {
+            console.error('Error creating task:', err);
+            onCloseModal?.();
+          },
+        },
+      );
+    }
   }
 
-  function onError(errors) {
-    console.log(errors);
-  }
   return (
     <form
-      className="relative flex w-[290px] flex-col overflow-hidden rounded-lg border-[1px] border-solid border-grey-100 bg-green-100 p-[1rem_2rem] text-xl dark:border-slate-800 dark:bg-slate-900 md:w-[450px] md:p-[1rem_2rem]"
+      className="relative flex w-[290px] flex-col overflow-hidden rounded-lg border-[1px] border-solid border-grey-100 bg-grey-100 bg-cover bg-center p-[1rem_2rem] text-xl dark:border-slate-800 dark:bg-slate-950 dark:bg-opacity-80 dark:bg-blend-overlay md:w-[450px] md:p-[1rem_2rem]"
+      style={{
+        backgroundImage: `url('/28518.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundBlendMode: 'overlay',
+      }}
       onSubmit={handleSubmit(onSubmit)}
     >
       <h5 className="mx-1 items-center text-base font-semibold tracking-wider text-grey-800 dark:text-grey-100 md:mx-auto md:mb-3 md:text-xl">
-        Assign Task
+        {TaskId ? 'Update Task' : 'Assign Task'}
       </h5>
 
       <FormRow
@@ -54,6 +93,7 @@ function CreateTaskForm({ onCloseModal }) {
               message: 'Please enter a valid email address',
             },
           })}
+          disabled={TaskId ? true : false}
         />
       </FormRow>
 
@@ -101,17 +141,14 @@ function CreateTaskForm({ onCloseModal }) {
 
       <div className="m-auto flex items-center justify-center gap-9 p-[1rem_0]">
         <Button
-          type="reset"
+          type="danger"
           onClick={() => onCloseModal?.()}
-          //   disabled={isBooking}
+          disabled={isWorking}
         >
           Back
         </Button>
-        <Button
-          type="update"
-          // disabled={isBooking}
-        >
-          Assign Task
+        <Button type="update" disabled={isWorking}>
+          {TaskId ? 'Update Task' : 'Assign Task'}
         </Button>
       </div>
     </form>

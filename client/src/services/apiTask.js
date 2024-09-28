@@ -14,7 +14,7 @@ export async function GetTasks(activityId) {
 export async function CreateTask({ data, activityId }) {
   try {
     const response = await customFetch.post(
-      `/task/task-assign/${activityId}`,
+      `/tasks/task-assign/${activityId}`,
       data,
     );
     return response.data.data;
@@ -24,12 +24,14 @@ export async function CreateTask({ data, activityId }) {
 }
 
 // For the admin to update any task
-export async function UpdateTask({ data, taskId }) {
+export async function UpdateTask({ task, deadline, status, taskId }) {
   try {
-    const response = await customFetch.patch(
-      `/task/updateTask/${taskId}`,
-      data,
-    );
+    console.log(task, deadline, status, taskId);
+    const response = await customFetch.patch(`/tasks/${taskId}`, {
+      task,
+      deadline,
+      status,
+    });
     return response.data.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -39,7 +41,7 @@ export async function UpdateTask({ data, taskId }) {
 // For the admin to delete any task
 export async function DeleteTask({ taskId }) {
   try {
-    const response = await customFetch.delete(`/task/deleteTask/${taskId}`);
+    const response = await customFetch.delete(`/tasks/deleteTask/${taskId}`);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
