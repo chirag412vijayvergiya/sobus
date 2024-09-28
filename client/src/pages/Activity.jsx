@@ -145,7 +145,7 @@ function Activity() {
   return (
     <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-800 md:p-[8rem_6rem]">
       <ActivitySection activity={activity} />
-      {
+      {role === 'admin' && (
         <Modal>
           <Modal.Open opens="BookActivity-form">
             <div className="flex items-center justify-center">
@@ -161,7 +161,7 @@ function Activity() {
             />
           </Modal.Window>
         </Modal>
-      }
+      )}
       {/* <SpeakerSection /> */}
       {(role === 'admin' || ItineraryColumns.length > 0) && (
         <h2 className="mt-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">
