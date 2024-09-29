@@ -14,6 +14,7 @@ import { useSaveIternaryExcel } from '../components/activities/useSaveIternaryEx
 import SpeakerSection from '../components/activities/SpeakerSection';
 import CreateActivityForm from '../components/activities/CreateActivityForm';
 import CreateTaskForm from '../components/activities/CreateTaskForm';
+import TaskTable from '../components/activities/TaskTable';
 
 function Activity() {
   const [columns, setColumns] = useState([]);
@@ -29,15 +30,6 @@ function Activity() {
       },
     },
   } = useUser();
-
-  // const defaultTaskValues = {
-  //   email: 'chirag4vv@gmail.com',
-  //   task: 'Complete documentation',
-  //   status: 'pending',
-  //   deadline: new Date('2024-11-03T10:30:00.000+00:00')
-  //     .toISOString()
-  //     .split('T')[0],
-  // };
 
   const { isPending, activity } = useGetActivity();
   const { CreateExcel, isBooking } = useSaveExcel();
@@ -146,21 +138,22 @@ function Activity() {
     <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-800 md:p-[8rem_6rem]">
       <ActivitySection activity={activity} />
       {role === 'admin' && (
-        <Modal>
-          <Modal.Open opens="BookActivity-form">
-            <div className="flex items-center justify-center">
-              <button className="inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400">
-                Assign Task
-              </button>
-            </div>
-          </Modal.Open>
-          <Modal.Window name="BookActivity-form">
-            <CreateTaskForm
-            // TaskId="66f64c147cae860fff259bf5"
-            // defaultTaskValues={defaultTaskValues}
-            />
-          </Modal.Window>
-        </Modal>
+        <>
+          <Modal>
+            <Modal.Open opens="BookActivity-form">
+              <div className="flex items-center justify-center">
+                <button className="inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400">
+                  Assign Task
+                </button>
+              </div>
+            </Modal.Open>
+            <Modal.Window name="BookActivity-form">
+              <CreateTaskForm />
+            </Modal.Window>
+          </Modal>
+
+          <TaskTable />
+        </>
       )}
       {/* <SpeakerSection /> */}
       {(role === 'admin' || ItineraryColumns.length > 0) && (

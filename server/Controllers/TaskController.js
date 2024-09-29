@@ -38,7 +38,7 @@ exports.createTask = catchAsync(async (req, res, next) => {
 
   // Format the task end date for the email
   const formattedEndDate = new Date(
-    req.body.data.taskEndDate,
+    req.body.data.deadline,
   ).toLocaleDateString();
 
   // Prepare the email message, including the Activity Name
