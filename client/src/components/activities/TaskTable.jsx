@@ -51,8 +51,7 @@ function TaskTable() {
               ))}
             </tbody>
           </table>
-          <TaskTableFooter count={count} />
-          {/* <AppointmentTableFooter count={count} /> */}
+          {/* <TaskTableFooter count={count} /> */}
         </div>
       </div>
     </Menus>

@@ -157,7 +157,7 @@ function Activity() {
       )}
       {/* <SpeakerSection /> */}
       {(role === 'admin' || ItineraryColumns.length > 0) && (
-        <h2 className="mt-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">
+        <h2 className="my-4 text-center text-lg font-semibold text-green-500 dark:text-green-400 md:text-xl">
           Activity Itinerary
         </h2>
       )}
@@ -209,7 +209,7 @@ function Activity() {
         </div>
       )}
       {role === 'admin' && (
-        <div className="mt-4 flex flex-col items-center justify-between md:flex-row">
+        <div className="my-4 flex flex-col items-center justify-between md:flex-row">
           {/* File Input and Save Button - Right Side */}
           <div className="flex items-center">
             <input

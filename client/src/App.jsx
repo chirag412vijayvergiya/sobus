@@ -11,6 +11,7 @@ import ProtectedRoute from './ui/ProtectedRoute';
 import AppLayout from './ui/AppLayout';
 import Activity from './pages/Activity';
 import Project from './pages/Project';
+import Mytasks from './pages/Mytasks';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +39,7 @@ function App() {
               <Route path="account" element={<Profile />} />
               <Route path="activities/:activityId" element={<Activity />} />
               <Route path="projects/:projectId" element={<Project />} />
+              <Route path="my-tasks" element={<Mytasks />} />
             </Route>
             <Route index element={<Navigate replace to="home" />} />
             <Route path="login" element={<Login />} />

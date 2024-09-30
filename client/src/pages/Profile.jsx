@@ -6,6 +6,7 @@ import NavItem from '../components/profile/NavItem';
 import Modal from '../ui/Modal';
 import CreateActivityForm from '../components/activities/CreateActivityForm';
 import MakeAdminForm from '../components/profile/MakeAdminForm';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
   const {
@@ -24,6 +25,7 @@ function Profile() {
   const [curPassword, setCurPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [ConfPassword, setConfPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -83,11 +85,18 @@ function Profile() {
       <div className="bg-gray-0 mx-auto min-h-screen max-w-[110rem] overflow-hidden rounded-[3px] shadow-[0_2.5rem_8rem_2rem_rgba(0,0,0,0.07)] dark:bg-slate-700 md:flex">
         <nav className="user-view__menu">
           <ul className="side-nav">
+            {/* <h5 className="admin-nav__heading">User</h5> */}
             {/* {navItem('#', 'Settings', 'settings', true)}
             {navItem('/my-tours', 'My bookings', 'briefcase')}
             {navItem('/my-reviews', 'My reviews', 'star')}
             {navItem('#', 'Billing', 'credit-card')}
             {navItem('/my-favourites', 'My Favourites', 'heart')} */}
+            <button
+              onClick={() => navigate('/my-tasks')}
+              className="ml-[4rem] inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400"
+            >
+              Get Assigned Tasks
+            </button>
           </ul>
           {role === 'admin' && (
             <div className="admin-nav">
