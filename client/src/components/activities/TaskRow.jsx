@@ -3,10 +3,14 @@ import Menus from '../../ui/Menus';
 import Modal from '../../ui/Modal';
 import { formatDate } from '../../utils/helpers';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { IoTrashOutline } from 'react-icons/io5';
 import { CiEdit } from 'react-icons/ci';
 import CreateTaskForm from './CreateTaskForm';
+import ConfirmDelete from '../../ui/ConfirmDelete';
+import { useDeleteTask } from './useDeleteTask';
 
 function TaskRow({ index, elements }) {
+  const { isDeleting, deleteTask } = useDeleteTask();
   const getStatusClass = (status) => {
     switch (status) {
       case 'completed':
@@ -55,7 +59,7 @@ function TaskRow({ index, elements }) {
       <td className="whitespace-nowrap px-6 py-2">
         <Modal>
           <Modal.Open opens="editTask-form">
-            <button className="outline-2px h-9 w-9 cursor-pointer rounded border-none bg-transparent p-2.5 transition duration-200 ease-in-out hover:bg-gray-300 dark:hover:bg-slate-900">
+            <button className="outline-2px mr-2 h-9 w-9 cursor-pointer rounded border-none bg-green-400 p-2.5 transition duration-200 ease-in-out hover:bg-green-800">
               <CiEdit className="h-full w-full text-gray-700 hover:text-black dark:text-white dark:hover:text-green-400" />
             </button>
           </Modal.Open>
@@ -63,6 +67,24 @@ function TaskRow({ index, elements }) {
             <CreateTaskForm
               TaskId={elements._id}
               defaultTaskValues={defaultTaskValues}
+            />
+          </Modal.Window>
+        </Modal>
+        <Modal>
+          <Modal.Open opens="delete">
+            <button className="outline-2px h-9 w-9 cursor-pointer rounded border-none bg-red-400 p-2.5 transition duration-200 ease-in-out hover:bg-red-800">
+              <IoTrashOutline className="h-full w-full text-gray-700 hover:text-black dark:text-white dark:hover:text-green-400" />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            {/* <ConfirmDelete
+              TaskId={elements._id}
+              defaultTaskValues={defaultTaskValues}
+            /> */}
+            <ConfirmDelete
+              resourceName="Task"
+              disabled={isDeleting}
+              onConfirm={() => deleteTask(elements._id)}
             />
           </Modal.Window>
         </Modal>

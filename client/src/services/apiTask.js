@@ -39,9 +39,9 @@ export async function UpdateTask({ task, deadline, status, taskId }) {
 }
 
 // For the admin to delete any task
-export async function DeleteTask({ taskId }) {
+export async function DeleteTask(taskId) {
   try {
-    const response = await customFetch.delete(`/tasks/deleteTask/${taskId}`);
+    const response = await customFetch.delete(`/tasks/${taskId}`);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
