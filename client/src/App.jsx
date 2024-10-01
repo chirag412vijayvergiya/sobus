@@ -12,6 +12,7 @@ import AppLayout from './ui/AppLayout';
 import Activity from './pages/Activity';
 import Project from './pages/Project';
 import Mytasks from './pages/Mytasks';
+import Team from './pages/Team';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,7 @@ function App() {
             </Route>
             <Route index element={<Navigate replace to="home" />} />
             <Route path="login" element={<Login />} />
+            <Route path="team" element={<Team />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
