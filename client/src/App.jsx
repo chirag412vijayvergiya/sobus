@@ -13,6 +13,7 @@ import Activity from './pages/Activity';
 import Project from './pages/Project';
 import Mytasks from './pages/Mytasks';
 import Team from './pages/Team';
+import Footer from './ui/Footer/Footer';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,6 +48,7 @@ function App() {
             <Route path="team" element={<Team />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
+          <Footer />
         </BrowserRouter>
         <Toaster
           position="top-center"

@@ -16,12 +16,38 @@ export default {
       aspectRatio: {
         1: '1',
       },
+      backgroundSize: {
+        custom: '1000px 100px',
+      },
+      translate: {
+        '-10': '-10px',
+      },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
         bounce: 'bounce 15s infinite',
         ping: 'ping 5s cubic-bezier(0, 0, 0.2, 1) infinite',
+        wave: 'animateWave 4s linear infinite',
+        wave2: 'animateWave2 4s linear infinite',
+        wave3: 'animateWave3 3s linear infinite',
+        wave4: 'animateWave4 3s linear infinite',
       },
       keyframes: {
+        animateWave: {
+          '0%': { 'background-position-x': '1000px' },
+          '100%': { 'background-position-x': '0px' },
+        },
+        animateWave2: {
+          '0%': { 'background-position-x': '0px' },
+          '100%': { 'background-position-x': '1000px' },
+        },
+        animateWave3: {
+          '0%': { 'background-position-x': '1000px' },
+          '100%': { 'background-position-x': '0px' },
+        },
+        animateWave4: {
+          '0%': { 'background-position-x': '0px' },
+          '100%': { 'background-position-x': '1000px' },
+        },
         bounce: {
           '0%, 100%': {
             transform: 'translateX(-4%)',

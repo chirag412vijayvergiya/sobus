@@ -539,3 +539,63 @@
   padding: 0.5rem 1rem !important;
   font-size: 0.9rem !important;
 }
+
+@layer utilities {
+  @keyframes scroll {
+    0% {
+      transform: translateX(-8000px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .scroll-animation {
+    animation: scroll 1.75s ease-in-out;
+  }
+}
+
+@layer utilities {
+  @keyframes scroll2 {
+    0% {
+      transform: translateX(7000px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .scroll2-animation {
+    animation: scroll2 3s ease-in-out;
+  }
+}
+
+@layer utilities {
+  @keyframes scroll3 {
+    0% {
+      transform: translateX(900px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .scroll3-animation {
+    animation: scroll3 1s ease-in-out;
+  }
+}
+
+@layer utilities {
+  @keyframes scroll4 {
+    0% {
+      transform: translateX(-6000px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .scroll4-animation {
+    animation: scroll4 2.5s ease-in-out;
+  }
+}

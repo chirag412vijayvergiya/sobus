@@ -14,12 +14,12 @@ function Team() {
         <Tab onClick={() => setState(year_3)} state={state} year={year_3}>
           {year_3}
         </Tab>
-        <Tab onClick={() => setState(year_2)} state={state} year={year_2}>
+        {/* <Tab onClick={() => setState(year_2)} state={state} year={year_2}>
           {year_2}
         </Tab>
         <Tab onClick={() => setState(year_1)} state={state} year={year_1}>
           {year_1}
-        </Tab>
+        </Tab> */}
       </TwoTabs>
 
       {/* Contents for each year */}

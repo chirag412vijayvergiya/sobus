@@ -3,7 +3,7 @@ import Projects from '../ui/Homepage/Projects';
 
 function HomePage() {
   return (
-    <div className="overflow-x: auto; overflow-y: unset;">
+    <div className="min-h-screen overflow-x-auto overflow-y-hidden">
       <Activities />
       {/* <Projects /> */}
     </div>
