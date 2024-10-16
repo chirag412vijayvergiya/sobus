@@ -11,6 +11,17 @@ function LoginSignup() {
     setLogin((prevState) => !prevState);
   };
 
+  const login = () => {
+    window.open(
+      'http://localhost:8000/api/v1/users/auth/google/callback',
+      '_self',
+    );
+    // window.open(
+    //   `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/v1/users/auth/google`,
+    //   '_self',
+    // );
+  };
+
   return (
     <div className="flex max-w-lg flex-col items-start gap-5 rounded-lg border-t-[5px] border-indigo-900 bg-gradient-to-b from-slate-900 to-grey-800 px-10 py-2 shadow-md">
       <div className="mb-1 flex flex-col items-center">
@@ -45,7 +56,7 @@ function LoginSignup() {
         </svg>
         <span
           className="font-mono tracking-wider text-grey-100"
-          // onClick={login}
+          onClick={login}
         >
           Continue with Google
         </span>

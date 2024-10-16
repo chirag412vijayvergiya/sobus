@@ -11,6 +11,8 @@ const userRouter = require('./Routes/userRoute');
 const taskRouter = require('./Routes/taskRoute');
 const acitivityRouter = require('./Routes/activityRoute');
 const AppError = require('./utils/AppError');
+const passport = require('passport');
+require('./utils/passport');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -46,6 +48,10 @@ app.use('/api', limiter);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: false }));
+
+// Passport initialization
+app.use(passport.initialize());
+
 app.use(mongoSanitize());
 app.use(xss());
 

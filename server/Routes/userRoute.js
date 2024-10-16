@@ -1,8 +1,36 @@
 const express = require('express');
 const userController = require('../Controllers/userController');
 const authController = require('../Controllers/authController');
+const passport = require('passport');
+const { createSendToken } = require('../utils/jwt');
 
 const router = express.Router();
+
+router.get(
+  '/auth/google',
+  passport.authenticate('google-auth', {
+    scope: ['profile', 'email'],
+    prompt: 'select_account',
+  }),
+);
+
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google-auth', {
+    session: false,
+    failureRedirect: `${process.env.CLIENT_URL}/login`,
+  }),
+  (req, res) => {
+    // Generate token and send as a cookie
+    // console.log('Authenticated Patient:', req.user);
+    // createSendToken(req.user.user, 200, res);
+    // console.log('Authenticated Patient:', req);
+    const { user } = req.user;
+    createSendToken(user, 200, res);
+    res.redirect(`${process.env.CLIENT_URL}/home`);
+  },
+);
+
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.post('/logout', authController.logout);
