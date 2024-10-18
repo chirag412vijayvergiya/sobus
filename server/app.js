@@ -6,12 +6,12 @@ const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
+const passport = require('passport');
 const GlobalErrorHandler = require('./Controllers/errorController');
 const userRouter = require('./Routes/userRoute');
 const taskRouter = require('./Routes/taskRoute');
 const acitivityRouter = require('./Routes/activityRoute');
 const AppError = require('./utils/AppError');
-const passport = require('passport');
 require('./utils/passport');
 
 const app = express();
