@@ -1,9 +1,133 @@
+// const crypto = require('crypto');
+// const mongoose = require('mongoose');
+// const validator = require('validator');
+// const bcrypt = require('bcryptjs');
+
+// const userSchema = new mongoose.Schema({
+//   googleId: String,
+//   name: {
+//     type: String,
+//     required: [true, 'Please tell us your name!'],
+//   },
+//   email: {
+//     type: String,
+//     required: [true, 'Please provide your email'],
+//     unique: true,
+//     lowercase: true,
+//     validate: [validator.isEmail, 'Please provide your email'],
+//   },
+//   photo: {
+//     type: String,
+//     default:
+//       'https://res.cloudinary.com/dp9qfnorl/image/upload/v1725437211/users/user-66d8121d649b70724a10998d-1725437210037.jpg',
+//   },
+//   role: {
+//     type: String,
+//     enum: ['user', 'admin'],
+//     default: 'user',
+//   },
+//   password: {
+//     type: String,
+//     required: [true, 'Please provide a password'],
+//     minlength: 8,
+//     select: false,
+//   },
+//   passwordConfirm: {
+//     type: String,
+//     required: [true, 'Please confirm your password'],
+//     minlength: 8,
+//     validate: {
+//       //This only works on create and save!!
+//       validator: function (el) {
+//         return el === this.password;
+//       },
+//       message: 'Passwords are not the same!',
+//     },
+//   },
+//   passwordChangedAt: Date,
+//   passwordResetToken: String,
+//   passwordResetExpires: Date,
+//   active: {
+//     type: Boolean,
+//     default: true,
+//     select: false,
+//   },
+// });
+
+// //This middleware will work between the getting the data and saving the data
+// userSchema.pre('save', async function (next) {
+//   //only run when this password is modified
+//   if (!this.isModified('password')) return next();
+
+//   this.password = await bcrypt.hash(this.password, 12); //encrypt(HASH) the password at cost 12
+//   //After validation successful we no longer need the passwordConfirm
+//   this.passwordConfirm = undefined;
+//   next();
+// });
+
+// userSchema.pre('save', function (next) {
+//   if (!this.isModified('password') || this.isNew) return next();
+
+//   this.passwordChangedAt = Date.now() - 1000;
+//   next();
+// });
+
+// userSchema.pre(/^find/, function (next) {
+//   this.find({ active: { $ne: false } });
+//   next();
+// });
+
+// userSchema.methods.correctPassword = async function (
+//   candidatePassword,
+//   userPassword,
+// ) {
+//   return await bcrypt.compare(candidatePassword, userPassword); //return true or false value
+// };
+
+// userSchema.methods.changedPasswordAfter = async function (JWTTimestamp) {
+//   if (this.passwordChangedAt) {
+//     const changedTimestamp = parseInt(
+//       this.passwordChangedAt.getTime() / 1000,
+//       10,
+//     );
+
+//     return JWTTimestamp < changedTimestamp;
+//   }
+
+//   return false;
+// };
+
+// userSchema.methods.createPasswordResetToken = function () {
+//   const resetToken = crypto.randomBytes(32).toString('hex');
+
+//   this.passwordResetToken = crypto
+//     .createHash('sha256')
+//     .update(resetToken)
+//     .digest('hex');
+
+//   this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 * seconds * 1000 for miliseconds
+
+//   return resetToken;
+// };
+
+// // If user logs in with Google, password is not required
+// userSchema.methods.isGoogleUser = function () {
+//   return !!this.googleId;
+// };
+
+// const User = mongoose.model('User', userSchema);
+
+// module.exports = User;
+
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+  googleId: {
+    type: String,
+  },
   name: {
     type: String,
     required: [true, 'Please tell us your name!'],
@@ -13,7 +137,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please provide your email'],
+    validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
     type: String,
@@ -27,20 +151,25 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
+    required: function () {
+      // Only require password if not a Google user
+      return !this.googleId;
+    },
     minlength: 8,
     select: false,
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'Please confirm your password'],
-    minlength: 8,
+    required: function () {
+      // Only require passwordConfirm if not a Google user
+      return !this.googleId;
+    },
     validate: {
-      //This only works on create and save!!
+      // This only works on 'save' and 'create'
       validator: function (el) {
         return el === this.password;
       },
-      message: 'Passwords are not the same!',
+      message: 'Passwords do not match!',
     },
   },
   passwordChangedAt: Date,
@@ -53,17 +182,20 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-//This middleware will work between the getting the data and saving the data
+// Middleware to hash password if it's changed
 userSchema.pre('save', async function (next) {
-  //only run when this password is modified
-  if (!this.isModified('password')) return next();
+  // Skip if password is not modified or if it's a Google sign-in
+  if (!this.isModified('password') || this.googleId) return next();
 
-  this.password = await bcrypt.hash(this.password, 12); //encrypt(HASH) the password at cost 12
-  //After validation successful we no longer need the passwordConfirm
+  // Hash the password
+  this.password = await bcrypt.hash(this.password, 12);
+
+  // No need to store the passwordConfirm field in the database
   this.passwordConfirm = undefined;
   next();
 });
 
+// Middleware to set passwordChangedAt field
 userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
 
@@ -71,31 +203,34 @@ userSchema.pre('save', function (next) {
   next();
 });
 
+// Exclude inactive users from query results
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
 
+// Method to check if passwords match
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword,
 ) {
-  return await bcrypt.compare(candidatePassword, userPassword); //return true or false value
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = async function (JWTTimestamp) {
+// Method to check if the password was changed after JWT was issued
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
       10,
     );
-
     return JWTTimestamp < changedTimestamp;
   }
 
   return false;
 };
 
+// Create and hash a password reset token
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -104,10 +239,16 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 * seconds * 1000 for miliseconds
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // Token valid for 10 minutes
 
   return resetToken;
 };
+
+// Method to check if user signed up with Google
+userSchema.methods.isGoogleUser = function () {
+  return !!this.googleId;
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
