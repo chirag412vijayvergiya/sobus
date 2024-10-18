@@ -12,14 +12,14 @@ function LoginSignup() {
   };
 
   const login = () => {
-    window.open(
-      'http://localhost:8000/api/v1/users/auth/google/callback',
-      '_self',
-    );
     // window.open(
-    //   `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/v1/users/auth/google`,
+    //   'http://localhost:8000/api/v1/users/auth/google/callback',
     //   '_self',
     // );
+    window.open(
+      `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/v1/users/auth/google`,
+      '_self',
+    );
   };
 
   return (
