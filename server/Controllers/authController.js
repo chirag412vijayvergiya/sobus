@@ -12,7 +12,7 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, req, res) => {
+const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookiesOptions = {
     expires: new Date(
@@ -84,6 +84,8 @@ exports.login = catchAsync(async (req, res, next) => {
   // Find user by email
   const user = await User.findOne({ email }).select('+password');
 
+  // console.log(user);
+
   if (!user) {
     return next(new AppError('User not found', 404));
   }
@@ -97,12 +99,11 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }
-
-  createSendToken(user, 200, req, res);
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req);
+  // console.log(req);
   let token;
   if (
     req.headers.authorization &&
@@ -133,14 +134,14 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  if (!currentUser.changedPasswordAfter(decoded.iat)) {
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
       new AppError('User recently changed password!, Please login again!', 401),
     );
   }
 
   req.user = currentUser;
-  res.locals.user = currentUser;
+  // res.locals.user = currentUser;
   next();
 });
 
