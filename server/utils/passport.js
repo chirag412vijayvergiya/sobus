@@ -133,13 +133,25 @@ passport.use(
             await user.save();
 
             // Asynchronously send the email after creating the user
-            sendEmail({
-              email: user.email,
-              subject: 'Welcome to SOBUS!',
-              message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
-            }).catch((err) =>
-              console.error('Error sending welcome email:', err),
-            );
+            // sendEmail({
+            //   email: user.email,
+            //   subject: 'Welcome to SOBUS!',
+            //   message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
+            // }).catch((err) =>
+            //   console.error('Error sending welcome email:', err),
+            // );
+
+            // sendEmail({
+            //   email: user.email,
+            //   subject: 'Welcome to SOBUS!',
+            //   message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
+            // })
+            //   .then(() => {
+            //     console.log('Welcome email sent successfully');
+            //   })
+            //   .catch((err) => {
+            //     console.error('Error sending welcome email:', err);
+            //   });
           }
         }
 
