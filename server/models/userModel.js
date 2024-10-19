@@ -219,6 +219,10 @@ userSchema.methods.correctPassword = async function (
 
 // Method to check if the password was changed after JWT was issued
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (!this.password && this.googleId) {
+    return false; // Assume no password change for Google OAuth users
+  }
+
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
