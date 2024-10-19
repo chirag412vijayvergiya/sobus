@@ -104,6 +104,69 @@ const sendEmail = require('./email'); // Assuming you have an email utility func
 //   ),
 // );
 
+// passport.use(
+//   'google-auth',
+//   new OAuth2Strategy(
+//     {
+//       clientID: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       callbackURL: `${process.env.SERVER_URL}/api/v1/users/auth/google/callback`,
+//       scope: ['profile', 'email'],
+//       prompt: 'select_account',
+//     },
+//     async (accessToken, refreshToken, profile, done) => {
+//       try {
+//         let user = await User.findOne({ googleId: profile.id });
+//         if (!user) {
+//           user = await User.findOne({ email: profile.emails[0].value });
+//           if (user) {
+//             console.log('Hello :- ', user);
+//             user.googleId = profile.id;
+//             user.photo = profile.photos[0]?.value || user.photo;
+//           } else {
+//             user = new User({
+//               googleId: profile.id,
+//               name: profile.displayName,
+//               email: profile.emails[0].value,
+//               photo: profile.photos[0]?.value || undefined,
+//               role: 'user',
+//             });
+
+//             console.log('Hii :- ', user);
+//             await user.save();
+
+//             // Asynchronously send the email after creating the user
+//             // sendEmail({
+//             //   email: user.email,
+//             //   subject: 'Welcome to SOBUS!',
+//             //   message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
+//             // }).catch((err) =>
+//             //   console.error('Error sending welcome email:', err),
+//             // );
+
+//             // sendEmail({
+//             //   email: user.email,
+//             //   subject: 'Welcome to SOBUS!',
+//             //   message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
+//             // })
+//             //   .then(() => {
+//             //     console.log('Welcome email sent successfully');
+//             //   })
+//             //   .catch((err) => {
+//             //     console.error('Error sending welcome email:', err);
+//             //   });
+//           }
+//         }
+
+//         const token = signToken(user._id);
+//         return done(null, { user, token });
+//       } catch (err) {
+//         return done(err, null);
+//       }
+//     },
+//   ),
+// );
+
 passport.use(
   'google-auth',
   new OAuth2Strategy(
@@ -117,13 +180,19 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         let user = await User.findOne({ googleId: profile.id });
+
+        // If no user with googleId, check for user with the same email
         if (!user) {
           user = await User.findOne({ email: profile.emails[0].value });
+
+          // If user exists, assign googleId and update photo if necessary
           if (user) {
-            console.log('Hello :- ', user);
+            console.log('Existing user found:', user);
             user.googleId = profile.id;
             user.photo = profile.photos[0]?.value || user.photo;
+            await user.save();
           } else {
+            // If no user found, create a new user
             user = new User({
               googleId: profile.id,
               name: profile.displayName,
@@ -132,35 +201,29 @@ passport.use(
               role: 'user',
             });
 
-            console.log('Hii :- ', user);
+            console.log('New user created:', user);
             await user.save();
 
-            // Asynchronously send the email after creating the user
-            // sendEmail({
-            //   email: user.email,
-            //   subject: 'Welcome to SOBUS!',
-            //   message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
-            // }).catch((err) =>
-            //   console.error('Error sending welcome email:', err),
-            // );
-
-            // sendEmail({
-            //   email: user.email,
-            //   subject: 'Welcome to SOBUS!',
-            //   message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
-            // })
-            //   .then(() => {
-            //     console.log('Welcome email sent successfully');
-            //   })
-            //   .catch((err) => {
-            //     console.error('Error sending welcome email:', err);
-            //   });
+            // Send welcome email asynchronously (non-blocking)
+            sendEmail({
+              email: user.email,
+              subject: 'Welcome to SOBUS!',
+              message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
+            })
+              .then(() => {
+                console.log('Welcome email sent successfully');
+              })
+              .catch((err) => {
+                console.error('Error sending welcome email:', err);
+              });
           }
         }
 
+        // Generate token for the authenticated user
         const token = signToken(user._id);
         return done(null, { user, token });
       } catch (err) {
+        console.error('Error during authentication:', err);
         return done(err, null);
       }
     },
@@ -168,3 +231,5 @@ passport.use(
 );
 
 module.exports = passport;
+
+// module.exports = passport;
