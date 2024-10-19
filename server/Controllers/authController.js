@@ -102,7 +102,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  // console.log(req.headers);
+  console.log(req);
   let token;
   if (
     req.headers.authorization &&
