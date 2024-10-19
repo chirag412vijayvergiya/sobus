@@ -120,6 +120,7 @@ passport.use(
         if (!user) {
           user = await User.findOne({ email: profile.emails[0].value });
           if (user) {
+            console.log('Hello :- ', user);
             user.googleId = profile.id;
             user.photo = profile.photos[0]?.value || user.photo;
           } else {
@@ -130,6 +131,8 @@ passport.use(
               photo: profile.photos[0]?.value || undefined,
               role: 'user',
             });
+
+            console.log('Hii :- ', user);
             await user.save();
 
             // Asynchronously send the email after creating the user
