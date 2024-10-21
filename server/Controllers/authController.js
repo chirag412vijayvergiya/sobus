@@ -55,7 +55,7 @@ exports.signup = catchAsync(async (req, res) => {
     message: `Dear ${newUser.name},\n\nWelcome to SOBUS! We're excited to have you on board. If you have any questions, feel free to reach out to us.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
   });
 
-  createSendToken(newUser, 201, req, res);
+  createSendToken(newUser, 201, res);
 });
 
 // exports.login = catchAsync(async (req, res, next) => {
