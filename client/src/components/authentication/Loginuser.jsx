@@ -12,7 +12,7 @@ function Loginuser() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
-    console.log(email, password);
+    // console.log(email, password);
     login(
       { email, password },
       {
