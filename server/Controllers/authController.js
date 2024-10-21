@@ -91,7 +91,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // If the user signed up using Google, check the googleId instead of password
-  if (user.isGoogleUser()) {
+  if (user.isGoogleUser() && !password) {
     return next(new AppError('Please log in using Google', 401));
   }
 
