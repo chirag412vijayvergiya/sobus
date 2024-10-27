@@ -19,14 +19,14 @@ function Logo({ type }) {
   return (
     <Link to="/" className="flex items-center justify-center">
       <img
-        src={styles[type].src}
-        alt="sobus-Logo"
-        className={styles[type].img}
-      />
-      <img
         src={styles[type].src2}
         alt="sobus-Logo"
         className={styles[type].img2}
+      />
+      <img
+        src={styles[type].src}
+        alt="sobus-Logo"
+        className={styles[type].img}
       />
     </Link>
   );
