@@ -5,8 +5,8 @@ function Logo({ type }) {
   const { isDarkMode } = useDarkMode();
   const styles = {
     header: {
-      img: 'h-[50px] pl-1',
-      img2: 'h-[70px]',
+      img: 'h-[50px]',
+      img2: 'h-[70px] pl-1',
       src: isDarkMode ? '/sobusdark.png' : '/sobuslight.png',
       src2: isDarkMode ? '/nmimsdark.png' : '/nmimslight.png',
     },
