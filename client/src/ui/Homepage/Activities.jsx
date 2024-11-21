@@ -47,7 +47,7 @@ function Activities() {
           </h1>
           <div
             className="mb-4 grid grid-cols-1 gap-3 overflow-y-auto p-2 sm:grid-cols-2 sm:p-4 lg:grid-cols-3"
-            style={{ maxHeight: '510px' }} // Adjust height as needed
+            style={{ maxHeight: '510px' }}
             ref={containerRef}
           >
             {visibleItems.map((item, index) => (
