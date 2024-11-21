@@ -137,7 +137,10 @@ exports.deleteTask = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyTasks = catchAsync(async (req, res, next) => {
-  const tasks = await Task.find({ assignee: req.user.id });
+  const tasks = await Task.find({ assignee: req.user.id }).populate({
+    path: 'activity',
+    select: 'activityName',
+  });
 
   res.status(200).json({
     status: 'success',

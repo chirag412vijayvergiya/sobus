@@ -182,6 +182,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.virtual('tasks', {
+  ref: 'Task',
+  foreignField: 'assignee',
+  localField: '_id',
+});
+
 // Middleware to hash password if it's changed
 userSchema.pre('save', async function (next) {
   // Skip if password is not modified or if it's a Google sign-in

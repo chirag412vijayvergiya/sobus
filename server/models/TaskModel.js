@@ -21,7 +21,7 @@ const TaskSchema = new mongoose.Schema({
   },
   activity: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Activity',
+    ref: 'Activities',
     required: [true, 'Please provide a activity'],
   },
 });

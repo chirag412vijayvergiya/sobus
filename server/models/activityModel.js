@@ -62,6 +62,12 @@ const activitySchema = new mongoose.Schema(
   },
 );
 
+activitySchema.virtual('activity', {
+  ref: 'Activities',
+  foreignField: 'activity',
+  localField: '_id',
+});
+
 // ******************************************************************************* //
 
 const Activities = mongoose.model('Activities', activitySchema);

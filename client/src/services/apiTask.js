@@ -52,6 +52,7 @@ export async function DeleteTask(taskId) {
 export async function GetMyTasks() {
   try {
     const response = await customFetch.get('/tasks');
+    console.log(response);
     return response.data.data;
   } catch (error) {
     throw new Error(error.response.data.message);
