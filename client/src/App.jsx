@@ -45,7 +45,7 @@ function App() {
             </Route>
             <Route index element={<Navigate replace to="home" />} />
             <Route path="login" element={<Login />} />
-            <Route path="team" element={<Team />} />
+            {/* <Route path="team" element={<Team />} /> */}
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           <Footer />
