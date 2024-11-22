@@ -86,7 +86,7 @@ function Button({ children, icon, onClick }) {
     <li>
       <button
         onClick={handleClick}
-        className="flex w-full items-center gap-[1rem] border-none bg-none p-[0.7rem_1.4rem] text-left text-sm tracking-widest transition-all hover:bg-grey-300 hover:text-indigo-600 dark:hover:bg-slate-900 dark:hover:text-indigo-100"
+        className="flex w-full items-center gap-[0.5rem] border-none bg-none p-[0.7rem_1.4rem] text-left text-sm tracking-widest transition-all hover:bg-grey-300 hover:text-indigo-600 dark:hover:bg-slate-900 dark:hover:text-indigo-100"
       >
         {icon}
         <span>{children}</span>
