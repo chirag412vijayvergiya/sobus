@@ -6,7 +6,7 @@ import { BiLogoLinkedin } from 'react-icons/bi';
 
 function Footer() {
   return (
-    <footer className="relative bottom-0 w-full rounded-tl-[125px] bg-gradient-to-r from-green-500 to-green-200 pb-5 pt-5 font-mono text-black">
+    <footer className="relative bottom-0 w-full rounded-tl-[125px] bg-gradient-to-r from-green-500 to-green-200 pb-5 pt-5 font-mono tracking-wider text-black md:tracking-wide">
       <div className="mx-auto flex max-w-[90%] flex-wrap items-start justify-between lg:flex-nowrap">
         {/* Logo and Description */}
         <div className="mb-6 w-full p-2 sm:basis-1/2 lg:basis-1/4">
@@ -65,22 +65,22 @@ function Footer() {
               <span className="animate-moving absolute left-[10px] top-0 block h-full w-[15px] rounded bg-indigo-500"></span>
             </div>
           </h3>
-          <form className="mb-8 flex flex-col items-center space-y-4 border-b border-black pb-4 lg:flex-row lg:items-center lg:space-x-2 lg:space-y-0">
+          <form className="mb-8 flex items-center space-x-2 border-b border-black pb-4">
             <FaEnvelope className="text-lg text-gray-700" />
             <input
               type="email"
-              placeholder="Enter your email-id"
+              placeholder="Enter your email"
               required
-              className="w-full border-none bg-transparent text-gray-700 placeholder-gray-800 outline-none"
+              className="flex-1 border-none bg-transparent text-gray-700 placeholder-gray-800 outline-none"
             />
-
             <button
               type="submit"
-              className="cursor-pointer border-none bg-transparent text-gray-800 outline-none hover:text-black"
+              className="cursor-pointer border-none bg-transparent pr-4 text-gray-800 outline-none hover:text-black"
             >
               <FaArrowRightLong className="text-xl" />
             </button>
           </form>
+
           <div className="flex justify-center space-x-4 lg:justify-start">
             <FaFacebookF className="h-10 w-10 transform cursor-pointer rounded-full bg-green-400 px-2 py-2 text-center text-black transition-transform ease-linear hover:-translate-y-2 hover:bg-green-600" />
             <AiOutlineInstagram className="h-10 w-10 transform cursor-pointer rounded-full bg-green-400 px-2 py-2 text-center text-black transition-transform ease-linear hover:-translate-y-2 hover:bg-green-600" />
