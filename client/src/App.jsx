@@ -48,7 +48,7 @@ function App() {
             <Route path="team" element={<Team />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
-          {/* <Footer /> */}
+          <Footer />
         </BrowserRouter>
         <Toaster
           position="top-center"
