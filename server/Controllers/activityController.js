@@ -172,16 +172,16 @@ exports.createActivity = catchAsync(async (req, res, next) => {
     'EEE, MMM dd yyyy',
   );
 
-  // Use map to create an array of promises
-  const emailPromises = users.map((user) =>
-    sendEmail({
-      email: user.email, // Assuming the user model has an email field
-      subject: `New Activity: ${activityName}`,
-      message: `Dear ${user.name},\n\nA new activity has been created:\n\nActivity Name: ${activityName}\nDescription: ${activityDescription}\nStart Date: ${formattedStartDate}\nEnd Date: ${formattedEndDate}\nLocation: ${activityLocation}\n\nYou can join the activity by filling out the form here: ${GoogleFormLink}\n\nThe itinerary for this activity can be viewed on our website: [SOBUS Website](https://sobus.vercel.app)\n\nBest regards,\nSOBUS Team`,
-    }),
-  );
-  // Await the resolution of all email promises
-  await Promise.all(emailPromises);
+  // // Use map to create an array of promises
+  // const emailPromises = users.map((user) =>
+  //   sendEmail({
+  //     email: user.email, // Assuming the user model has an email field
+  //     subject: `New Activity: ${activityName}`,
+  //     message: `Dear ${user.name},\n\nA new activity has been created:\n\nActivity Name: ${activityName}\nDescription: ${activityDescription}\nStart Date: ${formattedStartDate}\nEnd Date: ${formattedEndDate}\nLocation: ${activityLocation}\n\nYou can join the activity by filling out the form here: ${GoogleFormLink}\n\nThe itinerary for this activity can be viewed on our website: [SOBUS Website](https://sobus.vercel.app)\n\nBest regards,\nSOBUS Team`,
+  //   }),
+  // );
+  // // Await the resolution of all email promises
+  // await Promise.all(emailPromises);
 
   res.status(201).json({
     status: 'success',
