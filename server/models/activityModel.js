@@ -37,16 +37,16 @@ const activitySchema = new mongoose.Schema(
     //   type: String,
     //   required: [true, 'activity time is required'],
     // },
-    speakers: {
-      type: [String],
-      validate: {
-        validator: function (value) {
-          // Custom validator function to check if the array is not empty
-          return value && value.length > 0;
-        },
-        message: 'At least one speaker is required.',
-      },
-    },
+    // speakers: {
+    //   type: [String],
+    //   validate: {
+    //     validator: function (value) {
+    //       // Custom validator function to check if the array is not empty
+    //       return value && value.length > 0;
+    //     },
+    //     message: 'At least one speaker is required.',
+    //   },
+    // },
     GoogleFormLink: {
       type: String,
       required: [true, 'Google Form Link is required'],
