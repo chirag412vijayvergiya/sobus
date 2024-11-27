@@ -124,3 +124,5 @@ exports.makeAdmin = catchAsync(async (req, res, next) => {
     data: { user },
   });
 });
+
+exports.getAllUsers = factory.getAll(User, 'name email role');
