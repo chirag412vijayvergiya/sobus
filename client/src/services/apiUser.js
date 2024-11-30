@@ -62,3 +62,14 @@ export async function MakeAdmin({ emailId }) {
     throw new Error('Failed to update user data');
   }
 }
+
+export async function getAllUsers() {
+  try {
+    const response = await customFetch.get(`/users/getAllusers`);
+    console.log(response.result, response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user data: ', error);
+    throw new Error('Failed to fetch user data');
+  }
+}
