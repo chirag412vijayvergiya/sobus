@@ -67,7 +67,7 @@ export async function getAllUsers() {
   try {
     const response = await customFetch.get(`/users/getAllusers`);
     // console.log(response.result, response.data.data);
-    return response.data.data;
+    return response.data.data.data;
   } catch (error) {
     console.error('Error fetching user data: ', error);
     throw new Error('Failed to fetch user data');

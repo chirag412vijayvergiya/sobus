@@ -1,7 +1,17 @@
+import { useState, useEffect } from 'react';
+import { GrUserAdmin, GrFilter } from 'react-icons/gr';
+import { FaUserCircle } from 'react-icons/fa';
+import { FaAngleRight } from 'react-icons/fa';
+import { FaAngleLeft } from 'react-icons/fa6';
+import { FaUserGroup } from 'react-icons/fa6';
 import { useGetAllUsers } from '../components/profile/useGetAllUsers';
 
 function AllUsers() {
   const { isPending, users, isError } = useGetAllUsers();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10; // Max records per page
+
   if (isPending) {
     return (
       <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-900 md:p-[8rem_6rem]">
@@ -34,8 +44,162 @@ function AllUsers() {
   }
 
   console.log(users);
+
+  const handleMakeAdmin = (userId) => {
+    alert(`User with ID ${userId} is now an admin!`);
+    // Here you can replace the alert with actual logic to make the user an admin
+  };
+
+  // Filter users based on the search term
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredUsers.length / recordsPerPage);
+  const startIndex = (currentPage - 1) * recordsPerPage;
+  const currentRecords = filteredUsers.slice(
+    startIndex,
+    startIndex + recordsPerPage,
+  );
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
-    <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-900 md:p-[8rem_6rem]"></div>
+    <div className="relative min-h-screen w-full flex-1 bg-green-100 p-[8rem_1rem] font-sans tracking-wide dark:bg-slate-900 md:p-[8rem_6rem]">
+      <div className="container mx-auto">
+        <div className="text-center">
+          <h1
+            className="font-mono text-2xl font-semibold tracking-wider text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 hover:dark:text-indigo-300"
+            style={{ textUnderlineOffset: '4px' }}
+          >
+            ALL USERS
+          </h1>
+        </div>
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex w-full max-w-[270px] items-center rounded-lg border bg-white px-4 py-2 shadow-md">
+            <GrFilter className="mr-2 text-gray-500" />
+            <input
+              type="text"
+              placeholder="Search by username or email"
+              className="w-full border-none text-gray-700 placeholder-gray-500 outline-none focus:placeholder-transparent"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center font-semibold text-gray-600">
+            {/* Add the FaUserGroup icon here before the user count */}
+            <FaUserGroup className="mr-2 text-gray-600" />
+            <span>{filteredUsers.length}</span> / <span>{users.length}</span>{' '}
+            <span className="ml-2">users</span>
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+          <table className="w-full table-auto border-collapse">
+            <thead className="bg-green-300 text-sm uppercase text-gray-800">
+              <tr>
+                <th className="rounded bg-green-400 px-6 py-3 text-center">
+                  Username
+                </th>
+                <th className="px-6 py-3 text-center">Email Address</th>
+                <th className="rounded bg-green-400 px-6 py-3 text-center">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentRecords.map((user) => (
+                <tr
+                  key={user.id}
+                  className="transform border-b text-gray-700 transition-transform duration-300 last:border-b-0 hover:scale-100 hover:bg-green-50 hover:shadow-lg"
+                >
+                  <td className="flex items-center space-x-4 px-6 py-4">
+                    {user.photo ? (
+                      <img
+                        src={user.photo}
+                        alt={user.name}
+                        className="h-10 w-10 rounded-full"
+                      />
+                    ) : (
+                      <FaUserCircle className="h-10 w-10 text-gray-400" />
+                    )}
+                    <span className="font-medium">{user.name}</span>
+                  </td>
+
+                  <td className="px-6 py-4 text-center">{user.email}</td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="group relative inline-block">
+                      {/* Make Admin Button */}
+                      <button
+                        onClick={() => handleMakeAdmin(user.id)}
+                        className="flex items-center justify-center rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                      >
+                        <GrUserAdmin size={20} />
+                      </button>
+                      {/* Tooltip */}
+                      <div className="pointer-events-none absolute bottom-12 left-1/2 z-50 -translate-x-1/2 transform whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                        Make Admin
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {currentRecords.length === 0 && (
+                <tr>
+                  <td
+                    colSpan="3"
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    No users found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Pagination Section */}
+        <div className="mt-4 flex items-center justify-between">
+          {/* Previous Button is kept as per original request */}
+          {currentPage !== 1 && (
+            <button
+              onClick={goToPreviousPage}
+              className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+            >
+              <FaAngleLeft />
+            </button>
+          )}
+
+          <span className="mx-auto text-center text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+            className={`rounded px-4 py-2 ${
+              currentPage === totalPages
+                ? 'cursor-not-allowed bg-gray-300 text-gray-500'
+                : 'bg-green-500 text-lg text-white hover:bg-green-600'
+            }`}
+          >
+            <FaAngleRight />
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
