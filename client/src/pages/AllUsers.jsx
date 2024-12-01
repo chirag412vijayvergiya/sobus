@@ -107,50 +107,51 @@ function AllUsers() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-          <table className="w-full table-auto border-collapse">
-            <thead className="bg-green-300 text-sm uppercase text-gray-800">
+        <div className="overflow-x-auto rounded-lg bg-white shadow-lg">
+          <table className="w-full table-auto border-collapse overflow-hidden rounded-lg shadow-md">
+            <thead className="bg-gradient-to-r from-green-400 to-green-500 text-sm uppercase text-white">
               <tr>
-                <th className="rounded bg-green-400 px-6 py-3 text-center">
+                <th className="px-6 py-3 text-center font-semibold">
                   Username
                 </th>
-                <th className="px-6 py-3 text-center">Email Address</th>
-                <th className="rounded bg-green-400 px-6 py-3 text-center">
-                  Actions
+                <th className="px-6 py-3 text-center font-semibold">
+                  Email Address
                 </th>
+                <th className="px-6 py-3 text-center font-semibold">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-200 bg-white">
               {currentRecords.map((user) => (
                 <tr
                   key={user.id}
-                  className="transform border-b text-gray-700 transition-transform duration-300 last:border-b-0 hover:scale-100 hover:bg-green-50 hover:shadow-lg"
+                  className="transition duration-300 hover:bg-green-50 hover:shadow-md"
                 >
                   <td className="flex items-center space-x-4 px-6 py-4">
                     {user.photo ? (
                       <img
                         src={user.photo}
                         alt={user.name}
-                        className="h-10 w-10 rounded-full"
+                        className="h-10 w-10 rounded-full shadow"
                       />
                     ) : (
                       <FaUserCircle className="h-10 w-10 text-gray-400" />
                     )}
-                    <span className="font-medium">{user.name}</span>
+                    <span className="font-medium text-gray-800">
+                      {user.name}
+                    </span>
                   </td>
-
-                  <td className="px-6 py-4 text-center">{user.email}</td>
+                  <td className="px-6 py-4 text-center text-gray-700">
+                    {user.email}
+                  </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="group relative inline-block">
-                      {/* Make Admin Button */}
+                    <div className="relative inline-block">
                       <button
                         onClick={() => handleMakeAdmin(user.id)}
-                        className="flex items-center justify-center rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                        className="flex items-center justify-center rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-4 py-2 text-sm font-semibold text-white shadow hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-400"
                       >
                         <GrUserAdmin size={20} />
                       </button>
-                      {/* Tooltip */}
-                      <div className="pointer-events-none absolute bottom-12 left-1/2 z-50 -translate-x-1/2 transform whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      <div className="absolute bottom-12 left-1/2 z-50 -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-xs font-medium text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                         Make Admin
                       </div>
                     </div>
