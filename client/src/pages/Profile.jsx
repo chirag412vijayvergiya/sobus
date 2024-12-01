@@ -145,6 +145,13 @@ function Profile() {
                     <MakeAdminForm />
                   </Modal.Window>
                 </Modal>
+
+                <button
+                  onClick={() => navigate('/all-users')}
+                  className="ml-[4rem] mt-[2rem] inline-flex items-center rounded-lg bg-green-700 px-4 py-1 text-center font-mono text-lg font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400"
+                >
+                  View All Users
+                </button>
               </ul>
             </div>
           )}

@@ -66,8 +66,8 @@ export async function MakeAdmin({ emailId }) {
 export async function getAllUsers() {
   try {
     const response = await customFetch.get(`/users/getAllusers`);
-    console.log(response.result, response.data);
-    return response.data;
+    // console.log(response.result, response.data.data);
+    return response.data.data;
   } catch (error) {
     console.error('Error fetching user data: ', error);
     throw new Error('Failed to fetch user data');

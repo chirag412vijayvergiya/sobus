@@ -3,20 +3,27 @@ import { useEffect } from 'react';
 import DefaultSpinner from './DefaultSpinner';
 import { useUser } from '../components/profile/useUser';
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, roles = [] }) {
   const navigate = useNavigate();
 
   //1. Load the authenticated user
-  const { isPending, isAuthenticated } = useUser();
+  const { isPending, isAuthenticated, user } = useUser();
 
   //2. If there no authenticated user, redirect to the /login page
   useEffect(
     function () {
       if (!isAuthenticated && !isPending) {
         navigate('/login');
+      } else if (
+        isAuthenticated &&
+        !isPending &&
+        roles.length > 0 &&
+        !roles.includes(user?.data?.data?.role)
+      ) {
+        navigate('/home');
       }
     },
-    [isAuthenticated, isPending, navigate],
+    [isAuthenticated, isPending, navigate, roles, user?.data?.data?.role],
   );
 
   //3. While Loading, show a spinner
@@ -28,7 +35,11 @@ function ProtectedRoute({ children }) {
     );
   }
 
-  if (isAuthenticated) return children;
+  if (
+    isAuthenticated &&
+    (!roles.length || roles.includes(user?.data?.data?.role))
+  )
+    return children;
 }
 
 export default ProtectedRoute;

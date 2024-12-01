@@ -14,7 +14,7 @@ function Mytasks() {
     }));
   };
 
-  const DESCRIPTION_LIMIT = 100;
+  const DESCRIPTION_LIMIT = 33;
 
   if (isLoading) {
     return (
@@ -78,11 +78,11 @@ function Mytasks() {
             >
               <div className="flex items-center justify-between">
                 <h2 className="text-md font-semibold text-gray-800">
-                  {task.task.length > 33 ? (
+                  {task.task.length > DESCRIPTION_LIMIT ? (
                     <>
                       {expandedTask === task._id
                         ? task.task
-                        : `${task.task.slice(0, 33)}...`}
+                        : `${task.task.slice(0, DESCRIPTION_LIMIT)}...`}
                       <button
                         onClick={() =>
                           toggleExpand(

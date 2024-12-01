@@ -14,6 +14,7 @@ import Project from './pages/Project';
 import Mytasks from './pages/Mytasks';
 import Team from './pages/Team';
 import Footer from './ui/Footer/Footer';
+import AllUsers from './pages/AllUsers';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,15 @@ function App() {
               <Route path="activities/:activityId" element={<Activity />} />
               <Route path="projects/:projectId" element={<Project />} />
               <Route path="my-tasks" element={<Mytasks />} />
+              <Route
+                element={
+                  <ProtectedRoute roles={['admin']}>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="all-users" element={<AllUsers />} />
+              </Route>
             </Route>
             <Route index element={<Navigate replace to="home" />} />
             <Route path="login" element={<Login />} />
