@@ -271,11 +271,11 @@ passport.use(
             await user.save(); // Save without waiting for email to send
 
             // Email sending in background
-            sendEmail({
-              email: user.email,
-              subject: 'Welcome to SOBUS!',
-              message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team`,
-            }).catch((err) => console.error('Email error:', err));
+            // sendEmail({
+            //   email: user.email,
+            //   subject: 'Welcome to SOBUS!',
+            //   message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team`,
+            // }).catch((err) => console.error('Email error:', err));
           }
         }
 
