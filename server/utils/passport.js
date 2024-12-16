@@ -259,35 +259,23 @@ passport.use(
             user.photo = profile.photos?.[0]?.value || user.photo;
             await user.save();
           } else {
-            // Create a new user if not found
-            try {
-              user = new User({
-                googleId: profile.id,
-                name: profile.displayName || 'Unnamed User',
-                email: profile.emails?.[0]?.value || 'unknown@example.com',
-                photo: profile.photos?.[0]?.value || undefined,
-                role: 'user',
-              });
+            console.log('Creating a new user...');
+            user = new User({
+              googleId: profile.id,
+              name: profile.displayName || 'Unnamed User',
+              email: profile.emails?.[0]?.value || 'unknown@example.com',
+              photo: profile.photos?.[0]?.value || undefined,
+              role: 'user',
+            });
 
-              console.log('New user created:', user);
-              await user.save();
-            } catch (saveError) {
-              console.error('Error saving new user:', saveError);
-              return done(saveError, null);
-            }
+            await user.save(); // Save without waiting for email to send
 
-            // Send welcome email asynchronously
+            // Email sending in background
             sendEmail({
               email: user.email,
               subject: 'Welcome to SOBUS!',
-              message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
-            })
-              .then(() => {
-                console.log('Welcome email sent successfully');
-              })
-              .catch((emailError) => {
-                console.error('Error sending welcome email:', emailError);
-              });
+              message: `Dear ${user.name},\n\nWelcome to SOBUS! We're excited to have you on board.\n\nBest regards,\nSOBUS Team`,
+            }).catch((err) => console.error('Email error:', err));
           }
         }
 
