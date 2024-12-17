@@ -88,7 +88,7 @@ function LoginSignup() {
             </button>
           </Modal.Open>
           <Modal.Window name="forgotPassword-form">
-            <Forgotpasswordform patient="patient" />
+            <Forgotpasswordform />
           </Modal.Window>
         </Modal>
       )}

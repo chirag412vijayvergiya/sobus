@@ -166,6 +166,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   //2) Generate the random token
   const resetToken = user.createPasswordResetToken();
+  // console.log('Reset Token from controller:- ', resetToken);
   await user.save({ validateBeforeSave: false });
   //3)Send it back to user's email
 
@@ -201,7 +202,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     .createHash('sha256')
     .update(req.params.token)
     .digest('hex');
-  //   console.log('Heashed Token :- ', hashedToken);
+  console.log('Heashed Token from reset controller :- ', hashedToken);
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,

@@ -2,34 +2,53 @@ import { useForm } from 'react-hook-form';
 import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import { useState } from 'react';
-// import { useForgotPasswordPatient } from './Patients/useForgotPasswordPatient';
-// import { useResetPasswordPatient } from './Patients/useResetPasswordPatient';
-// import { useForgotPasswordDoctor } from './Doctors/useForgotPasswordDoctor';
-// import { useResetPasswordDoctor } from './Doctors/useResetPasswordDoctor';
+import { useResetPassword } from './useResetPassword';
+import { useForgotPassword } from './useForgotPassword';
 
 function Forgotpasswordform({ onCloseModal, patient = '' }) {
   const [resetPasswordForm, setResetPasswordForm] = useState(false);
-  // const { isSending1, forgotPasswordPatient } = useForgotPasswordPatient();
-  // const { isReseting1, resetPasswordPatient } = useResetPasswordPatient();
-  // const { isSending2, forgotPasswordDoctor } = useForgotPasswordDoctor();
-  // const { isReseting2, resetPasswordDoctor } = useResetPasswordDoctor();
-
-  const isSending1 = false;
-  const isReseting1 = false;
-  const isSending2 = false;
-  const isReseting2 = false;
+  const { isSending, forgotPassword } = useForgotPassword();
+  const { isReseting, resetPassword } = useResetPassword();
 
   const { register, handleSubmit, reset, formState, watch } = useForm();
   const { errors } = formState;
 
-  const isSending = isSending1 || isSending2;
-  const isReseting = isReseting1 || isReseting2;
-
   const onSubmit = (data) => {
     if (!resetPasswordForm) {
-      // patient ? forgotPasswordPatient(data) : forgotPasswordDoctor(data);
+      forgotPassword(
+        { email: data.emailId },
+        {
+          onSuccess: () => {
+            reset();
+            setResetPasswordForm(true);
+          },
+        },
+        {
+          onError: () => {
+            reset();
+            onCloseModal?.();
+          },
+        },
+      );
     } else {
-      // patient ? resetPasswordPatient(data) : resetPasswordDoctor(data);
+      resetPassword(
+        {
+          token: data.token,
+          password: data.newpassword,
+          passwordConfirm: data.ConfirmPassword,
+        },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        },
+        {
+          onError: () => {
+            reset();
+          },
+        },
+      );
     }
   };
 

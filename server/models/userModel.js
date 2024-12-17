@@ -256,6 +256,8 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
+  console.log('Heashed Token from model :- ', this.passwordResetToken);
+
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // Token valid for 10 minutes
 
   return resetToken;

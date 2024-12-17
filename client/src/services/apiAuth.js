@@ -39,3 +39,31 @@ export async function logout() {
   const res = await customFetch.post(`/users/logout`);
   return res.data;
 }
+
+export async function resetPassword({ password, passwordConfirm, token }) {
+  try {
+    console.log('email from api:- ', password, passwordConfirm, token);
+    const response = await customFetch.patch(`/users/resetPassword/${token}`, {
+      password,
+      passwordConfirm,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw new Error('Failed to Reset Password');
+  }
+}
+
+export async function forgotPassword({ email }) {
+  try {
+    console.log('email from api :- ', email);
+    const response = await customFetch.post('/users/forgotPassword', {
+      email,
+    });
+    // console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw new Error('Failed to Send Reset token to Email Address');
+  }
+}
