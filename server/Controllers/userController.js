@@ -126,3 +126,15 @@ exports.makeAdmin = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllUsers = factory.getAll(User, 'name email photo');
+exports.getCOEMembers = factory.getAll(User, 'name email photo team role', [], {
+  team: 'COE',
+});
+
+exports.getAvinyaMembers = factory.getAll(
+  User,
+  'name email photo team role',
+  [],
+  {
+    team: 'Avinya',
+  },
+);

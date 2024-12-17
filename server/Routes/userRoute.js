@@ -48,6 +48,8 @@ router.patch(
 router.use(authController.restrictTo('admin'));
 router.patch('/make-admin', userController.makeAdmin);
 router.get('/getAllusers', userController.getAllUsers);
+router.get('/getCOEMembers', userController.getCOEMembers);
+router.get('/getAvinyaMembers', userController.getAvinyaMembers);
 router.route('/');
 //   .get(userController.getAllUsers)
 //   .post(userController.createUser);

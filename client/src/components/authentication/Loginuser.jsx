@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import Button from '../../ui/Button';
-import SpinnerMini from '../../ui/SpinnerMini';
 import { useLogin } from './useLogin';
+import { Spinner } from '@material-tailwind/react';
 
 function Loginuser() {
   const [email, setEmail] = useState('');
@@ -72,7 +72,7 @@ function Loginuser() {
         {!isPending ? (
           <span className="font-mono tracking-wider">Login</span>
         ) : (
-          <SpinnerMini />
+          <Spinner />
         )}
       </Button>
     </form>

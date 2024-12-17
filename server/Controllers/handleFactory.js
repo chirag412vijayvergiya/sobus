@@ -12,16 +12,19 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getAll = (Model, selectFields = '', populateOptions = []) =>
+exports.getAll = (
+  Model,
+  selectFields = '',
+  populateOptions = [],
+  filter = {},
+) =>
   catchAsync(async (req, res, next) => {
-    let query = Model.find();
+    let query = Model.find(filter);
 
-    // Select specific fields if provided
     if (selectFields) {
       query = query.select(selectFields);
     }
 
-    // Populate specified fields if provided
     populateOptions.forEach((option) => {
       query = query.populate(option);
     });

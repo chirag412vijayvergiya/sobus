@@ -5,6 +5,7 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import Button from '../../ui/Button';
 import { useSignup } from './useSignup';
 import SpinnerMini from '../../ui/SpinnerMini';
+import { Spinner } from '@material-tailwind/react';
 
 function Signupuser() {
   const { register, formState, getValues, handleSubmit, reset } = useForm();
@@ -128,7 +129,7 @@ function Signupuser() {
         {!isPending ? (
           <span className="font-mono tracking-wider">Sign Up</span>
         ) : (
-          <SpinnerMini />
+          <Spinner />
         )}
       </Button>
     </form>

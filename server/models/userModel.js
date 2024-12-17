@@ -144,9 +144,16 @@ const userSchema = new mongoose.Schema({
     default:
       'https://res.cloudinary.com/dp9qfnorl/image/upload/v1725437211/users/user-66d8121d649b70724a10998d-1725437210037.jpg',
   },
+  // In Sobus case, we have two teams, COE and Avinya
+  team: {
+    type: String,
+    enum: ['COE', 'Avinya', 'Both', 'Other'],
+    default: 'Other',
+  },
+  // In Sobus case, we have two roles, admin and user and two more roles for COE and Avinya
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'adminCOE', 'adminAvinya'],
     default: 'user',
   },
   password: {
