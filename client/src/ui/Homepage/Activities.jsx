@@ -35,7 +35,7 @@ function Activities() {
       id="home"
       className="mt-[90px] min-h-[calc(100vh-90px)] bg-green-100 dark:bg-slate-900 sm:mt-[4rem]"
     >
-      <div className="min-w-screen relative flex w-full overflow-hidden md:min-h-[100vh]">
+      <div className="min-w-screen relative flex w-full overflow-hidden">
         <div className="rotate-150 absolute -left-11 top-0 z-[100] hidden h-80 w-80 rounded-full bg-blue-400 opacity-40 blur-[120px] dark:bg-blue-800 dark:opacity-30 md:block"></div>
         <div className="absolute bottom-0 right-0 z-[100] hidden h-80 w-80 rounded-full bg-green-400 opacity-40 blur-[120px] dark:bg-green-600 dark:opacity-20 md:block"></div>
         <div className="mx-auto w-full p-4 pb-0 text-center sm:p-8">
@@ -46,8 +46,8 @@ function Activities() {
             ACTIVITIES
           </h1>
           <div
-            className="mb-4 grid grid-cols-1 gap-3 overflow-y-auto p-2 sm:grid-cols-2 sm:p-4 lg:grid-cols-3"
-            style={{ maxHeight: '510px' }}
+            className="mb-4 grid grid-cols-1 gap-3 overflow-y-auto p-2 sm:grid-cols-2 sm:p-4 md:min-h-[75vh] lg:grid-cols-3"
+            style={{ maxHeight: '50vh' }}
             ref={containerRef}
           >
             {visibleItems.map((item, index) => (
