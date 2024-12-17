@@ -9,7 +9,7 @@ export function useResetPassword() {
     mutationFn: resetPasswordApi,
     onSuccess: (data) => {
       toast.success('Your password has been reset!');
-      navigate('/dashboard', { replace: true });
+      navigate('/home', { replace: true });
     },
     onError: (error) => {
       toast.error(error.message);
