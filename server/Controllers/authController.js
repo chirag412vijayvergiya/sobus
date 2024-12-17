@@ -197,12 +197,13 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   //1) Get user based on the token
+  console.log('Request :- ', req.params);
+  console.log('Token from controller:- ', req.params.token);
 
   const hashedToken = crypto
     .createHash('sha256')
     .update(req.params.token)
     .digest('hex');
-  console.log('Heashed Token from reset controller :- ', hashedToken);
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
@@ -223,7 +224,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   user.passwordChangedAt = Date.now();
 
-  createSendToken(user, 200, req, res);
+  createSendToken(user, 200, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -242,7 +243,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
 
-  createSendToken(user, 200, req, res);
+  createSendToken(user, 200, res);
 });
 
 exports.logout = (req, res) => {
