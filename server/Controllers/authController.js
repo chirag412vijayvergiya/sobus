@@ -220,10 +220,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
+  user.passwordChangedAt = Date.now();
 
   await user.save();
-
-  user.passwordChangedAt = Date.now();
 
   createSendToken(user, 200, res);
 });
