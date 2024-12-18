@@ -197,8 +197,9 @@ userSchema.virtual('tasks', {
 
 // Middleware to hash password if it's changed
 userSchema.pre('save', async function (next) {
+  // console.log('hello from user model');
   // Skip if password is not modified or if it's a Google sign-in
-  if (!this.isModified('password') || this.googleId) return next();
+  if (!this.isModified('password')) return next();
 
   // Hash the password
   this.password = await bcrypt.hash(this.password, 12);
