@@ -12,7 +12,7 @@ function Profile() {
   const {
     user: {
       data: {
-        data: { name, email, role, photo },
+        data: { name, email, role, photo, googleId },
       },
     },
   } = useUser();
@@ -22,7 +22,7 @@ function Profile() {
   const [preview, setPreview] = useState(null);
   const { updateUserPassword, isUpdating: isPasswordUpdating } =
     useUpdateUserPassword();
-  const [curPassword, setCurPassword] = useState('');
+  const [curPassword, setCurPassword] = useState('test1234');
   const [newPassword, setNewPassword] = useState('');
   const [ConfPassword, setConfPassword] = useState('');
   const navigate = useNavigate();
@@ -231,20 +231,24 @@ function Profile() {
               onSubmit={handlePasswordSubmit}
             >
               <div className="form__group">
-                <label className="form__label" htmlFor="password-current">
-                  Current password
-                </label>
-                <input
-                  id="password-current"
-                  className="form__input"
-                  type="password"
-                  name="passwordCurrent"
-                  placeholder="••••••••"
-                  onChange={(e) => setCurPassword(e.target.value)}
-                  disabled={isPasswordUpdating}
-                  required
-                  minLength="8"
-                />
+                {!googleId && (
+                  <>
+                    <label className="form__label" htmlFor="password-current">
+                      Current password
+                    </label>
+                    <input
+                      id="password-current"
+                      className="form__input"
+                      type="password"
+                      name="passwordCurrent"
+                      placeholder="••••••••"
+                      onChange={(e) => setCurPassword(e.target.value)}
+                      disabled={isPasswordUpdating}
+                      required
+                      minLength="8"
+                    />
+                  </>
+                )}
               </div>
               <div className="form__group">
                 <label className="form__label" htmlFor="password">
