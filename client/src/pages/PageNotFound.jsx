@@ -1,14 +1,14 @@
-// import SEO from '../ui/SEO';
+import SEO from '../ui/SEO';
 
 function PageNotFound() {
   return (
     <>
-      {/* <SEO
+      <SEO
         title="404"
         description="This is the page not found page of the website."
         keywords="page not found, page, keywords"
         author="Chirag Vijayvergiya"
-      /> */}
+      />
 
       <div className="flex h-screen flex-col items-center justify-center gap-3">
         <img src="/PageNotFound.png" alt="404" className="mb-5 h-[15rem]" />
