@@ -32,6 +32,11 @@ function TaskRow({ index, elements }) {
   return (
     <tr className="tracking-medium items-center text-sm odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-slate-800 dark:even:bg-slate-900">
       <td className="whitespace-nowrap px-5 py-4">{index}</td>
+      {/* <td className="relative whitespace-nowrap px-5 py-4">
+        <span className="absolute right-[60px] top-[20px] h-3 w-3 animate-ping rounded-full bg-red-500 duration-300"></span>
+        {index}
+      </td> */}
+
       <td className="whitespace-nowrap px-5 py-4">{elements.assignee.name}</td>
       <td className="whitespace-nowrap px-5 py-4">{elements.assignee.email}</td>
       <td className="whitespace-nowrap px-5 pb-0.5 pt-2">
