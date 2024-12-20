@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useGetMyTask } from '../components/activities/useGetMyTask';
 import { FaExpandAlt, FaCompressAlt } from 'react-icons/fa'; // Install react-icons if not already installed
 import SEO from '../ui/SEO';
+import TaskSubmissionForm from '../components/Task/TaskSubmissionForm';
+import Modal from '../ui/Modal';
 
 function Mytasks() {
   const { MyTasks, isLoading, isError } = useGetMyTask();
@@ -154,15 +156,26 @@ function Mytasks() {
                   }`}
                 >
                   <div className="mt-4">
-                    <p className="text-sm text-gray-600">
+                    {/* <p className="text-sm text-gray-600">
                       <strong>Description:</strong>{' '}
                       {task.activity.activityDescription ||
                         'No description available.'}
-                    </p>
+                    </p> */}
                     <div className="mt-4">
-                      <button className="mr-3 rounded bg-blue-500 px-4 py-2 text-white shadow hover:bg-blue-600">
-                        Submit
-                      </button>
+                      <Modal>
+                        <Modal.Open opens="submitTask-form">
+                          <button className="mr-3 rounded bg-blue-500 px-4 py-2 text-white shadow hover:bg-blue-600">
+                            Submit
+                          </button>
+                        </Modal.Open>
+                        <Modal.Window name="submitTask-form">
+                          <TaskSubmissionForm
+                            TaskId={task._id}
+                            defaultTaskValues={null}
+                          />
+                        </Modal.Window>
+                      </Modal>
+
                       <button
                         className="rounded border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow hover:border-gray-500 hover:bg-gray-100"
                         onClick={() => toggleExpand(null)}

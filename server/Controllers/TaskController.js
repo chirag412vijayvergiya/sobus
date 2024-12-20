@@ -4,6 +4,7 @@ const Activity = require('../models/activityModel');
 
 const catchAsync = require('../utils/catchAsync');
 const sendEmail = require('../utils/email');
+const AppError = require('../utils/AppError');
 
 exports.createTask = catchAsync(async (req, res, next) => {
   // console.log(req.body);
@@ -146,6 +147,104 @@ exports.getMyTasks = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       tasks,
+    },
+  });
+});
+
+exports.submitTask = catchAsync(async (req, res, next) => {
+  const { id } = req.params; // Task ID
+  const { googleDriveLink, description } = req.body;
+  const loggedInUserId = req.user.id; // Assume authentication middleware sets req.user
+
+  // Find the task to verify assignee
+  const task = await Task.findById(id);
+
+  if (!task) {
+    return next(new AppError('Task not found', 404));
+  }
+
+  // Check if the logged-in user is the assigned user
+  if (task.assignee.toString() !== loggedInUserId) {
+    return next(
+      new AppError('You are not authorized to submit this task', 403),
+    );
+  }
+
+  // Validate required fields manually
+  if (!googleDriveLink || !description) {
+    return next(
+      new AppError('Google Drive link and description are required', 400),
+    );
+  }
+
+  // Proceed with task submission
+  task.googleDriveLink = googleDriveLink;
+  task.description = description;
+  task.submittedAt = Date.now();
+  task.status = 'unread';
+
+  await task.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      task,
+    },
+  });
+});
+
+exports.reviewTask = catchAsync(async (req, res, next) => {
+  const { id } = req.params; // Task ID
+  const { status } = req.body; // 'accepted' or 'rejected'
+  const adminId = req.user.id; // Admin's ID from authentication
+
+  if (!['accepted', 'rejected'].includes(status)) {
+    return next(new AppError('Invalid status', 400));
+  }
+
+  const task = await Task.findByIdAndUpdate(
+    id,
+    {
+      status, // Update task status
+      reviewedAt: Date.now(),
+      reviewedBy: adminId,
+    },
+    { new: true, runValidators: true },
+  ).populate('assignee', 'email name');
+
+  if (!task) {
+    return next(new AppError('Task not found', 404));
+  }
+
+  const subject = `Your Task Submission Has Been ${status.toUpperCase()}`;
+  const message = `
+    Hi ${task.assignee.name}, 
+    
+    Your task submission for "${task.task}" has been ${status}.
+    
+    ${status === 'rejected' ? 'Please review the task and submit again.' : 'Congratulations on the successful submission!'}
+    
+    Task Details:
+    - Task Name: ${task.task}
+    - Status: ${status.toUpperCase()}
+    - Reviewed At: ${task.reviewedAt.toLocaleString()}
+
+    If you have any questions, feel free to reach out.
+
+    Best regards,
+    The Task Management Team
+  `;
+
+  await sendEmail({
+    email: task.assignee.email,
+    subject,
+    message,
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      task,
     },
   });
 });

@@ -45,6 +45,7 @@ router.patch(
   userController.uploadUserPhoto,
   userController.updateMe,
 );
+
 router.use(authController.restrictTo('admin'));
 router.patch('/make-admin', userController.makeAdmin);
 router.get('/getAllusers', userController.getAllUsers);

@@ -58,3 +58,29 @@ export async function GetMyTasks() {
     throw new Error(error.response.data.message);
   }
 }
+
+export async function SubmitTask({ taskId, abouttask, googleDriveLink }) {
+  try {
+    const response = await customFetch.patch(
+      `/tasks/authenticateUser/${taskId}`,
+      {
+        abouttask,
+        googleDriveLink,
+      },
+    );
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
+
+export async function ReviewTask({ taskId, status }) {
+  try {
+    const response = await customFetch.patch(`/tasks/${taskId}/review`, {
+      status,
+    });
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
