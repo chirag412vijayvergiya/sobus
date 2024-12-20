@@ -19,24 +19,23 @@ function TaskSubmissionForm({ onCloseModal, TaskId, defaultTaskValues = '' }) {
 
   async function onSubmit(data) {
     const { abouttask, googleDriveLink } = data;
-    console.log('TaskId:', TaskId);
-    submitTask(
-      { taskId: TaskId, abouttask, googleDriveLink },
-      {
-        onSuccess: () => {
-          console.log('Task submitted successfully.');
-          reset({
-            abouttask: '',
-            googleDriveLink: '',
-          });
-          onCloseModal?.();
+    try {
+      await submitTask(
+        { taskId: TaskId, abouttask, googleDriveLink },
+        {
+          onSuccess: () => {
+            reset({
+              abouttask: '',
+              googleDriveLink: '',
+            });
+            onCloseModal?.();
+          },
         },
-        onError: (err) => {
-          console.error('Error submitting task:', err);
-          onCloseModal?.();
-        },
-      },
-    );
+      );
+    } catch (err) {
+      console.error('Error submitting task:', err);
+      onCloseModal?.();
+    }
   }
 
   return (

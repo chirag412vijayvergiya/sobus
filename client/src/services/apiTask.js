@@ -60,11 +60,12 @@ export async function GetMyTasks() {
 }
 
 export async function SubmitTask({ taskId, abouttask, googleDriveLink }) {
+  // console.log(taskId, abouttask, googleDriveLink);
   try {
     const response = await customFetch.patch(
       `/tasks/authenticateUser/${taskId}`,
       {
-        abouttask,
+        description: abouttask,
         googleDriveLink,
       },
     );
