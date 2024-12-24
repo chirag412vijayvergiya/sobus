@@ -27,8 +27,13 @@ export default {
         bounce: 'bounce 15s infinite',
         ping: 'ping 5s cubic-bezier(0, 0, 0.2, 1) infinite',
         moving: 'moving 2s linear infinite',
+        pulseRing: 'pulseRing 1.5s infinite ease-out',
       },
       keyframes: {
+        pulseRing: {
+          '0%': { transform: 'translate(-50%, -50%) scale(1)', opacity: '1' },
+          '100%': { transform: 'translate(-50%, -50%) scale(2)', opacity: '0' },
+        },
         moving: {
           '0%': { left: '-8px' },
           '100%': { left: '80%' },

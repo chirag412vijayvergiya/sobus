@@ -18,6 +18,10 @@ function TaskRow({ index, elements }) {
         return 'bg-green-100 text-green-600 border-green-300';
       case 'pending':
         return 'bg-red-100 text-red-600 border-red-300';
+      case 'unread':
+        return 'bg-yellow-100 text-yellow-600 border-yellow-300';
+      case 'rejected':
+        return 'bg-red-100 text-red-600 border-red-300';
       default:
         return '';
     }
@@ -28,15 +32,31 @@ function TaskRow({ index, elements }) {
     email: elements.assignee.email,
     deadline: new Date(elements.taskEndDate).toISOString().split('T')[0],
     status: elements.status,
+    submitDate: elements.submitDate,
+    submittedTaskDesc: elements.description,
+    googleDriveLink: elements.googleDriveLink,
+    assignee: elements.assignee.name,
   };
 
   return (
     <tr className="tracking-medium items-center text-sm odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-slate-800 dark:even:bg-slate-900">
-      <td className="whitespace-nowrap px-5 py-4">{index}</td>
-      {/* <td className="relative whitespace-nowrap px-5 py-4">
+      <td className="whitespace-nowrap px-5 py-4">
+        {/* <td className="relative whitespace-nowrap px-5 py-4">
         <span className="absolute right-[60px] top-[20px] h-3 w-3 animate-ping rounded-full bg-red-500 duration-300"></span>
         {index}
       </td> */}
+        <div className="relative -left-3 -top-6 h-0 w-2">
+          {elements.status === 'unread' && (
+            <>
+              <div className="absolute left-8 top-4 z-10 h-2 w-2 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-red-600"></div>
+              <div className="animate-pulseRing absolute left-8 top-4 h-5 w-5 -translate-x-1/2 -translate-y-1/2 transform rounded-full border-2 border-red-600"></div>
+              <div className="animate-pulseRing absolute left-8 top-4 h-5 w-5 -translate-x-1/2 -translate-y-1/2 transform rounded-full border-2 border-red-600 delay-500"></div>
+              <div className="animate-pulseRing absolute left-8 top-4 h-5 w-5 -translate-x-1/2 -translate-y-1/2 transform rounded-full border-2 border-red-600 delay-1000"></div>
+            </>
+          )}
+        </div>
+        <span className="ml-6">{index}</span>
+      </td>
 
       <td className="whitespace-nowrap px-5 py-4">{elements.assignee.name}</td>
       <td className="whitespace-nowrap px-5 py-4">{elements.assignee.email}</td>
@@ -101,7 +121,7 @@ function TaskRow({ index, elements }) {
             </button>
           </Modal.Open>
           <Modal.Window name="getDetails">
-            <GetFullDetailTask />
+            <GetFullDetailTask defaultTaskValues={defaultTaskValues} />
           </Modal.Window>
         </Modal>
       </td>
