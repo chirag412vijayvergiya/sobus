@@ -3,11 +3,12 @@ import Menus from '../../ui/Menus';
 import Modal from '../../ui/Modal';
 import { formatDate } from '../../utils/helpers';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { IoTrashOutline } from 'react-icons/io5';
+import { IoInformationCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { CiEdit } from 'react-icons/ci';
 import CreateTaskForm from './CreateTaskForm';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import { useDeleteTask } from './useDeleteTask';
+import GetFullDetailTask from './GetFullDetailTask';
 
 function TaskRow({ index, elements }) {
   const { isDeleting, deleteTask } = useDeleteTask();
@@ -91,6 +92,16 @@ function TaskRow({ index, elements }) {
               disabled={isDeleting}
               onConfirm={() => deleteTask(elements._id)}
             />
+          </Modal.Window>
+        </Modal>
+        <Modal>
+          <Modal.Open opens="getDetails">
+            <button className="outline-2px ml-2 h-9 w-9 cursor-pointer rounded border-none bg-blue-400 p-2.5 transition duration-200 ease-in-out hover:bg-blue-800">
+              <IoInformationCircleOutline className="h-full w-full text-gray-700 hover:text-black dark:text-white dark:hover:text-blue-400" />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="getDetails">
+            <GetFullDetailTask />
           </Modal.Window>
         </Modal>
       </td>
