@@ -202,11 +202,14 @@ exports.reviewTask = catchAsync(async (req, res, next) => {
     return next(new AppError('Invalid status', 400));
   }
 
+  const reviewedAt = new Date().toLocaleString('en-US', {
+    timeZone: 'Asia/Kolkata',
+  });
   const task = await Task.findByIdAndUpdate(
     id,
     {
       status, // Update task status
-      reviewedAt: Date.now(),
+      reviewedAt,
       reviewedBy: adminId,
     },
     { new: true, runValidators: true },
@@ -227,7 +230,7 @@ exports.reviewTask = catchAsync(async (req, res, next) => {
     Task Details:
     - Task Name: ${task.task}
     - Status: ${status.toUpperCase()}
-    - Reviewed At: ${task.reviewedAt.toLocaleString()}
+    - Reviewed At: ${reviewedAt}
 
     If you have any questions, feel free to reach out.
 

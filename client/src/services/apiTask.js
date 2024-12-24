@@ -76,6 +76,7 @@ export async function SubmitTask({ taskId, abouttask, googleDriveLink }) {
 }
 
 export async function ReviewTask({ taskId, status }) {
+  console.log(taskId, status);
   try {
     const response = await customFetch.patch(`/tasks/${taskId}/review`, {
       status,

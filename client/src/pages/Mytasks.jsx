@@ -128,7 +128,7 @@ function Mytasks() {
                   Status:{' '}
                   <span
                     className={`font-medium ${
-                      task.status === 'completed'
+                      task.status === 'completed' || task.status === 'accepted'
                         ? 'text-green-500'
                         : 'text-yellow-500'
                     }`}

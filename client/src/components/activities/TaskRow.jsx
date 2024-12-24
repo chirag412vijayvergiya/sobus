@@ -2,7 +2,6 @@ import { HiEye } from 'react-icons/hi2';
 import Menus from '../../ui/Menus';
 import Modal from '../../ui/Modal';
 import { formatDate } from '../../utils/helpers';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoInformationCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { CiEdit } from 'react-icons/ci';
 import CreateTaskForm from './CreateTaskForm';
@@ -14,7 +13,7 @@ function TaskRow({ index, elements }) {
   const { isDeleting, deleteTask } = useDeleteTask();
   const getStatusClass = (status) => {
     switch (status) {
-      case 'completed':
+      case 'accepted':
         return 'bg-green-100 text-green-600 border-green-300';
       case 'pending':
         return 'bg-red-100 text-red-600 border-red-300';
@@ -121,7 +120,10 @@ function TaskRow({ index, elements }) {
             </button>
           </Modal.Open>
           <Modal.Window name="getDetails">
-            <GetFullDetailTask defaultTaskValues={defaultTaskValues} />
+            <GetFullDetailTask
+              defaultTaskValues={defaultTaskValues}
+              TaskId={elements._id}
+            />
           </Modal.Window>
         </Modal>
       </td>
