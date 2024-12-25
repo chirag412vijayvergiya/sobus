@@ -219,7 +219,7 @@ exports.reviewTask = catchAsync(async (req, res, next) => {
     return next(new AppError('Task not found', 404));
   }
 
-  const subject = `Your Task Submission Has Been ${status.toUpperCase()}`;
+  const subject = `Your Task Submission Has Been ${status.toUpperCase()} ${status === 'rejected' ? '🚫' : '🎉'}`;
   const message = `
     Hi ${task.assignee.name}, 
     
