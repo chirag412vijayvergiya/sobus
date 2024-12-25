@@ -3,6 +3,7 @@ import Button from '../../ui/Button';
 import { useReviewTask } from '../Task/useReviewTask';
 import { AiOutlineFileText, AiOutlineLink } from 'react-icons/ai';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import FormRow from '../../ui/FormRow';
 
 function GetFullDetailTask({
   disabled,
@@ -36,85 +37,81 @@ function GetFullDetailTask({
   };
 
   return (
-    <div className="relative flex w-[290px] flex-col overflow-hidden rounded-lg border-[1px] border-solid border-grey-100 bg-grey-100 bg-cover bg-center p-[1rem_2rem] text-xl dark:border-slate-800 dark:bg-slate-950 dark:bg-opacity-80 dark:bg-blend-overlay md:w-[850px] md:p-[1rem_2rem]">
-      <h5 className="mx-1 items-center text-base font-semibold tracking-wider text-grey-800 dark:text-grey-100 md:mx-auto md:mb-3 md:text-xl">
-        Task Details
-      </h5>
-
-      <div className="relative z-10 space-y-4 font-mono">
-        {/* Name */}
-        <div className="flex items-center justify-between">
-          <span className="font-medium text-green-800">Name:</span>
-          <span
-            className="w-3/4 rounded-md border border-green-300 bg-emerald-50 px-3 py-2 outline-none focus:outline-none"
-            style={{ minHeight: '45px' }}
-          >
-            {defaultTaskValues.name}
-          </span>
-        </div>
-
-        {/* Task Assigned */}
-        <div className="flex items-center justify-between">
-          <span className="font-medium text-green-800">Task Assigned:</span>
-          <span className="w-3/4 rounded-md border border-green-300 bg-emerald-50 px-3 py-2 outline-none focus:outline-none">
-            {defaultTaskValues.task}
-          </span>
-        </div>
-
-        {/* Status */}
-        <div className="flex items-center justify-between">
-          <span className="font-medium text-green-800">Status:</span>
-          <span className="w-3/4 rounded-md border border-green-300 bg-emerald-50 px-3 py-2 outline-none focus:outline-none">
-            {defaultTaskValues.status}
-          </span>
-        </div>
-
-        {/* Last Date to Submit */}
-        <div className="flex items-center justify-between">
-          <label className="font-medium text-green-800">Deadline:</label>
-          <span className="w-3/4 rounded-md border border-green-300 bg-emerald-50 px-3 py-2 outline-none focus:outline-none">
-            {defaultTaskValues.deadline}
-          </span>
-        </div>
-
-        {/* Task Submission Link */}
-        <div className="mb-5 mt-5 flex items-center">
-          <span className="mr-2 font-medium text-green-800">
-            Task Submission Link:
-          </span>
-          <AiOutlineLink className="text-green-800" />
-        </div>
-        <div className="mb-5 w-full rounded-md border border-green-300 bg-emerald-50 px-3 py-2 text-green-700 outline-none focus:outline-none">
-          <a
-            href={defaultTaskValues.googleDriveLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {defaultTaskValues.googleDriveLink}
-          </a>
-        </div>
-
-        <div className="mt-7 flex items-center">
-          <span className="mr-2 font-medium text-green-800">
-            Task Submission Description:
-          </span>
-          <AiOutlineFileText className="text-green-800" />
-        </div>
-        <div className="mb-6 h-24 w-full resize-none rounded-md border border-green-300 bg-emerald-50 px-3 py-2 text-green-700 outline-none focus:outline-none">
-          {defaultTaskValues.submittedTaskDesc}
-        </div>
-
-        <div className="flex items-center justify-between">
-          <label className="font-medium text-green-800">
-            Task Submitted Date:
-          </label>
-          <span className="w-3/4 rounded-md border border-green-300 bg-emerald-50 px-3 py-2 outline-none focus:outline-none">
-            {defaultTaskValues.submitDate}
-          </span>
-        </div>
+    <div className="relative flex w-[310px] flex-col overflow-hidden rounded-lg border-[1px] border-solid border-grey-100 bg-green-100 p-[1rem_2rem] text-xl dark:border-slate-800 dark:bg-slate-900 md:w-full md:p-[2.4rem_3rem]">
+      {/* Header */}
+      <div className="rounded-lg bg-gradient-to-r from-green-500 to-green-700 px-5 py-4 shadow-lg">
+        <h2 className="md:text-x text-center text-xl font-semibold tracking-wider text-grey-800 dark:text-grey-100 md:mx-auto md:mb-1">
+          Task Details
+        </h2>
       </div>
 
-      <div className="m-auto flex items-center justify-center gap-9 p-[1rem_0]">
+      <FormRow label="Task Name">
+        <input
+          className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
+          type="text"
+          disabled
+          value={defaultTaskValues.name || 'N/A'}
+        />
+      </FormRow>
+
+      <FormRow label="Task Assigned">
+        <input
+          className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
+          type="text"
+          disabled
+          value={defaultTaskValues.task || 'N/A'}
+        />
+      </FormRow>
+
+      <FormRow label="Status">
+        <input
+          className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
+          type="text"
+          disabled
+          value={defaultTaskValues.status || 'N/A'}
+        />
+      </FormRow>
+
+      <FormRow label="Deadline">
+        <input
+          className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
+          type="text"
+          disabled
+          value={defaultTaskValues.deadline || 'N/A'}
+        />
+      </FormRow>
+
+      <FormRow label="Submission Link">
+        <a
+          href={defaultTaskValues.googleDriveLink || '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="dark:text-grey-400mt-2 inline-block w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider text-blue-600 shadow-sm hover:text-blue-800 dark:border-slate-600 dark:text-blue-400 dark:hover:text-blue-600"
+        >
+          {defaultTaskValues.googleDriveLink || 'No link provided'}
+        </a>
+      </FormRow>
+
+      <FormRow label="Submission Description">
+        <textarea
+          className="h-[5rem] w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
+          disabled
+          value={
+            defaultTaskValues.submittedTaskDesc || 'No description provided'
+          }
+        />
+      </FormRow>
+
+      <FormRow label="Submitted Date">
+        <input
+          className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
+          type="text"
+          disabled
+          value={defaultTaskValues.submitDate || 'N/A'}
+        />
+      </FormRow>
+
+      <div className="mx-auto flex items-center justify-center gap-9 rounded-lg bg-gray-50 p-6 shadow-lg dark:bg-gray-900">
         <Button
           type="reset"
           disabled={disabled || isReviewing}
