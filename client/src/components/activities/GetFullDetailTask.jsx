@@ -37,10 +37,10 @@ function GetFullDetailTask({
   };
 
   return (
-    <div className="relative flex w-[310px] flex-col overflow-hidden rounded-lg border-[1px] border-solid border-grey-100 bg-green-100 p-[1rem_2rem] text-xl dark:border-slate-800 dark:bg-slate-900 md:w-full md:p-[2.4rem_3rem]">
+    <div className="relative flex w-[310px] flex-col overflow-hidden rounded-lg border-[1px] border-solid border-grey-100 bg-green-100 p-[0.5rem_1rem] text-xl dark:border-slate-800 dark:bg-slate-900 md:w-full md:p-[2.4rem_3rem]">
       {/* Header */}
-      <div className="rounded-lg bg-gradient-to-r from-green-500 to-green-700 px-5 py-4 shadow-lg">
-        <h2 className="md:text-x text-center text-xl font-semibold tracking-wider text-grey-800 dark:text-grey-100 md:mx-auto md:mb-1">
+      <div className="rounded-lg bg-gradient-to-r from-green-500 to-green-700 px-2 py-2 shadow-lg">
+        <h2 className="text-center text-base font-semibold tracking-wider text-grey-800 dark:text-grey-100 md:mx-auto md:mb-1 md:text-xl">
           Task Details
         </h2>
       </div>
@@ -111,7 +111,7 @@ function GetFullDetailTask({
         />
       </FormRow>
 
-      <div className="mx-auto flex items-center justify-center gap-9 rounded-lg bg-gray-50 p-6 shadow-lg dark:bg-gray-900">
+      <div className="m-auto flex items-center justify-center gap-9 p-[0.5rem_0]">
         <Button
           type="reset"
           disabled={disabled || isReviewing}
