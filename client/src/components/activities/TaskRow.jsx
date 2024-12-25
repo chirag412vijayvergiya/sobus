@@ -27,11 +27,20 @@ function TaskRow({ index, elements }) {
   };
 
   const defaultTaskValues = {
+    name: elements.assignee.name,
     task: elements.task,
     email: elements.assignee.email,
-    deadline: new Date(elements.taskEndDate).toISOString().split('T')[0],
+    deadline: new Date(elements.taskEndDate).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }),
     status: elements.status,
-    submitDate: elements.submitDate,
+    submitDate: new Date(elements.submittedAt).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }),
     submittedTaskDesc: elements.description,
     googleDriveLink: elements.googleDriveLink,
     assignee: elements.assignee.name,
