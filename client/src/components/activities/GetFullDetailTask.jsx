@@ -1,7 +1,6 @@
 import toast from 'react-hot-toast';
 import Button from '../../ui/Button';
 import { useReviewTask } from '../Task/useReviewTask';
-import { AiOutlineFileText, AiOutlineLink } from 'react-icons/ai';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import FormRow from '../../ui/FormRow';
 
@@ -77,7 +76,7 @@ function GetFullDetailTask({
           className="w-[12rem] rounded-md border-[1px] border-solid border-grey-300 bg-transparent p-[0.4rem_0.8rem] text-sm tracking-wider shadow-sm dark:border-slate-600 dark:text-grey-400"
           type="text"
           disabled
-          value={defaultTaskValues.deadline || 'N/A'}
+          value={defaultTaskValues.deadlinefortasksub || 'N/A'}
         />
       </FormRow>
 

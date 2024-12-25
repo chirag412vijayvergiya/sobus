@@ -121,7 +121,7 @@ function CreateTaskForm({ onCloseModal, TaskId, defaultTaskValues }) {
           {...register('status')}
         >
           <option value="pending">In Progress</option>
-          <option value="completed">Completed</option>
+          <option value="accepted">Completed</option>
         </select>
       </FormRow>
 
