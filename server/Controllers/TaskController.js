@@ -107,7 +107,7 @@ exports.updateTask = catchAsync(async (req, res, next) => {
   const formattedEndDate = updatedTask.taskEndDate.toLocaleDateString();
 
   // Prepare the email message
-  const emailMessage = `Dear ${assigneeUser.name},\n\nYour task "${updatedTask.task}" has been updated.\n\nNew Status: ${updatedTask.status}\nTask End Date: ${formattedEndDate}\n\nPlease check your tasks for further details.\n\nBest regards,\nAdmin Team`;
+  const emailMessage = `Dear ${assigneeUser.name},\n\nYour task "${updatedTask.task}" has been updated.\n\nNew Status: ${updatedTask.status}\nTask End Date: ${formattedEndDate}\n\nPlease check your tasks for further details: https://sobus.vercel.app/my-tasks \n\nBest regards,\nAdmin Team`;
 
   // Send the email to the assignee
   await sendEmail({
@@ -231,6 +231,8 @@ exports.reviewTask = catchAsync(async (req, res, next) => {
     - Task Name: ${task.task}
     - Status: ${status.toUpperCase()}
     - Reviewed At: ${reviewedAt}
+
+    Please check your tasks for further details : https://sobus.vercel.app/my-tasks
 
     If you have any questions, feel free to reach out.
 
