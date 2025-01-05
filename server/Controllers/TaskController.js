@@ -43,7 +43,7 @@ exports.createTask = catchAsync(async (req, res, next) => {
   ).toLocaleDateString();
 
   // Prepare the email message, including the Activity Name
-  const emailMessage = `Dear ${assigneeUser.name},\n\nYou have been assigned a new task:\n\nTask: ${req.body.data.task}\nActivity: ${activity.activityName}\nTask End Date: ${formattedEndDate}\n\nPlease make sure to complete it by the deadline.\n\nBest regards,\nAdmin Team`;
+  const emailMessage = `Dear ${assigneeUser.name},\n\nYou have been assigned a new task:\n\nTask: ${req.body.data.task}\nActivity: ${activity.activityName}\nTask End Date: ${formattedEndDate}.\n\nYou can view your tasks here: https://sobus.vercel.app/my-tasks\n\nPlease make sure to complete it by the deadline.\n\nBest regards,\nAdmin Team`;
 
   // Send the email to the assignee
   await sendEmail({
