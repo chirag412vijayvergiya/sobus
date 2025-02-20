@@ -1,12 +1,13 @@
 import customFetch from '../utils/customFetch';
 
-export async function signup({ fullName, email, password }) {
+export async function signup({ fullName, email, password, captchaToken }) {
   try {
     const res = await customFetch.post('/users/signup', {
       name: fullName,
       email,
       password,
       passwordConfirm: password,
+      captchaToken,
     });
     // console.log(res.data);
     return res.data;

@@ -5,6 +5,7 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const sendEmail = require('../utils/email');
+const { default: axios } = require('axios');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -41,11 +42,33 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res) => {
+  const { name, email, password, passwordConfirm, captchaToken } = req.body;
+
+  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+  const recaptchaResponse = await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify`,
+    {},
+    {
+      params: {
+        secret: recaptchaSecret,
+        response: captchaToken,
+      },
+    },
+  );
+
+  const { success, score } = recaptchaResponse.data;
+
+  if (!success || (score && score < 0.5)) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'reCAPTCHA verification failed. Try again.',
+    });
+  }
   const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
+    name,
+    email,
+    password,
+    passwordConfirm,
   });
 
   // console.log(newUser);
@@ -56,22 +79,6 @@ exports.signup = catchAsync(async (req, res) => {
 
   // console.log('Token:', token);
   const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
-
-  // await sendEmail({
-  //   email: newUser.email,
-  //   subject: 'Verify your email address',
-  //   message: `Please click on the following link to verify your email address: ${verificationLink}`,
-  //   html: `<p>Click the link below to verify your email:</p>
-  //          <a href="${verificationLink}">${verificationLink}</a>
-  //          <p>This link will expire in 24 hours.</p>`,
-  // });
-
-  // // // Send welcome email to the user
-  // // await sendEmail({
-  // //   email: newUser.email,
-  // //   subject: 'Welcome to SOBUS!',
-  // //   message: `Dear ${newUser.name},\n\nWelcome to SOBUS! We're excited to have you on board. If you have any questions, feel free to reach out to us.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
-  // // });
 
   await sendEmail({
     email: newUser.email,

@@ -1,19 +1,26 @@
 import { useForm } from 'react-hook-form';
 import { FaUser } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import Button from '../../ui/Button';
 import { useSignup } from './useSignup';
 import SpinnerMini from '../../ui/SpinnerMini';
 import { Spinner } from '@material-tailwind/react';
+import { useState } from 'react';
 
 function Signupuser() {
   const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
   const { signup, isPending } = useSignup();
+  const [captchaToken, setCaptchaToken] = useState(null);
   function onSubmit({ fullName, email, password }) {
+    if (!captchaToken) {
+      alert('Please verify the reCAPTCHA!');
+      return;
+    }
     signup(
-      { fullName, email, password },
+      { fullName, email, password, captchaToken },
       {
         onSettled: () => reset(),
       },
@@ -124,7 +131,12 @@ function Signupuser() {
           />
         </div>
       </div>
-
+      <div className="flex w-full items-center justify-center">
+        <ReCAPTCHA
+          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          onChange={(token) => setCaptchaToken(token)}
+        />
+      </div>
       <Button type="third" class="margin-left: 4px" disabled={isPending}>
         {!isPending ? (
           <span className="font-mono tracking-wider">Sign Up</span>
@@ -132,13 +144,6 @@ function Signupuser() {
           <Spinner />
         )}
       </Button>
-      {/* <Button type="third" class="margin-left: 4px" disabled>
-        {!isPending ? (
-          <span className="font-mono tracking-wider">Sign Up</span>
-        ) : (
-          <Spinner />
-        )}
-      </Button> */}
     </form>
   );
 }
