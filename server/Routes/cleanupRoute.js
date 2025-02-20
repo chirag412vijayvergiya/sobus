@@ -5,8 +5,8 @@ const router = express.Router();
 
 const verifyApiKey = (req, res, next) => {
   const apiKey = req.headers['x-api-key'];
-  // console.log('api key :- ', apiKey);
-  // console.log('process.env.CLEANUP_API_KEY :- ', process.env.CLEANUP_API_KEY);
+  console.log('api key :- ', apiKey);
+  console.log('process.env.CLEANUP_API_KEY :- ', process.env.CLEANUP_API_KEY);
   if (apiKey !== process.env.CLEANUP_API_KEY) {
     return res.status(403).json({ error: 'Unauthorized' });
   }
