@@ -44,27 +44,28 @@ const createSendToken = (user, statusCode, res) => {
 exports.signup = catchAsync(async (req, res) => {
   const { name, email, password, passwordConfirm, captchaToken } = req.body;
 
-  console.log('Captcha Token:', captchaToken);
-  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-  const recaptchaResponse = await axios.post(
-    `https://www.google.com/recaptcha/api/siteverify`,
-    {},
-    {
-      params: {
-        secret: recaptchaSecret,
-        response: captchaToken,
-      },
-    },
-  );
+  // console.log('Captcha Token:', captchaToken);
+  // const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+  // const recaptchaResponse = await axios.post(
+  //   `https://www.google.com/recaptcha/api/siteverify`,
+  //   {},
+  //   {
+  //     params: {
+  //       secret: recaptchaSecret,
+  //       response: captchaToken,
+  //     },
+  //   },
+  // );
 
-  const { success, score } = recaptchaResponse.data;
+  // const { success, score } = recaptchaResponse.data;
+  // console.log(success, score);
 
-  if (!success || (score && score < 0.5)) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'reCAPTCHA verification failed. Try again.',
-    });
-  }
+  // if (!success || (score && score < 0.5)) {
+  //   return res.status(400).json({
+  //     status: 'fail',
+  //     message: 'reCAPTCHA verification failed. Try again.',
+  //   });
+  // }
   const newUser = await User.create({
     name,
     email,
