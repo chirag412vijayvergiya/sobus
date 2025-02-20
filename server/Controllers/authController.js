@@ -41,65 +41,160 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+// exports.signup = catchAsync(async (req, res) => {
+//   const { name, email, password, passwordConfirm, captchaToken } = req.body;
+
+//   console.log('Captcha Token:', captchaToken);
+//   const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+//   const recaptchaResponse = await axios.post(
+//     `https://www.google.com/recaptcha/api/siteverify`,
+//     {},
+//     {
+//       params: {
+//         secret: recaptchaSecret,
+//         response: captchaToken,
+//       },
+//       timeout: 5000,
+//     },
+//   );
+
+//   const { success, score } = recaptchaResponse.data;
+//   console.log(success, score);
+
+//   if (!success || (score && score < 0.5)) {
+//     return res.status(400).json({
+//       status: 'fail',
+//       message: 'reCAPTCHA verification failed. Try again.',
+//     });
+//   }
+//   const newUser = await User.create({
+//     name,
+//     email,
+//     password,
+//     passwordConfirm,
+//   });
+
+//   // console.log(newUser);
+
+//   const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+//     expiresIn: '24h',
+//   });
+
+//   // console.log('Token:', token);
+//   const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
+
+//   await sendEmail({
+//     email: newUser.email,
+//     subject: 'Welcome to SOBUS! Verify Your Email',
+//     message: `Dear ${newUser.name},
+
+//   Welcome to SOBUS! We're excited to have you on board.
+
+//   To get started, please verify your email by clicking the link below:
+//   ${verificationLink}
+
+//   This link will expire in 24 hours.
+
+//   If you have any questions, feel free to reach out to us.
+
+//   Best regards,
+//   SOBUS Team
+
+//   Visit us: https://sobus.vercel.app`,
+//     html: `<p>Dear ${newUser.name},</p>
+//            <p>Welcome to <strong>SOBUS</strong>! We're excited to have you on board.</p>
+//            <p>To get started, please verify your email by clicking the link below:</p>
+//            <p><a href="${verificationLink}" style="color: #007bff; text-decoration: none;">Verify Email</a></p>
+//            <p><strong>Note:</strong> This link will expire in 24 hours.</p>
+//            <p>If you have any questions, feel free to reach out to us.</p>
+//            <p>Best regards,</p>
+//            <p><strong>SOBUS Team</strong></p>
+//            <p>Visit us: <a href="https://sobus.vercel.app" style="color: #007bff; text-decoration: none;">SOBUS</a></p>`,
+//   });
+
+//   // createSendToken(newUser, 201, res);
+
+//   // console.log(
+//   //   'User registered successfully! Please verify your email before logging in.',
+//   // );
+
+//   res.status(201).json({
+//     status: 'success',
+//     message:
+//       'User registered successfully! Please verify your email before logging in.',
+//   });
+// });
+
 exports.signup = catchAsync(async (req, res) => {
   const { name, email, password, passwordConfirm, captchaToken } = req.body;
 
-  // console.log('Captcha Token:', captchaToken);
-  // const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-  // const recaptchaResponse = await axios.post(
-  //   `https://www.google.com/recaptcha/api/siteverify`,
-  //   {},
-  //   {
-  //     params: {
-  //       secret: recaptchaSecret,
-  //       response: captchaToken,
-  //     },
-  //   },
-  // );
+  console.log('Captcha Token:', captchaToken);
+  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
 
-  // const { success, score } = recaptchaResponse.data;
-  // console.log(success, score);
+  try {
+    const recaptchaResponse = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      {},
+      {
+        params: {
+          secret: recaptchaSecret,
+          response: captchaToken,
+        },
+        timeout: 5000, // 5 seconds timeout
+      },
+    );
 
-  // if (!success || (score && score < 0.5)) {
-  //   return res.status(400).json({
-  //     status: 'fail',
-  //     message: 'reCAPTCHA verification failed. Try again.',
-  //   });
-  // }
-  const newUser = await User.create({
-    name,
-    email,
-    password,
-    passwordConfirm,
-  });
+    console.log('reCAPTCHA Response:', recaptchaResponse.data);
 
-  // console.log(newUser);
+    const { success, score } = recaptchaResponse.data;
+    if (!success || (score && score < 0.5)) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'reCAPTCHA verification failed. Try again.',
+      });
+    }
+  } catch (error) {
+    console.error('reCAPTCHA verification failed:', error.message);
+    return res.status(500).json({
+      status: 'error',
+      message: 'reCAPTCHA verification timed out. Please try again later.',
+    });
+  }
+
+  const newUser = await User.create({ name, email, password, passwordConfirm });
 
   const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
     expiresIn: '24h',
   });
 
-  // console.log('Token:', token);
   const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
 
-  await sendEmail({
+  // Send response first to avoid delay
+  res.status(201).json({
+    status: 'success',
+    message:
+      'User registered successfully! Please verify your email before logging in.',
+  });
+
+  // Send email asynchronously (doesn't block response)
+  sendEmail({
     email: newUser.email,
     subject: 'Welcome to SOBUS! Verify Your Email',
     message: `Dear ${newUser.name}, 
-  
-  Welcome to SOBUS! We're excited to have you on board.
-  
-  To get started, please verify your email by clicking the link below: 
-  ${verificationLink}
-  
-  This link will expire in 24 hours.
-  
-  If you have any questions, feel free to reach out to us.
-  
-  Best regards,  
-  SOBUS Team  
-  
-  Visit us: https://sobus.vercel.app`,
+      
+      Welcome to SOBUS! We're excited to have you on board.
+      
+      To get started, please verify your email by clicking the link below: 
+      ${verificationLink}
+      
+      This link will expire in 24 hours.
+      
+      If you have any questions, feel free to reach out to us.
+      
+      Best regards,  
+      SOBUS Team  
+      
+      Visit us: https://sobus.vercel.app`,
     html: `<p>Dear ${newUser.name},</p>
            <p>Welcome to <strong>SOBUS</strong>! We're excited to have you on board.</p>
            <p>To get started, please verify your email by clicking the link below:</p>
@@ -109,19 +204,7 @@ exports.signup = catchAsync(async (req, res) => {
            <p>Best regards,</p>
            <p><strong>SOBUS Team</strong></p>
            <p>Visit us: <a href="https://sobus.vercel.app" style="color: #007bff; text-decoration: none;">SOBUS</a></p>`,
-  });
-
-  // createSendToken(newUser, 201, res);
-
-  // console.log(
-  //   'User registered successfully! Please verify your email before logging in.',
-  // );
-
-  res.status(201).json({
-    status: 'success',
-    message:
-      'User registered successfully! Please verify your email before logging in.',
-  });
+  }).catch((err) => console.error('Email sending failed:', err.message));
 });
 
 exports.verifyEmail = catchAsync(async (req, res, next) => {
