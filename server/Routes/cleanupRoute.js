@@ -15,10 +15,10 @@ const verifyApiKey = (req, res, next) => {
 
 router.get('/', verifyApiKey, async (req, res) => {
   try {
-    const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000);
+    const FiveHoursAgo = new Date(Date.now() - 5 * 60 * 60 * 1000);
     const deletedUsers = await User.deleteMany({
       isVerified: false,
-      createdAt: { $lt: twelveHoursAgo },
+      createdAt: { $lt: FiveHoursAgo },
     });
 
     console.log(`✅ Deleted ${deletedUsers.deletedCount} unverified users.`);
