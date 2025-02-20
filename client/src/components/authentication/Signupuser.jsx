@@ -133,7 +133,7 @@ function Signupuser() {
       </div>
       <div className="flex w-full items-center justify-center">
         <ReCAPTCHA
-          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          sitekey="6LcnNd0qAAAAAFff3ckN0waRhPLVeqOFExzD_sxD"
           onChange={(token) => setCaptchaToken(token)}
         />
       </div>
