@@ -2,11 +2,11 @@ import customFetch from '../utils/customFetch';
 
 export async function createActivity({ data }) {
   try {
-    console.log('from api :- ', data);
+    // console.log('from api :- ', data);
     const response = await customFetch.post('/activity/create-activity', {
       data,
     });
-    console.log(response.data.session);
+    // console.log(response.data.session);
     return response.data.session;
   } catch (error) {
     // console.error('Error creating appointment: ', error.response.data.message);
@@ -37,7 +37,7 @@ export async function getAllActivities() {
       }
     });
 
-    console.log(sortedActivities);
+    // console.log(sortedActivities);
     return sortedActivities;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -49,7 +49,7 @@ export async function GetActivity(activityId) {
     const response = await customFetch.get(
       `/activity/getActivity/${activityId}`,
     );
-    console.log(response.data.data);
+    // console.log(response.data.data);
     return response.data.data.data;
   } catch (error) {
     throw new Error(error.response.data.message);
