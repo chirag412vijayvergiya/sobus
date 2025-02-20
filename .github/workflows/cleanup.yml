@@ -12,8 +12,9 @@ jobs:
 
     steps:
       - name: Call Cleanup API
-        run: |
-          curl -X GET "$CLEANUP_API_URL" \
-          -H "x-api-key: ${{ secrets.CLEANUP_API_KEY }}"
         env:
           CLEANUP_API_URL: ${{ secrets.CLEANUP_API_URL }}
+          CLEANUP_API_KEY: ${{ secrets.CLEANUP_API_KEY }}
+        run: |
+          curl -X GET "$CLEANUP_API_URL" \
+          -H "x-api-key: $CLEANUP_API_KEY"
