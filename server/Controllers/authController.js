@@ -48,31 +48,99 @@ exports.signup = catchAsync(async (req, res) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  // Send welcome email to the user
-  await sendEmail({
-    email: newUser.email,
-    subject: 'Welcome to SOBUS!',
-    message: `Dear ${newUser.name},\n\nWelcome to SOBUS! We're excited to have you on board. If you have any questions, feel free to reach out to us.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
+  // console.log(newUser);
+
+  const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+    expiresIn: '24h',
   });
 
-  createSendToken(newUser, 201, res);
+  // console.log('Token:', token);
+  const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
+
+  // await sendEmail({
+  //   email: newUser.email,
+  //   subject: 'Verify your email address',
+  //   message: `Please click on the following link to verify your email address: ${verificationLink}`,
+  //   html: `<p>Click the link below to verify your email:</p>
+  //          <a href="${verificationLink}">${verificationLink}</a>
+  //          <p>This link will expire in 24 hours.</p>`,
+  // });
+
+  // // // Send welcome email to the user
+  // // await sendEmail({
+  // //   email: newUser.email,
+  // //   subject: 'Welcome to SOBUS!',
+  // //   message: `Dear ${newUser.name},\n\nWelcome to SOBUS! We're excited to have you on board. If you have any questions, feel free to reach out to us.\n\nBest regards,\nSOBUS Team\n\nPlease visit our website: https://sobus.vercel.app`,
+  // // });
+
+  await sendEmail({
+    email: newUser.email,
+    subject: 'Welcome to SOBUS! Verify Your Email',
+    message: `Dear ${newUser.name}, 
+  
+  Welcome to SOBUS! We're excited to have you on board.
+  
+  To get started, please verify your email by clicking the link below: 
+  ${verificationLink}
+  
+  This link will expire in 24 hours.
+  
+  If you have any questions, feel free to reach out to us.
+  
+  Best regards,  
+  SOBUS Team  
+  
+  Visit us: https://sobus.vercel.app`,
+    html: `<p>Dear ${newUser.name},</p>
+           <p>Welcome to <strong>SOBUS</strong>! We're excited to have you on board.</p>
+           <p>To get started, please verify your email by clicking the link below:</p>
+           <p><a href="${verificationLink}" style="color: #007bff; text-decoration: none;">Verify Email</a></p>
+           <p><strong>Note:</strong> This link will expire in 24 hours.</p>
+           <p>If you have any questions, feel free to reach out to us.</p>
+           <p>Best regards,</p>
+           <p><strong>SOBUS Team</strong></p>
+           <p>Visit us: <a href="https://sobus.vercel.app" style="color: #007bff; text-decoration: none;">SOBUS</a></p>`,
+  });
+
+  // createSendToken(newUser, 201, res);
+
+  // console.log(
+  //   'User registered successfully! Please verify your email before logging in.',
+  // );
+
+  res.status(201).json({
+    status: 'success',
+    message:
+      'User registered successfully! Please verify your email before logging in.',
+  });
 });
 
-// exports.login = catchAsync(async (req, res, next) => {
-//   const { email, password } = req.body;
+exports.verifyEmail = catchAsync(async (req, res, next) => {
+  const { token } = req.query;
+  if (!token) {
+    return next(new AppError('Invalid token', 400));
+  }
 
-//   if (!email || !password) {
-//     return next(new AppError('Please provide email and password', 400));
-//   }
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!decoded.userId) {
+    return next(new AppError('Invalid token', 400));
+  }
 
-//   const user = await User.findOne({ email }).select('+password');
+  const user = await User.findById(decoded.userId);
+  if (!user) {
+    return next(new AppError('User not found', 404));
+  }
 
-//   if (!user || !(await user.correctPassword(password, user.password))) {
-//     return next(new AppError('Incorrect email and password', 401)); // 401 means unauthorized
-//   }
+  user.isVerified = true;
 
-//   createSendToken(user, 200, req, res);
-// });
+  // console.log('user :- ', user);
+  await user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Email verified successfully! You can now log in.',
+  });
+});
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
@@ -88,6 +156,12 @@ exports.login = catchAsync(async (req, res, next) => {
 
   if (!user) {
     return next(new AppError('User not found', 404));
+  }
+
+  if (!user.isVerified) {
+    return next(
+      new AppError('Please verify your email before logging in.', 401),
+    );
   }
 
   // If the user signed up using Google, check the googleId instead of password

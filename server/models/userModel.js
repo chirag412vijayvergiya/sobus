@@ -124,70 +124,77 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  googleId: {
-    type: String,
-  },
-  name: {
-    type: String,
-    required: [true, 'Please tell us your name!'],
-  },
-  email: {
-    type: String,
-    required: [true, 'Please provide your email'],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email'],
-  },
-  photo: {
-    type: String,
-    default:
-      'https://res.cloudinary.com/dp9qfnorl/image/upload/v1725437211/users/user-66d8121d649b70724a10998d-1725437210037.jpg',
-  },
-  // In Sobus case, we have two teams, COE and Avinya
-  team: {
-    type: String,
-    enum: ['COE', 'Avinya', 'Both', 'Other'],
-    default: 'Other',
-  },
-  // In Sobus case, we have two roles, admin and user and two more roles for COE and Avinya
-  role: {
-    type: String,
-    enum: ['user', 'admin', 'adminCOE', 'adminAvinya'],
-    default: 'user',
-  },
-  password: {
-    type: String,
-    required: function () {
-      // Only require password if not a Google user
-      return !this.googleId;
+const userSchema = new mongoose.Schema(
+  {
+    googleId: {
+      type: String,
     },
-    minlength: 8,
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    required: function () {
-      // Only require passwordConfirm if not a Google user
-      return !this.googleId;
+    name: {
+      type: String,
+      required: [true, 'Please tell us your name!'],
     },
-    validate: {
-      // This only works on 'save' and 'create'
-      validator: function (el) {
-        return el === this.password;
+    email: {
+      type: String,
+      required: [true, 'Please provide your email'],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, 'Please provide a valid email'],
+    },
+    photo: {
+      type: String,
+      default:
+        'https://res.cloudinary.com/dp9qfnorl/image/upload/v1725437211/users/user-66d8121d649b70724a10998d-1725437210037.jpg',
+    },
+    // In Sobus case, we have two teams, COE and Avinya
+    team: {
+      type: String,
+      enum: ['COE', 'Avinya', 'Both', 'Other'],
+      default: 'Other',
+    },
+    // In Sobus case, we have two roles, admin and user and two more roles for COE and Avinya
+    role: {
+      type: String,
+      enum: ['user', 'admin', 'adminCOE', 'adminAvinya'],
+      default: 'user',
+    },
+    password: {
+      type: String,
+      required: function () {
+        // Only require password if not a Google user
+        return !this.googleId;
       },
-      message: 'Passwords do not match!',
+      minlength: 8,
+      select: false,
+    },
+    passwordConfirm: {
+      type: String,
+      required: function () {
+        // Only require passwordConfirm if not a Google user
+        return !this.googleId;
+      },
+      validate: {
+        // This only works on 'save' and 'create'
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: 'Passwords do not match!',
+      },
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
     },
   },
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-});
+  { timestamps: true },
+);
 
 userSchema.virtual('tasks', {
   ref: 'Task',

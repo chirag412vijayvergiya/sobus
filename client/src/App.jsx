@@ -15,6 +15,7 @@ import Mytasks from './pages/Mytasks';
 import Team from './pages/Team';
 import Footer from './ui/Footer/Footer';
 import AllUsers from './pages/AllUsers';
+import VerifyEmail from './pages/VerifyEmail';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,6 +54,7 @@ function App() {
                 <Route path="all-users" element={<AllUsers />} />
               </Route>
             </Route>
+            <Route path="verify-email" element={<VerifyEmail />} />
             <Route index element={<Navigate replace to="home" />} />
             <Route path="login" element={<Login />} />
             {/* <Route path="team" element={<Team />} /> */}

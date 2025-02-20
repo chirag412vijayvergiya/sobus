@@ -1,0 +1,19 @@
+name: Cleanup Unverified Users
+
+on:
+  schedule:
+    - cron: "0 */5 * * *" # Runs every 5 hours
+
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  run-cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call Cleanup API
+        run: |
+          curl -X GET "$CLEANUP_API_URL" \
+          -H "x-api-key: ${{ secrets.CLEANUP_API_KEY }}"
+        env:
+          CLEANUP_API_URL: ${{ secrets.CLEANUP_API_URL }}

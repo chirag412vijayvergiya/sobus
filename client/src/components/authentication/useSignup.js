@@ -8,7 +8,10 @@ export function useSignup() {
   const { mutate: signup, isPending } = useMutation({
     mutationFn: signupApi,
     onSuccess: (data) => {
-      toast.success('Account successfully created!');
+      toast.success(
+        'Please check your email to verify account, Did not get the email? Check spam.',
+      );
+
       navigate('/home');
     },
     onError: (error) => {

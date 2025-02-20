@@ -125,20 +125,20 @@ function Signupuser() {
         </div>
       </div>
 
-      {/* <Button type="third" class="margin-left: 4px" disabled={isPending}>
-        {!isPending ? (
-          <span className="font-mono tracking-wider">Sign Up</span>
-        ) : (
-          <Spinner />
-        )}
-      </Button> */}
-      <Button type="third" class="margin-left: 4px" disabled>
+      <Button type="third" class="margin-left: 4px" disabled={isPending}>
         {!isPending ? (
           <span className="font-mono tracking-wider">Sign Up</span>
         ) : (
           <Spinner />
         )}
       </Button>
+      {/* <Button type="third" class="margin-left: 4px" disabled>
+        {!isPending ? (
+          <span className="font-mono tracking-wider">Sign Up</span>
+        ) : (
+          <Spinner />
+        )}
+      </Button> */}
     </form>
   );
 }

@@ -8,7 +8,7 @@ export async function signup({ fullName, email, password }) {
       password,
       passwordConfirm: password,
     });
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -27,7 +27,7 @@ export async function Login({ email, password }) {
       },
       { withCredentials: true },
     );
-    console.log(response.data.data);
+    // console.log(response.data.data);
     return response.data;
   } catch (error) {
     console.error('Error logging in: ', error);
@@ -65,5 +65,17 @@ export async function forgotPassword({ email }) {
   } catch (error) {
     console.error('Error: ', error);
     throw new Error('Failed to Send Reset token to Email Address');
+  }
+}
+
+export async function verifyEmail(token) {
+  try {
+    const response = await customFetch.get(
+      `/users/auth/verify-email?token=${token}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw new Error('Failed to verify Email');
   }
 }

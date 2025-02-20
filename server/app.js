@@ -10,6 +10,7 @@ const passport = require('passport');
 const GlobalErrorHandler = require('./Controllers/errorController');
 const userRouter = require('./Routes/userRoute');
 const taskRouter = require('./Routes/taskRoute');
+const cleanupRouter = require('./Routes/cleanupRoute');
 const acitivityRouter = require('./Routes/activityRoute');
 const AppError = require('./utils/AppError');
 require('./utils/passport');
@@ -59,6 +60,8 @@ app.use(xss());
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/activity', acitivityRouter);
 app.use('/api/v1/tasks', taskRouter);
+app.use('/api/v1/cleanup', cleanupRouter);
+
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

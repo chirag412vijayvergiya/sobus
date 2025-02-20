@@ -266,9 +266,10 @@ passport.use(
               email: profile.emails?.[0]?.value || 'unknown@example.com',
               photo: profile.photos?.[0]?.value || undefined,
               role: 'user',
+              isVerified: true, // Automatically verify Google users
             });
 
-            await user.save(); // Save without waiting for email to send
+            await user.save();
 
             // Email sending in background
             // sendEmail({
