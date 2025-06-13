@@ -19,14 +19,14 @@ exports.createTask = catchAsync(async (req, res, next) => {
 
   // If no user is found with that email, throw an error
   if (!assigneeUser) {
-    return next(new Error('Assignee with this email does not exist')); // Passes the error to next middleware
+    return next(new AppError('Assignee with this email does not exist', 404));
   }
 
   // Find the activity by its ID to get the activity name
   const activity = await Activity.findById(id);
   // console.log(activity);
   if (!activity) {
-    return next(new Error('Activity with this ID does not exist'));
+    return next(new AppError('Activity with this ID does not exist', 404));
   }
 
   // Create the task using the found user's ObjectId and the provided end date
@@ -79,13 +79,13 @@ exports.updateTask = catchAsync(async (req, res, next) => {
   // Find the task to update
   const task = await Task.findById(id);
   if (!task) {
-    return next(new Error('Task with this ID does not exist'));
+    return next(new AppError('Task with this ID does not exist', 404));
   }
 
   // Find the assignee by email (you might want to modify this logic based on your application)
   const assigneeUser = await User.findById(task.assignee);
   if (!assigneeUser) {
-    return next(new Error('Assignee does not exist'));
+    return next(new AppError('Assignee does not exist', 404));
   }
 
   // Create a new object to update, mapping `deadline` to `taskEndDate`
@@ -128,7 +128,7 @@ exports.deleteTask = catchAsync(async (req, res, next) => {
   const task = await Task.findByIdAndDelete(id);
 
   if (!task) {
-    return next(new Error('Task with this ID does not exist'));
+    return next(new AppError('Task with this ID does not exist', 404));
   }
 
   res.status(204).json({
