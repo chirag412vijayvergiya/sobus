@@ -10,12 +10,12 @@ exports.createTask = catchAsync(async (req, res, next) => {
   // console.log(req.body);
   const { id } = req.params;
 
-  console.log(req.body);
+  // console.log(req.body);
 
   // Find the assignee by email
   const assigneeUser = await User.findOne({ email: req.body.data.email });
 
-  console.log(assigneeUser);
+  // console.log(assigneeUser);
 
   // If no user is found with that email, throw an error
   if (!assigneeUser) {
