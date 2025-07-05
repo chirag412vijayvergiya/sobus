@@ -11,8 +11,6 @@ const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD,
 );
-// const DB =
-//   'mongodb+srv://chirag4vv:root1@sobus.aykwtue.mongodb.net/?retryWrites=true&w=majority';
 
 mongoose
   .connect(DB, {
